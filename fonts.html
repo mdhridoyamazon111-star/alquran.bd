@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>সূরা আল-ফাতিহা — ফন্ট তুলনা</title>
+
+  <!-- Google Fonts: Arabic + Bengali UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Lateef:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Reem+Kufi:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Markazi+Text:wght@400;700&family=El+Messiri:wght@400;700&family=Noto+Sans+Bengali:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #0f1720;
+      --panel: #16212e;
+      --panel-2: #1d2b3a;
+      --accent: #34d399;
+      --accent-2: #22c55e;
+      --text: #e8eef5;
+      --muted: #93a4b5;
+      --border: #263749;
+      --arabic-size: 40px;
+      --line-height: 2.1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #1c2b3b 0%, var(--bg) 60%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 16px 8px;
+    }
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    header p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    /* Controls */
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 32, 0.82);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .control input[type="range"] { width: 160px; accent-color: var(--accent); }
+    .control select {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-family: inherit;
+    }
+    .value-badge {
+      min-width: 46px;
+      text-align: center;
+      color: var(--text);
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .toggle {
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; user-select: none;
+    }
+    .toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+    /* Grid of font cards */
+    .grid {
+      max-width: 1200px;
+      margin: 26px auto 60px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel) 0%, #131e2a 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(52, 211, 153, 0.06);
+    }
+    .card-head .name { font-weight: 700; font-size: 15px; }
+    .card-head .tag {
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(52,211,153,.4);
+      border-radius: 999px;
+      padding: 2px 10px;
+    }
+
+    .arabic {
+      direction: rtl;
+      text-align: center;
+      padding: 26px 22px 30px;
+      font-size: var(--arabic-size);
+      line-height: var(--line-height);
+      color: #f5f9ff;
+    }
+    .ayah { display: inline; }
+    .ayah-num {
+      font-family: "Noto Naskh Arabic", serif;
+      font-size: .55em;
+      color: var(--accent);
+      margin: 0 .15em;
+    }
+    .basmala { display: block; margin-bottom: .35em; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 24px 16px 40px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .control input[type="range"] { width: 120px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>সূরা আল-ফাতিহা — ফন্ট তুলনা</h1>
+    <p>বিভিন্ন আরবি ফন্টে সূরা আল-ফাতিহা পাশাপাশি দেখুন ও তুলনা করুন</p>
+  </header>
+
+  <section class="controls">
+    <label class="control">
+      ফন্ট সাইজ
+      <input id="sizeRange" type="range" min="24" max="72" step="1" value="40" />
+      <span id="sizeVal" class="value-badge">40px</span>
+    </label>
+
+    <label class="control">
+      লাইন স্পেসিং
+      <input id="lineRange" type="range" min="1.4" max="3" step="0.1" value="2.1" />
+      <span id="lineVal" class="value-badge">2.1</span>
+    </label>
+
+    <label class="control">
+      ফন্ট ফিল্টার
+      <select id="fontFilter">
+        <option value="all">সব ফন্ট</option>
+      </select>
+    </label>
+
+    <label class="toggle">
+      <input id="numToggle" type="checkbox" checked />
+      আয়াত নম্বর দেখান
+    </label>
+  </section>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>
+    ফন্টসমূহ <a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a> থেকে লোড করা হয়েছে।
+  </footer>
+
+  <script>
+    // সূরা আল-ফাতিহার আয়াতসমূহ (উসমানী রীতি)
+    const ayat = [
+      "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+      "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+      "الرَّحْمَٰنِ الرَّحِيمِ",
+      "مَالِكِ يَوْمِ الدِّينِ",
+      "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+      "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"
+    ];
+
+    // তুলনার জন্য ফন্ট তালিকা
+    const fonts = [
+      { name: "Amiri",              family: "'Amiri', serif",              tag: "Naskh" },
+      { name: "Scheherazade New",   family: "'Scheherazade New', serif",   tag: "Naskh" },
+      { name: "Lateef",             family: "'Lateef', serif",             tag: "Naskh" },
+      { name: "Noto Naskh Arabic",  family: "'Noto Naskh Arabic', serif",  tag: "Naskh" },
+      { name: "Reem Kufi",          family: "'Reem Kufi', sans-serif",     tag: "Kufi" },
+      { name: "Aref Ruqaa",         family: "'Aref Ruqaa', serif",         tag: "Ruqaa" },
+      { name: "Markazi Text",       family: "'Markazi Text', serif",       tag: "Modern" },
+      { name: "El Messiri",         family: "'El Messiri', sans-serif",    tag: "Display" }
+    ];
+
+    // আরবি-ইন্ডিক সংখ্যা
+    const toArabicNum = (n) =>
+      String(n).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+    const grid = document.getElementById("grid");
+
+    function buildSurahHTML() {
+      let html = "";
+      ayat.forEach((line, i) => {
+        if (i === 0) {
+          html += `<span class="basmala">${line}</span>`;
+        } else {
+          html += `<span class="ayah">${line} <span class="ayah-num">﴿${toArabicNum(i)}﴾</span> </span>`;
+        }
+      });
+      return html;
+    }
+
+    const surahHTML = buildSurahHTML();
+
+    function renderCards() {
+      grid.innerHTML = "";
+      fonts.forEach((f) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.font = f.name;
+        card.innerHTML = `
+          <div class="card-head">
+            <span class="name">${f.name}</span>
+            <span class="tag">${f.tag}</span>
+          </div>
+          <div class="arabic" style="font-family:${f.family}">${surahHTML}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ফন্ট ফিল্টার ড্রপডাউন পূরণ
+    const fontFilter = document.getElementById("fontFilter");
+    fonts.forEach((f) => {
+      const opt = document.createElement("option");
+      opt.value = f.name;
+      opt.textContent = f.name;
+      fontFilter.appendChild(opt);
+    });
+
+    // কন্ট্রোলসমূহ
+    const root = document.documentElement;
+    const sizeRange = document.getElementById("sizeRange");
+    const sizeVal = document.getElementById("sizeVal");
+    const lineRange = document.getElementById("lineRange");
+    const lineVal = document.getElementById("lineVal");
+    const numToggle = document.getElementById("numToggle");
+
+    sizeRange.addEventListener("input", () => {
+      root.style.setProperty("--arabic-size", sizeRange.value + "px");
+      sizeVal.textContent = sizeRange.value + "px";
+    });
+
+    lineRange.addEventListener("input", () => {
+      root.style.setProperty("--line-height", lineRange.value);
+      lineVal.textContent = lineRange.value;
+    });
+
+    numToggle.addEventListener("change", () => {
+      document.querySelectorAll(".ayah-num").forEach((el) => {
+        el.style.display = numToggle.checked ? "" : "none";
+      });
+    });
+
+    fontFilter.addEventListener("change", () => {
+      const val = fontFilter.value;
+      document.querySelectorAll(".card").forEach((c) => {
+        c.style.display = (val === "all" || c.dataset.font === val) ? "" : "none";
+      });
+    });
+
+    renderCards();
+  </script>
+</body>
+</html>

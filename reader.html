@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="bn" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>কুরআন পাঠক — সূরা অনুযায়ী</title>
+
+  <!-- PWA: installable on mobile / tablet / desktop -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0c2321" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="আল কুরআন" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --ink:       #2a2118;
+      --gold-1:    #c9a24b;
+      --gold-2:    #8a6d2f;
+      --cream:     #fbf4e3;
+      --teal:      #1f6f6b;
+      --teal-2:    #2f8f8a;
+      --bg:        #0c2321;
+      --arabic-size: 34px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 60px 5px 50px;
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      background:
+        radial-gradient(1000px 700px at 50% -5%, #17403d 0%, var(--bg) 55%, #08181a 100%);
+      color: #e9f2ef;
+    }
+
+    /* ---------- Top navbar ---------- */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(12, 35, 33, 0.94);
+      border-bottom: 1px solid var(--gold-1);
+      backdrop-filter: blur(8px);
+      padding: 8px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      direction: ltr;
+    }
+    .top-nav .btn, .top-nav select, .top-nav input[type="number"] {
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      color: #f2ead2;
+      border: 1px solid rgba(201,162,75,.55);
+      border-radius: 10px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .top-nav .btn:hover, .top-nav select:hover {
+      background: linear-gradient(180deg, rgba(230,197,110,.35), rgba(201,162,75,.28));
+      border-color: var(--gold-2);
+      box-shadow: 0 4px 12px rgba(201,162,75,.35), inset 0 1px 0 rgba(255,255,255,.15);
+      transform: translateY(-1px);
+    }
+    .top-nav .btn:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,.3) inset; }
+    .top-nav .btn:focus-visible, .top-nav select:focus-visible {
+      outline: none;
+      border-color: var(--gold-2);
+      box-shadow: 0 0 0 3px rgba(201,162,75,.35);
+    }
+    .top-nav .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .top-nav .btn.active {
+      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      color: #0c2321;
+      font-weight: 800;
+      border-color: #f0dca0;
+      box-shadow: 0 0 12px rgba(201,162,75,.5);
+    }
+    .top-nav .btn.btn-install {
+      background: linear-gradient(180deg, #34d399, #1f9d76);
+      color: #04231b;
+      font-weight: 800;
+      border-color: #7be8c4;
+    }
+    .top-nav .btn.btn-install:hover {
+      background: linear-gradient(180deg, #5be2b6, #23b083);
+      box-shadow: 0 4px 12px rgba(52,211,153,.45);
+    }
+    .top-nav select option { background: #0c2321; color: #e9f2ef; }
+    .top-nav input[type="number"] { width: 56px; cursor: text; }
+    .top-nav .nav-name {
+      color: #0c2321;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+    }
+
+    /* Collapsible advanced tools (Font, Speed, Screen color) */
+    .nav-tools {
+      display: none;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding-top: 8px;
+      margin-top: 4px;
+      border-top: 1px solid rgba(201,162,75,.3);
+    }
+    .nav-tools.open { display: flex; }
+
+    /* ---------- Surah grid (home screen) ---------- */
+    .surah-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .grid-heading {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--gold-1);
+      font-weight: 700;
+      font-size: 18px;
+      margin: 4px 0 6px;
+    }
+    .surah-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
+      border: 1px solid rgba(201,162,75,.40);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      color: #f2ead2;
+      text-align: left;
+      font-family: "Noto Sans Bengali", sans-serif;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .surah-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold-2);
+      background: linear-gradient(180deg, rgba(230,197,110,.22), rgba(201,162,75,.16));
+      box-shadow: 0 6px 16px rgba(201,162,75,.30);
+    }
+    .surah-card .no {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      color: #0c2321;
+      font-weight: 800;
+      font-family: "Scheherazade New", serif;
+      font-size: 15px;
+    }
+    .surah-card .en { font-weight: 700; font-size: 13.5px; line-height: 1.2; }
+    .surah-card .ar {
+      margin-left: auto;
+      font-family: "Scheherazade New", "Amiri", serif;
+      color: var(--gold-1);
+      font-size: 19px;
+    }
+
+    /* ---------- Loading / error ---------- */
+    #status {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 15px;
+      color: #cfe6e1;
+    }
+
+    /* ---------- Ornate frame (desktop / tablet) ---------- */
+    .page {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      background: repeating-linear-gradient(45deg, #f7edd6 0 14px, #fbf4e3 14px 28px);
+      padding: 26px;
+      border-radius: 6px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+    }
+    .frame {
+      position: relative;
+      border: 10px solid transparent;
+      border-image: repeating-linear-gradient(
+        45deg,
+        var(--gold-2) 0 10px,
+        var(--gold-1) 10px 20px,
+        #f0dca0 20px 26px
+      ) 12;
+      padding: 8px;
+    }
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 3px double var(--gold-2);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    .inner {
+      position: relative;
+      border: 2px solid var(--gold-1);
+      border-radius: 4px;
+      background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--cream) 45%, #f4ead0 100%);
+      padding: 22px 18px 30px;
+      overflow: hidden;
+    }
+
+    /* On mobile (<= 767px): remove the frame/borders for a full-width, wide-line reading view */
+    @media (max-width: 767px) {
+      .page {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .frame {
+        border: none;
+        padding: 0;
+      }
+      .frame::before { display: none; }
+      .inner {
+        border: none;
+        border-radius: 8px;
+        padding: 12px 6px 22px;
+      }
+    }
+
+    /* ---------- Surah title & info ---------- */
+    .surah-title {
+      text-align: center;
+      margin: 4px auto 14px;
+      max-width: 360px;
+      background: linear-gradient(180deg, var(--teal-2), var(--teal));
+      color: #fdf6e3;
+      border: 2px solid var(--gold-1);
+      border-radius: 40px / 30px;
+      padding: 8px 10px;
+      font-family: "Reem Kufi", "Amiri", serif;
+      font-size: 26px;
+      letter-spacing: .5px;
+      box-shadow: inset 0 0 0 3px rgba(253,246,227,.25);
+    }
+    .info-banner {
+      direction: ltr;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 18px;
+      margin: 0 0 18px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid var(--gold-1);
+      border-radius: 10px;
+      color: #2a2118;
+      font-family: "Noto Sans Bengali", sans-serif;
+      font-size: 14px;
+    }
+    .info-banner span { display: inline-flex; align-items: center; gap: 6px; }
+    .info-banner strong { color: var(--teal); font-weight: 700; }
+
+    /* ---------- Bismillah ---------- */
+    .bismillah {
+      text-align: center;
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: var(--arabic-size);
+      color: var(--teal);
+      margin: 4px 0 12px;
+      line-height: 1.7;
+    }
+
+    /* ---------- Ayah blocks ---------- */
+    .ayah-block {
+      position: relative;
+      margin: 10px 0 12px;
+      padding: 4px 0 9px;
+      border-bottom: 1px dashed var(--gold-1);
+    }
+    .ayah-block:last-of-type { border-bottom: none; }
+    .bm-btn {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px;
+      opacity: .3;
+      filter: grayscale(1);
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .bm-btn:hover { opacity: .75; transform: scale(1.15); }
+    .ayah-block.bookmarked {
+      background: rgba(201,162,75,.16);
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 1px rgba(201,162,75,.5);
+    }
+    .ayah-block.bookmarked .bm-btn { opacity: 1; filter: none; }
+
+    /* Toast message */
+    #toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: rgba(12,35,33,.96);
+      color: #f2ead2;
+      border: 1px solid var(--gold-1);
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-family: "Noto Sans Bengali", sans-serif;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .ayah-arabic {
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: var(--arabic-size);
+      line-height: 2.15;
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .ayah-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--teal);
+      color: #fdf6e3;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      line-height: 1;
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: 16px;
+      vertical-align: middle;
+      margin: 0 6px;
+    }
+    .ayah-bn {
+      direction: ltr;
+      font-family: "Noto Sans Bengali", sans-serif;
+      text-align: center;
+      font-size: 15.5px;
+      line-height: 1.95;
+      color: #3d3024;
+      padding: 8px 8px;
+      background: rgba(255,255,255,.48);
+      border-radius: 10px;
+    }
+    .ayah-bn .meaning { display: block; color: #2a2118; }
+    .ayah-marks {
+      direction: ltr;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .ayah-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: "Noto Sans Bengali", sans-serif;
+    }
+    .ayah-mark.ruku { background: rgba(31,111,107,.12); color: var(--teal); border: 1px solid var(--teal); }
+    .ayah-mark.sajda { background: rgba(201,40,40,.10); color: #b22222; border: 1px solid #b22222; }
+    .ayah-mark.sajda .sym { font-size: 14px; }
+
+    /* Dark-screen text overrides */
+    .inner.dark-screen { color: #f7edd6; }
+    .inner.dark-screen .surah-title { color: #fdf6e3; }
+    .inner.dark-screen .info-banner { color: #e8dbc0; border-color: rgba(247,237,214,.5); background: rgba(0,0,0,.25); }
+    .inner.dark-screen .info-banner strong { color: #93e6d9; }
+    .inner.dark-screen .bismillah { color: #93e6d9; }
+    .inner.dark-screen .ayah-arabic { color: #f7edd6; }
+    .inner.dark-screen .ayah-bn { color: #f0e6d2; background: rgba(0,0,0,.25); }
+    .inner.dark-screen .ayah-bn .meaning { color: #f0e6d2; }
+    .inner.dark-screen .ayah-mark { color: #f7edd6; }
+    .inner.dark-screen .ayah-mark.ruku { color: #93e6d9; }
+    .inner.dark-screen .ayah-mark.sajda { color: #ff9f9f; }
+
+    @media (max-width: 520px) {
+      .top-nav input[type="number"] { width: 50px; }
+      .top-nav .nav-name { font-size: 12px; }
+      .ayah-arabic { font-size: 28px; }
+      .surah-title { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <button class="btn" id="btnHome" title="সূরা তালিকা">☰ সূরা</button>
+    <button class="btn" id="prev" title="Previous">&larr;</button>
+    <select id="surahSelect" title="Select Surah"></select>
+    <button class="btn" id="next" title="Next">&rarr;</button>
+    <button class="btn btn-install" id="btnInstall" title="অ্যাপ ইনস্টল করুন" style="display:none">⤓</button>
+    <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
+
+    <div class="nav-tools" id="navTools">
+      <span class="nav-name" id="navName"></span>
+      <button class="btn" id="btnFontDown">Font -</button>
+      <button class="btn" id="btnFontUp">Font +</button>
+      <button class="btn" data-speed="0.7" id="speedLow">Low</button>
+      <button class="btn" data-speed="1.6" id="speedMed">Medium</button>
+      <button class="btn" data-speed="3.2" id="speedFast">Fast</button>
+      <button class="btn" id="btnStop" style="display:none">Stop</button>
+      <select id="fontSel">
+        <option value="'Scheherazade New', serif">Scheherazade New</option>
+        <option value="'Amiri', serif">Amiri</option>
+      </select>
+      <select id="screenColor" title="Screen color">
+        <option value="default" selected>Default</option>
+        <option value="#0c2321">Dark Green</option>
+        <option value="#000000">Black</option>
+        <option value="#1f2937">Dark Gray</option>
+        <option value="#ffffff">White</option>
+        <option value="#f5e6c8">Sepia</option>
+        <option value="#064e3b">Green</option>
+        <option value="#1e3a8a">Blue</option>
+      </select>
+    </div>
+  </nav>
+
+  <p id="status">সূরা লোড হচ্ছে...</p>
+
+  <div class="surah-grid" id="surahGrid" style="display:none"></div>
+
+  <div id="toast"></div>
+
+  <div class="page" id="page" style="display:none">
+    <div class="frame">
+      <div class="inner">
+        <div class="surah-title" id="surahTitle">سُورَة</div>
+
+        <div class="info-banner" id="infoBanner"></div>
+
+        <div class="bismillah" id="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+
+        <div id="ayahs"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const page = document.getElementById("page");
+    const statusEl = document.getElementById("status");
+    const surahTitle = document.getElementById("surahTitle");
+    const infoBanner = document.getElementById("infoBanner");
+    const ayahsEl = document.getElementById("ayahs");
+    const bismillahEl = document.getElementById("bismillah");
+    const surahSelect = document.getElementById("surahSelect");
+    const navName = document.getElementById("navName");
+    const surahGrid = document.getElementById("surahGrid");
+
+    // Settings (advanced tools) toggle
+    document.getElementById("btnSettings").addEventListener("click", () => {
+      document.getElementById("navTools").classList.toggle("open");
+    });
+    // Show the surah list (home) grid
+    document.getElementById("btnHome").addEventListener("click", showGrid);
+
+    // --- Bookmark ("চিহ্ন") system: remember the last marked ayah in localStorage ---
+    const BM_KEY = "quran_bookmark";
+    function getBookmark() {
+      try { return JSON.parse(localStorage.getItem(BM_KEY)); } catch (e) { return null; }
+    }
+    function setBookmark(surah, ayah) {
+      localStorage.setItem(BM_KEY, JSON.stringify({ surah, ayah }));
+    }
+    function clearBookmark() { localStorage.removeItem(BM_KEY); }
+
+    function applyBookmarkHighlight(n) {
+      ayahsEl.querySelectorAll(".ayah-block.bookmarked").forEach(el => el.classList.remove("bookmarked"));
+      const bm = getBookmark();
+      if (bm && bm.surah === n) {
+        const el = ayahsEl.querySelector(`.ayah-block[data-ayah="${bm.ayah}"]`);
+        if (el) el.classList.add("bookmarked");
+      }
+    }
+
+    // Toggle bookmark when a bookmark button is tapped (event delegation)
+    ayahsEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".bm-btn");
+      if (!btn) return;
+      const ayah = parseInt(btn.dataset.ayah, 10);
+      const bm = getBookmark();
+      if (bm && bm.surah === currentSurah && bm.ayah === ayah) {
+        clearBookmark();
+        showToast("চিহ্ন মুছে ফেলা হয়েছে");
+      } else {
+        setBookmark(currentSurah, ayah);
+        showToast(`চিহ্নিত: আয়াত ${toArabicNum(ayah)}`);
+      }
+      applyBookmarkHighlight(currentSurah);
+    });
+
+    // Small toast message
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    const toArabicNum = (n) => String(n).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+    // Diacritic-insensitive Bismillah detection/removal.
+    const AR_DIACRITICS = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF\uFE70-\uFEFF\u0640]/g;
+    function normAr(s) {
+      return s.replace(AR_DIACRITICS, "").replace(/[ٱأإآ]/g, "ا").replace(/\s+/g, "");
+    }
+    const BISM_SKELETON = normAr("بسم الله الرحمن الرحيم");
+    function stripLeadingBismillah(text) {
+      const clean = text.replace(/^\uFEFF/, "");
+      let count = 0, i = 0;
+      for (; i < clean.length && count < BISM_SKELETON.length; i++) {
+        const ch = normAr(clean[i]);
+        if (!ch) continue;
+        if (ch !== BISM_SKELETON[count]) return clean;
+        count++;
+      }
+      if (count < BISM_SKELETON.length) return clean;
+      return clean.slice(i).replace(/^[\u064B-\u065F\u0670\u06D6-\u06ED\s]+/, "").trim();
+    }
+
+    const SAJDAS = new Set(["7:206","13:15","16:50","17:109","19:58","22:18","22:77","25:60","27:26","32:15","38:24","41:38","53:62","84:21","96:19"]);
+    const SAJDA_INFO = { "7:206":"মুস্তাহাব","13:15":"মুস্তাহাব","16:50":"মুস্তাহাব","17:109":"মুস্তাহাব","19:58":"মুস্তাহাব","22:18":"মুস্তাহাব","22:77":"মুস্তাহাব","25:60":"মুস্তাহাব","27:26":"মুস্তাহাব","32:15":"ওয়াজিব","38:24":"মুস্তাহাব","41:38":"ওয়াজিব","53:62":"ওয়াজিব","84:21":"মুস্তাহাব","96:19":"ওয়াজিব" };
+
+    let currentSurah = 1;
+    let arabicSize = 34;
+    const minSize = 20, maxSize = 60;
+    let scrollSpeed = 0;
+    let rafId = null;
+
+    // --- Font controls ---
+    function updateSize() {
+      document.documentElement.style.setProperty("--arabic-size", arabicSize + "px");
+    }
+    document.getElementById("btnFontUp").addEventListener("click", () => { if (arabicSize < maxSize) { arabicSize += 2; updateSize(); } });
+    document.getElementById("btnFontDown").addEventListener("click", () => { if (arabicSize > minSize) { arabicSize -= 2; updateSize(); } });
+    document.getElementById("fontSel").addEventListener("change", (e) => {
+      document.querySelectorAll(".ayah-arabic, .bismillah, .ayah-num").forEach(el => el.style.fontFamily = e.target.value);
+    });
+    document.getElementById("screenColor").addEventListener("change", (e) => {
+      const v = e.target.value;
+      const inner = document.querySelector(".inner");
+      if (!inner) return;
+      if (v === "default") {
+        inner.style.background = "";
+        inner.classList.remove("dark-screen");
+        return;
+      }
+      inner.style.background = v;
+      const r = parseInt(v.slice(1, 3), 16);
+      const g = parseInt(v.slice(3, 5), 16);
+      const b = parseInt(v.slice(5, 7), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      inner.classList.toggle("dark-screen", brightness < 80);
+    });
+
+    // --- Auto scroll ---
+    function tick() {
+      if (scrollSpeed <= 0) { stopScroll(); return; }
+      const max = document.documentElement.scrollHeight - window.innerHeight - 2;
+      if (window.scrollY >= max) { stopScroll(); return; }
+      window.scrollBy(0, scrollSpeed);
+      rafId = requestAnimationFrame(tick);
+    }
+    function startScroll() {
+      stopScroll();
+      document.getElementById("btnStop").style.display = "inline-block";
+      rafId = requestAnimationFrame(tick);
+    }
+    function stopScroll() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      document.getElementById("btnStop").style.display = "none";
+      ["speedLow","speedMed","speedFast"].forEach(id => document.getElementById(id).classList.remove("active"));
+    }
+    ["speedLow","speedMed","speedFast"].forEach(id => {
+      const btn = document.getElementById(id);
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("active")) {
+          scrollSpeed = 0;
+          stopScroll();
+          return;
+        }
+        ["speedLow","speedMed","speedFast"].forEach(i => document.getElementById(i).classList.remove("active"));
+        btn.classList.add("active");
+        scrollSpeed = parseFloat(btn.dataset.speed);
+        startScroll();
+      });
+    });
+    document.getElementById("btnStop").addEventListener("click", () => { scrollSpeed = 0; stopScroll(); });
+
+    // Keyboard: Esc or S stops scrolling
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" || e.key === "s" || e.key === "S") {
+        scrollSpeed = 0;
+        stopScroll();
+      }
+    });
+
+    // --- Navigation / search ---
+    let SURAH_LIST = [];
+    async function initSurahList() {
+      try {
+        const res = await fetch("https://api.alquran.cloud/v1/surah");
+        const json = await res.json();
+        if (json.code === 200) {
+          SURAH_LIST = json.data.map(s => ({ number: s.number, englishName: s.englishName, arName: s.name }));
+          surahSelect.innerHTML = SURAH_LIST.map(s => `<option value="${s.number}">${s.number}. ${s.englishName}</option>`).join("");
+          surahSelect.value = currentSurah;
+          buildGrid();
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    // Build the surah list (home) grid of buttons
+    function buildGrid() {
+      surahGrid.innerHTML =
+        `<div class="grid-heading">সূরা নির্বাচন করুন</div>` +
+        SURAH_LIST.map(s => `
+          <button class="surah-card" data-n="${s.number}">
+            <span class="no">${toArabicNum(s.number)}</span>
+            <span class="en">${s.number}. ${s.englishName}</span>
+            <span class="ar">${s.arName}</span>
+          </button>`).join("");
+    }
+    surahGrid.addEventListener("click", (e) => {
+      const card = e.target.closest(".surah-card");
+      if (card) loadSurah(parseInt(card.dataset.n, 10));
+    });
+
+    // Show the surah grid (home) and hide the reader
+    function showGrid() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "grid";
+      history.replaceState(null, "", "reader.html");
+      window.scrollTo({ top: 0 });
+    }
+
+    surahSelect.addEventListener("change", () => {
+      const n = parseInt(surahSelect.value, 10);
+      if (n >= 1 && n <= 114) loadSurah(n);
+    });
+    document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1); });
+    document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1); });
+
+    function setInputs(n) {
+      currentSurah = n;
+      surahSelect.value = n;
+      document.getElementById("prev").disabled = n === 1;
+      document.getElementById("next").disabled = n === 114;
+      // Keep the URL in sync so a page refresh stays on the current surah.
+      history.replaceState(null, "", "?surah=" + n);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function loadSurah(n, scrollToAyah) {
+      if (!n || n < 1 || n > 114) {
+        statusEl.textContent = "সূরা নম্বর ১ থেকে ১১৪ এর মধ্যে হতে হবে।";
+        return;
+      }
+      stopScroll();
+      setInputs(n);
+      surahGrid.style.display = "none";
+      statusEl.style.display = "block";
+      page.style.display = "none";
+      statusEl.textContent = "সূরা লোড হচ্ছে...";
+      try {
+        const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`);
+        const json = await res.json();
+        if (json.code !== 200) throw new Error("API error");
+
+        const arabic = json.data[0];
+        const bangla = json.data[1];
+        const surah = arabic;
+
+        surahTitle.textContent = surah.name;
+        navName.textContent = `${surah.number}. ${surah.englishName}`;
+
+        const type = surah.revelationType === "Medinan" ? "মাদানি" : "মাক্কি";
+
+        // Bismillah header: shown above ayah 1 for every surah except Al-Faatiha (1),
+        // where Bismillah is itself ayah 1, and At-Tawbah (9), which has no Bismillah.
+        bismillahEl.style.display = (n === 1 || n === 9) ? "none" : "block";
+
+        ayahsEl.innerHTML = "";
+        let prevRuku = null;
+        let rukuCount = 0;
+        let sajdaCount = 0;
+        for (let i = 0; i < arabic.ayahs.length; i++) {
+          const ay = arabic.ayahs[i];
+          let a = ay.text.trim();
+          // For surahs 2-114 (except 9) the Bismillah is prepended inside ayah 1's
+          // Arabic text; remove it since it is shown separately as the header above.
+          if (i === 0 && n !== 1 && n !== 9) {
+            a = stripLeadingBismillah(a);
+          }
+          if (!a) continue;
+          const t = bangla.ayahs[i].text;
+          const num = ay.numberInSurah;
+          const ruku = ay.ruku;
+          const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
+          if (isNewRuku) rukuCount++;
+          prevRuku = ruku;
+
+          const key = `${n}:${num}`;
+          const isSajda = SAJDAS.has(key);
+          if (isSajda) sajdaCount++;
+
+          const marks = [];
+          if (isNewRuku) marks.push(`<span class="ayah-mark ruku">রুকু ${rukuCount}</span>`);
+          if (isSajda) marks.push(`<span class="ayah-mark sajda"><span class="sym">۩</span> সেজদা (${SAJDA_INFO[key]})</span>`);
+          const marksHtml = marks.length ? `<div class="ayah-marks">${marks.join("")}</div>` : "";
+
+          const div = document.createElement("div");
+          div.className = "ayah-block";
+          div.dataset.ayah = num;
+          div.innerHTML = `
+            <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
+            <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
+            ${marksHtml}
+            <div class="ayah-bn"><span class="meaning">${t}</span></div>
+          `;
+          ayahsEl.appendChild(div);
+        }
+        applyBookmarkHighlight(n);
+        if (scrollToAyah) {
+          const target = ayahsEl.querySelector(`.ayah-block[data-ayah="${scrollToAyah}"]`);
+          if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+        }
+
+        infoBanner.innerHTML = `
+          <span><strong>সূরা নং:</strong> ${surah.number}</span>
+          <span><strong>নাম:</strong> ${surah.name}</span>
+          <span><strong>ইংরেজি:</strong> ${surah.englishName}</span>
+          <span><strong>আয়াত:</strong> ${surah.numberOfAyahs}</span>
+          <span><strong>রুকু:</strong> ${rukuCount}</span>
+          <span><strong>সেজদা:</strong> ${sajdaCount}</span>
+          <span><strong>ধরণ:</strong> ${type}</span>
+        `;
+
+        statusEl.style.display = "none";
+        page.style.display = "block";
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "সূরা লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ ও API (api.alquran.cloud) চেক করুন।";
+        page.style.display = "none";
+      }
+    }
+
+    // On open:
+    //  1) if ?surah=N is present (e.g. after refresh) show that surah;
+    //  2) else if a bookmark exists, open that surah and jump to the marked ayah;
+    //  3) otherwise show the surah list (home) grid.
+    initSurahList().then(() => {
+      const params = new URLSearchParams(location.search);
+      const s = parseInt(params.get("surah"), 10);
+      if (s >= 1 && s <= 114) {
+        loadSurah(s);
+      } else {
+        const bm = getBookmark();
+        if (bm && bm.surah >= 1 && bm.surah <= 114) {
+          loadSurah(bm.surah, bm.ayah);
+        } else {
+          showGrid();
+        }
+      }
+    });
+
+    // --- PWA: register service worker for offline + installability ---
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch((err) =>
+          console.warn("Service worker registration failed:", err)
+        );
+      });
+    }
+
+    // --- PWA: custom install button ---
+    let deferredPrompt = null;
+    const btnInstall = document.getElementById("btnInstall");
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      btnInstall.style.display = "inline-flex";
+    });
+    btnInstall.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      btnInstall.style.display = "none";
+    });
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      btnInstall.style.display = "none";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Icon generator script (not needed for production)
+generate_icons.ps1
+
+# Deployment metadata
+windsurf_deployment.yaml
