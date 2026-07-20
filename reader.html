@@ -150,17 +150,18 @@
     }
     .surah-card {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      gap: 2px;
+      gap: 6px;
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
       border: 1px solid rgba(201,162,75,.40);
       border-radius: 10px;
-      padding: 6px 4px;
+      padding: 8px;
       cursor: pointer;
       color: #f2ead2;
-      text-align: center;
+      text-align: left;
       font-family: "Noto Sans Bengali", sans-serif;
+      overflow: hidden;
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
     }
     .surah-card:hover {
@@ -174,21 +175,42 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 24px; height: 24px;
+      width: 28px; height: 28px;
       border-radius: 50%;
       background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
       color: #0c2321;
       font-weight: 800;
       font-family: "Scheherazade New", serif;
-      font-size: 12px;
+      font-size: 14px;
     }
-    .surah-card .en { font-weight: 700; font-size: 11px; line-height: 1.2; }
-    .surah-card .bn { font-size: 10.5px; line-height: 1.15; color: #e9d9b0; }
+    .surah-card .bn {
+      flex: 1 1 auto;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .surah-card .en {
+      flex: 0 1 auto;
+      font-size: 11px;
+      color: #e9d9b0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80px;
+    }
     .surah-card .ar {
+      flex: 0 1 auto;
       font-family: "Scheherazade New", "Amiri", serif;
       color: var(--gold-1);
-      font-size: 15px;
-      line-height: 1.1;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70px;
+      margin-left: auto;
     }
 
     /* ---------- Loading / error ---------- */
