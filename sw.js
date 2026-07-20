@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v3";
+const CACHE = "alquran-v5";
 
 // App shell files that make the app work offline (the UI itself).
 const APP_SHELL = [
@@ -55,14 +55,21 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
-      return fetch(req).then((res) => {
-        // Cache successful same-origin and font responses for offline use.
-        if (res && res.status === 200 && (url.origin === location.origin || url.hostname.includes("gstatic") || url.hostname.includes("googleapis"))) {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(req, copy));
-        }
-        return res;
-      });
+      return fetch(req)
+        .then((res) => {
+          // Cache successful same-origin and font responses for offline use.
+          if (res && res.status === 200 && (url.origin === location.origin || url.hostname.includes("gstatic") || url.hostname.includes("googleapis"))) {
+            const copy = res.clone();
+            caches.open(CACHE).then((cache) => cache.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => {
+          // Offline fallback: open cached home/reader page when network fails.
+          if (req.mode === 'navigate') {
+            return caches.match('./index.html').then((r) => r || caches.match('./reader.html'));
+          }
+        });
     })
   );
 });

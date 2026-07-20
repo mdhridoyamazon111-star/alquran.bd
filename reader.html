@@ -199,45 +199,30 @@
       color: #cfe6e1;
     }
 
-    /* ---------- Ornate frame (desktop / tablet) ---------- */
+    /* ---------- Main reading area ---------- */
     .page {
       width: 100%;
       max-width: 100%;
       margin: 0;
-      background: repeating-linear-gradient(45deg, #f7edd6 0 14px, #fbf4e3 14px 28px);
-      padding: 26px;
-      border-radius: 6px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      padding: 0;
+      border-radius: 0;
     }
     .frame {
       position: relative;
-      border: 10px solid transparent;
-      border-image: repeating-linear-gradient(
-        45deg,
-        var(--gold-2) 0 10px,
-        var(--gold-1) 10px 20px,
-        #f0dca0 20px 26px
-      ) 12;
-      padding: 8px;
+      border: none;
+      padding: 0;
     }
-    .frame::before {
-      content: "";
-      position: absolute;
-      inset: 6px;
-      border: 3px double var(--gold-2);
-      border-radius: 4px;
-      pointer-events: none;
-    }
+    .frame::before { display: none; }
     .inner {
       position: relative;
-      border: 2px solid var(--gold-1);
+      border: none;
       border-radius: 4px;
       background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--cream) 45%, #f4ead0 100%);
-      padding: 22px 18px 30px;
+      padding: 22px 10px 30px;
       overflow: hidden;
     }
 
-    /* On mobile (<= 767px): remove the frame/borders for a full-width, wide-line reading view */
+    /* On mobile (<= 767px): full-width, wide-line reading view with one surah button per line */
     @media (max-width: 767px) {
       .page {
         background: none;
@@ -254,6 +239,12 @@
         border: none;
         border-radius: 8px;
         padding: 12px 6px 22px;
+      }
+      .surah-grid {
+        grid-template-columns: 1fr;
+      }
+      .surah-card {
+        width: 100%;
       }
     }
 
