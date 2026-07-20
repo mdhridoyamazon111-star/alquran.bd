@@ -137,8 +137,8 @@
     /* ---------- Surah grid (home screen) ---------- */
     .surah-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
     }
     .grid-heading {
       grid-column: 1 / -1;
@@ -150,15 +150,16 @@
     }
     .surah-card {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 2px;
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
       border: 1px solid rgba(201,162,75,.40);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 6px 4px;
       cursor: pointer;
       color: #f2ead2;
-      text-align: left;
+      text-align: center;
       font-family: "Noto Sans Bengali", sans-serif;
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
     }
@@ -173,20 +174,21 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 30px; height: 30px;
+      width: 24px; height: 24px;
       border-radius: 50%;
       background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
       color: #0c2321;
       font-weight: 800;
       font-family: "Scheherazade New", serif;
-      font-size: 15px;
+      font-size: 12px;
     }
-    .surah-card .en { font-weight: 700; font-size: 13.5px; line-height: 1.2; }
+    .surah-card .en { font-weight: 700; font-size: 11px; line-height: 1.2; }
+    .surah-card .bn { font-size: 10.5px; line-height: 1.15; color: #e9d9b0; }
     .surah-card .ar {
-      margin-left: auto;
       font-family: "Scheherazade New", "Amiri", serif;
       color: var(--gold-1);
-      font-size: 19px;
+      font-size: 15px;
+      line-height: 1.1;
     }
 
     /* ---------- Loading / error ---------- */
@@ -636,12 +638,128 @@
 
     // --- Navigation / search ---
     let SURAH_LIST = [];
+    const BENGALI_NAMES = [
+      "আল-ফাতিহাহ",
+      "আল-বাক্বারাহ",
+      "আলে-ইমরান",
+      "আন-নিসা",
+      "আল-মায়িদাহ",
+      "আল-আন'আম",
+      "আল-আ'রাফ",
+      "আল-আনফাল",
+      "আত-তাওবাহ",
+      "ইউনুস",
+      "হুদ",
+      "ইউসুফ",
+      "আর-রা'দ",
+      "ইব্রাহীম",
+      "আল-হিজর",
+      "আন-নাহল",
+      "বনী-ইসরাঈল",
+      "আল-কাহফ",
+      "মারইয়াম",
+      "ত্ব-হা",
+      "আল-আম্বিয়া",
+      "আল-হজ্জ",
+      "আল-মুমিনূন",
+      "আন-নূর",
+      "আল-ফুরকান",
+      "আশ-শুআ'রা",
+      "আন-নাম্বালা",
+      "আল-কাসাস",
+      "আল-আনকাবূত",
+      "আর-রূম",
+      "লুকমান",
+      "আস-সাজদাহ",
+      "আল-আহজাব",
+      "সাবা",
+      "ফাতির",
+      "ইয়াসীন",
+      "আস-সাফফাত",
+      "সোয়াদ",
+      "আজ-যুমার",
+      "গাফির",
+      "হা-মীম আস-সাজদাহ",
+      "আশ-শূরা",
+      "আয-যুখরুফ",
+      "আদ-দুখান",
+      "আল-জাসিয়াহ",
+      "আল-আহকাফ",
+      "মুহাম্মাদ",
+      "আল-ফাতহ",
+      "আল-হুজুরাত",
+      "কাফ",
+      "আয-যারিয়াত",
+      "আত-তূর",
+      "আন-নাজম",
+      "আল-কামার",
+      "আর-রাহমান",
+      "আল-ওয়াকি'আহ",
+      "আল-হাদীদ",
+      "আল-মুজাদালাহ",
+      "আল-হাশর",
+      "আল-মুমতাহিনাহ",
+      "আস-সফ",
+      "আল-জুমু'আহ",
+      "আল-মুনাফিকূন",
+      "আত-তাগাবুন",
+      "আত-তালাক",
+      "আত-তাহ্রীম",
+      "আল-মুলক",
+      "আল-কলম",
+      "আল-হাক্কাহ",
+      "আল-মা'আরিজ",
+      "নূহ",
+      "আল-জিন",
+      "আল-মুযযাম্মিল",
+      "আল-মুদ্দাসসির",
+      "আল-কিয়ামাহ",
+      "আল-ইনসান",
+      "আল-মুরসালাত",
+      "আন-নাবা",
+      "আন-নাযি'আত",
+      "আবাসা",
+      "আত-তাক্বীর",
+      "আল-ইনফিতার",
+      "আল-মুতাফফিফীন",
+      "আল-ইনশিকাক",
+      "আল-বুরূজ",
+      "আত-তারিক",
+      "আল-আ'লা",
+      "আল-গাশিয়াহ",
+      "আল-ফজর",
+      "আল-বালাদ",
+      "আশ-শামস",
+      "আল-লাইল",
+      "আদ-দুহা",
+      "আশ-শরহ",
+      "আত-তীন",
+      "আল-আ'লাক",
+      "আল-কাদর",
+      "আল-বাইয়্যিনাহ",
+      "আজ-যিলযাল",
+      "আল-আদিয়াত",
+      "আল-কারি'আ",
+      "আত-তাকাসুর",
+      "আল-আসর",
+      "আল-হুমাযাহ",
+      "আল-ফীল",
+      "কুরাইশ",
+      "আল-মা'উন",
+      "আল-কাওসার",
+      "আল-কাফিরূন",
+      "আন-নাসর",
+      "আল-মাসাদ",
+      "আল-ইখলাস",
+      "আল-ফালাক",
+      "আন-নাস"
+    ];
     async function initSurahList() {
       try {
         const res = await fetch("https://api.alquran.cloud/v1/surah");
         const json = await res.json();
         if (json.code === 200) {
-          SURAH_LIST = json.data.map(s => ({ number: s.number, englishName: s.englishName, arName: s.name }));
+          SURAH_LIST = json.data.map(s => ({ number: s.number, englishName: s.englishName, arName: s.name, bnName: BENGALI_NAMES[s.number - 1] || "" }));
           surahSelect.innerHTML = SURAH_LIST.map(s => `<option value="${s.number}">${s.number}. ${s.englishName}</option>`).join("");
           surahSelect.value = currentSurah;
           buildGrid();
@@ -657,6 +775,7 @@
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
             <span class="en">${s.number}. ${s.englishName}</span>
+            <span class="bn">${s.bnName}</span>
             <span class="ar">${s.arName}</span>
           </button>`).join("");
     }
