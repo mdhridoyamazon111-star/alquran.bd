@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v9";
+const CACHE = "alquran-v10";
 
 // App shell files that make the app work offline (the UI itself).
 const APP_SHELL = [
