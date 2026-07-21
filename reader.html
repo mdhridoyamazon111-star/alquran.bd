@@ -151,6 +151,7 @@
     .surah-card {
       display: flex;
       flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 6px;
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
@@ -185,6 +186,7 @@
     }
     .surah-card .bn {
       flex: 1 1 auto;
+      min-width: 0;
       font-weight: 700;
       font-size: 16px;
       line-height: 1.2;
@@ -194,7 +196,8 @@
     }
     .surah-card .en {
       flex: 0 1 auto;
-      font-size: 12px;
+      min-width: 0;
+      font-size: 14px;
       color: #e9d9b0;
       white-space: nowrap;
       overflow: hidden;
@@ -203,9 +206,10 @@
     }
     .surah-card .ar {
       flex: 0 1 auto;
+      min-width: 0;
       font-family: "Scheherazade New", "Amiri", serif;
       color: var(--gold-1);
-      font-size: 16px;
+      font-size: 18px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -792,7 +796,7 @@
     // Build the surah list (home) grid of buttons
     function buildGrid() {
       surahGrid.innerHTML =
-        `<div class="grid-heading">সূরা নির্বাচন করুন</div>` +
+        `<div class="grid-heading">All Sura</div>` +
         SURAH_LIST.map(s => `
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
