@@ -272,6 +272,23 @@
       .surah-card {
         width: 100%;
       }
+      .top-nav {
+        flex-wrap: nowrap;
+        gap: 5px;
+        padding: 6px 8px;
+      }
+      .top-nav .btn, .top-nav select, .top-nav input[type="number"] {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+      #surahSelect {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     /* ---------- Surah title & info ---------- */
@@ -448,7 +465,7 @@
 <body>
 
   <nav class="top-nav">
-    <button class="btn" id="btnHome" title="সূরা তালিকা">☰ সূরা</button>
+    <button class="btn" id="btnHome" title="Sura list">☰ Sura</button>
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
