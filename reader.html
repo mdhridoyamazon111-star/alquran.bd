@@ -580,7 +580,7 @@
     </div>
   </nav>
 
-  <div class="desktop-banner">
+  <div class="desktop-banner" id="desktopBanner">
     <img src="images/banner.jpg?v=42" alt="Banner">
   </div>
 
@@ -611,6 +611,7 @@
     const surahSelect = document.getElementById("surahSelect");
     const navName = document.getElementById("navName");
     const surahGrid = document.getElementById("surahGrid");
+    const desktopBanner = document.getElementById("desktopBanner");
 
     // Settings (advanced tools) toggle
     document.getElementById("btnSettings").addEventListener("click", () => {
@@ -1020,6 +1021,7 @@
       page.style.display = "none";
       statusEl.style.display = "none";
       surahGrid.style.display = "grid";
+      desktopBanner.style.display = "";
       history.replaceState(null, "", "reader.html");
       window.scrollTo({ top: 0 });
     }
@@ -1055,6 +1057,7 @@
       stopScroll();
       setInputs(n);
       surahGrid.style.display = "none";
+      desktopBanner.style.display = "none";
       statusEl.style.display = "block";
       page.style.display = "none";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
