@@ -108,6 +108,19 @@
       background: linear-gradient(180deg, #5be2b6, #23b083);
       box-shadow: 0 4px 12px rgba(52,211,153,.45);
     }
+    .top-nav .logo {
+      display: none;
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      color: var(--gold-1);
+      font-weight: 800;
+      font-size: 15px;
+      padding: 8px 14px;
+      border: 1px solid rgba(201,162,75,.55);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      cursor: pointer;
+      white-space: nowrap;
+    }
     .top-nav select option { background: #0c2321; color: #e9f2ef; }
     .top-nav input[type="number"] { width: 56px; cursor: text; }
     .top-nav .nav-name {
@@ -468,6 +481,7 @@
         overflow-x: auto;
       }
       #btnHome, #btnSettings { display: none; }
+      .top-nav .logo { display: inline-flex; align-items: center; }
       .top-nav .nav-tools {
         display: flex;
         position: static;
@@ -489,6 +503,7 @@
 <body>
 
   <nav class="top-nav">
+    <div class="logo" id="logo" title="Home">Al Quran.BD</div>
     <button class="btn" id="btnHome" title="Sura list">☰ Sura</button>
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
@@ -504,9 +519,6 @@
       <button class="btn" data-speed="1.6" id="speedMed">Medium</button>
       <button class="btn" data-speed="3.2" id="speedFast">Fast</button>
       <button class="btn" id="btnStop" style="display:none">Stop</button>
-      <select id="fontSel">
-        <option value="'Amiri', serif">Amiri</option>
-      </select>
       <select id="screenColor" title="Screen color">
         <option value="default" selected>Default</option>
         <option value="#0c2321">Dark Green</option>
@@ -554,6 +566,7 @@
     });
     // Show the surah list (home) grid
     document.getElementById("btnHome").addEventListener("click", showGrid);
+    document.getElementById("logo").addEventListener("click", showGrid);
 
     // --- Bookmark ("চিহ্ন") system: remember the last marked ayah in localStorage ---
     const BM_KEY = "quran_bookmark";
@@ -636,9 +649,6 @@
     }
     document.getElementById("btnFontUp").addEventListener("click", () => { if (arabicSize < maxSize) { arabicSize += 2; updateSize(); } });
     document.getElementById("btnFontDown").addEventListener("click", () => { if (arabicSize > minSize) { arabicSize -= 2; updateSize(); } });
-    document.getElementById("fontSel").addEventListener("change", (e) => {
-      document.querySelectorAll(".ayah-arabic, .bismillah, .ayah-num").forEach(el => el.style.fontFamily = e.target.value);
-    });
     document.getElementById("screenColor").addEventListener("change", (e) => {
       const v = e.target.value;
       const inner = document.querySelector(".inner");
