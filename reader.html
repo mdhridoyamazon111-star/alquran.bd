@@ -12,6 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="আল কুরআন" />
+  <meta name="google" content="notranslate" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
 
@@ -137,6 +138,10 @@
       gap: 8px;
     }
     .nav-tools.open { display: flex; }
+    .nav-tools .btn, .nav-tools select {
+      padding: 10px 18px;
+      font-size: 15px;
+    }
 
     /* ---------- Surah grid (home screen) ---------- */
     .surah-grid {
@@ -500,7 +505,6 @@
       <button class="btn" data-speed="3.2" id="speedFast">Fast</button>
       <button class="btn" id="btnStop" style="display:none">Stop</button>
       <select id="fontSel">
-        <option value="'Scheherazade New', serif">Scheherazade New</option>
         <option value="'Amiri', serif">Amiri</option>
       </select>
       <select id="screenColor" title="Screen color">
@@ -527,8 +531,6 @@
       <div class="inner">
         <div class="surah-title" id="surahTitle">سُورَة</div>
 
-        <div class="info-banner" id="infoBanner"></div>
-
         <div class="bismillah" id="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
 
         <div id="ayahs"></div>
@@ -540,7 +542,6 @@
     const page = document.getElementById("page");
     const statusEl = document.getElementById("status");
     const surahTitle = document.getElementById("surahTitle");
-    const infoBanner = document.getElementById("infoBanner");
     const ayahsEl = document.getElementById("ayahs");
     const bismillahEl = document.getElementById("bismillah");
     const surahSelect = document.getElementById("surahSelect");
@@ -947,16 +948,6 @@
           const target = ayahsEl.querySelector(`.ayah-block[data-ayah="${scrollToAyah}"]`);
           if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
         }
-
-        infoBanner.innerHTML = `
-          <span><strong>সূরা নং:</strong> ${surah.number}</span>
-          <span><strong>নাম:</strong> ${surah.name}</span>
-          <span><strong>ইংরেজি:</strong> ${surah.englishName}</span>
-          <span><strong>আয়াত:</strong> ${surah.numberOfAyahs}</span>
-          <span><strong>রুকু:</strong> ${rukuCount}</span>
-          <span><strong>সেজদা:</strong> ${sajdaCount}</span>
-          <span><strong>ধরণ:</strong> ${type}</span>
-        `;
 
         statusEl.style.display = "none";
         page.style.display = "block";
