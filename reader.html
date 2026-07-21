@@ -135,6 +135,38 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
     }
 
+    /* ---------- Desktop-only banner below navbar ---------- */
+    .desktop-banner {
+      display: none;
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+      margin: 10px auto 8px;
+      direction: ltr;
+      border: 1px solid rgba(201,162,75,.55);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      overflow: hidden;
+      text-align: center;
+      line-height: 90px;
+      color: var(--gold-1);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .desktop-banner img,
+    .desktop-banner iframe,
+    .desktop-banner a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: cover;
+    }
+    @media (min-width: 1024px) {
+      .desktop-banner { display: block; }
+    }
+
     /* Collapsible advanced tools (Font, Speed, Screen color) */
     .nav-tools {
       display: none;
@@ -547,6 +579,10 @@
       </select>
     </div>
   </nav>
+
+  <div class="desktop-banner">
+    728×90 Desktop Banner
+  </div>
 
   <p id="status">সূরা লোড হচ্ছে...</p>
 
