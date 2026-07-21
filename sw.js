@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v25";
+const CACHE = "alquran-v26";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
@@ -43,16 +43,19 @@ self.addEventListener("fetch", (event) => {
   const isApi = url.hostname.includes("alquran.cloud");
   const isPage = req.mode === 'navigate' || req.destination === 'document';
 
-  // Quran API: network-first, cache a copy.
+  // Quran API: cache-first so switching surahs is instant after first load.
   if (isApi) {
     event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(req, copy));
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req).then((res) => {
+          if (res && res.status === 200) {
+            const copy = res.clone();
+            caches.open(CACHE).then((cache) => cache.put(req, copy));
+          }
           return res;
-        })
-        .catch(() => caches.match(req))
+        });
+      })
     );
     return;
   }

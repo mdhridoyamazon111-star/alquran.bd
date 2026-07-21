@@ -876,6 +876,12 @@
     document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1); });
     document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1); });
 
+    function prefetchSurah(n) {
+      if (n < 1 || n > 114) return;
+      const url = `https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`;
+      fetch(url).catch(() => {});
+    }
+
     function setInputs(n) {
       currentSurah = n;
       surahSelect.value = n;
@@ -916,6 +922,7 @@
         bismillahEl.style.display = (n === 1 || n === 9) ? "none" : "block";
 
         ayahsEl.innerHTML = "";
+        const fragment = document.createDocumentFragment();
         let prevRuku = null;
         let rukuCount = 0;
         let sajdaCount = 0;
@@ -953,8 +960,9 @@
             ${marksHtml}
             <div class="ayah-bn"><span class="meaning">${t}</span></div>
           `;
-          ayahsEl.appendChild(div);
+          fragment.appendChild(div);
         }
+        ayahsEl.appendChild(fragment);
         applyBookmarkHighlight(n);
         if (scrollToAyah) {
           const target = ayahsEl.querySelector(`.ayah-block[data-ayah="${scrollToAyah}"]`);
@@ -963,6 +971,8 @@
 
         statusEl.style.display = "none";
         page.style.display = "block";
+        prefetchSurah(n - 1);
+        prefetchSurah(n + 1);
       } catch (e) {
         console.error(e);
         statusEl.textContent = "সূরা লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ ও API (api.alquran.cloud) চেক করুন।";
