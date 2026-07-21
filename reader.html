@@ -471,7 +471,8 @@
     @media (max-width: 520px) {
       .top-nav input[type="number"] { width: 50px; }
       .top-nav .nav-name { font-size: 12px; }
-      .ayah-arabic { font-size: 28px; }
+      :root { --arabic-size: 28px; }
+      .ayah-arabic { font-size: var(--arabic-size); }
       .surah-title { font-size: 21px; }
     }
     /* Desktop: show advanced tools inline and remove gear icon */
@@ -638,7 +639,7 @@
     const SAJDA_INFO = { "7:206":"মুস্তাহাব","13:15":"মুস্তাহাব","16:50":"মুস্তাহাব","17:109":"মুস্তাহাব","19:58":"মুস্তাহাব","22:18":"মুস্তাহাব","22:77":"মুস্তাহাব","25:60":"মুস্তাহাব","27:26":"মুস্তাহাব","32:15":"ওয়াজিব","38:24":"মুস্তাহাব","41:38":"ওয়াজিব","53:62":"ওয়াজিব","84:21":"মুস্তাহাব","96:19":"ওয়াজিব" };
 
     let currentSurah = 1;
-    let arabicSize = 34;
+    let arabicSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 34;
     const minSize = 20, maxSize = 60;
     let scrollSpeed = 0;
     let rafId = null;
