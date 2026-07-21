@@ -434,6 +434,19 @@
       border-radius: 10px;
     }
     .ayah-bn .meaning { display: block; color: #2a2118; }
+    .ayah-uc {
+      direction: ltr;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.9;
+      color: #3d3024;
+      padding: 6px 8px;
+      background: rgba(255,255,255,.32);
+      border-radius: 10px;
+      margin-top: 6px;
+      font-style: italic;
+    }
     .ayah-marks {
       direction: ltr;
       display: flex;
@@ -464,6 +477,7 @@
     .inner.dark-screen .bismillah { color: #93e6d9; }
     .inner.dark-screen .ayah-arabic { color: #f7edd6; }
     .inner.dark-screen .ayah-bn { color: #f0e6d2; background: rgba(0,0,0,.25); }
+    .inner.dark-screen .ayah-uc { color: #f0e6d2; background: rgba(0,0,0,.25); }
     .inner.dark-screen .ayah-bn .meaning { color: #f0e6d2; }
     .inner.dark-screen .ayah-mark { color: #f7edd6; }
     .inner.dark-screen .ayah-mark.ruku { color: #93e6d9; }
@@ -638,6 +652,16 @@
 
     const SAJDAS = new Set(["7:206","13:15","16:50","17:109","19:58","22:18","22:77","25:60","27:26","32:15","38:24","41:38","53:62","84:21","96:19"]);
     const SAJDA_INFO = { "7:206":"মুস্তাহাব","13:15":"মুস্তাহাব","16:50":"মুস্তাহাব","17:109":"মুস্তাহাব","19:58":"মুস্তাহাব","22:18":"মুস্তাহাব","22:77":"মুস্তাহাব","25:60":"মুস্তাহাব","27:26":"মুস্তাহাব","32:15":"ওয়াজিব","38:24":"মুস্তাহাব","41:38":"ওয়াজিব","53:62":"ওয়াজিব","84:21":"মুস্তাহাব","96:19":"ওয়াজিব" };
+
+    const FATIHA_UCHARON = [
+      'বিসমিল্লাহির রহমানির রহীম',
+      'আলহামদু লিল্লাহি রব্বিল আলামীন',
+      'আর রহমানির রহীম',
+      'মালিকি ইয়াওমিদ্দীন',
+      'ইয়্যাকা না’বুদু ওয়া ইয়্যাকা নাসতাইন',
+      'ইহদিনাস সিরাতাল মুসতাকীম',
+      'সিরাতাল লাযীনা আনআমতা আলাইহিম গাইরিল মাগদূবি আলাইহিম ওয়ালাদ দ্বাল্লীন'
+    ];
 
     let currentSurah = 1;
     let arabicSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 34;
@@ -937,6 +961,8 @@
           if (!a) continue;
           const t = bangla.ayahs[i].text;
           const num = ay.numberInSurah;
+          const uc = (n === 1 && i < FATIHA_UCHARON.length) ? FATIHA_UCHARON[i] : '';
+          const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : '';
           const ruku = ay.ruku;
           const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
           if (isNewRuku) rukuCount++;
@@ -958,7 +984,8 @@
             <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
             <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
             ${marksHtml}
-            <div class="ayah-bn"><span class="meaning">${t}</span></div>
+            <div class='ayah-bn'><span class='meaning'>${t}</span></div>
+            ${ucHtml}
           `;
           fragment.appendChild(div);
         }
