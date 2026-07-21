@@ -1,22 +1,24 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v10";
+const CACHE = "alquran-v11";
 
 // App shell files that make the app work offline (the UI itself).
+// Only list assets that exist in the repo. Icons are not pre-cached here
+// because missing files would break offline caching of the HTML shell.
 const APP_SHELL = [
   "./",
   "./index.html",
   "./reader.html",
-  "./manifest.webmanifest",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-maskable-512.png"
+  "./manifest.webmanifest"
 ];
 
-// Install: pre-cache the app shell.
+// Install: pre-cache each app shell file individually so a single 404
+// (e.g., a missing icon) does not abort the whole cache.
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE)
+      .then((cache) => Promise.allSettled(APP_SHELL.map((url) => cache.add(url))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -65,9 +67,15 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() => {
-          // Offline fallback: open cached home/reader page when network fails.
-          if (req.mode === 'navigate') {
-            return caches.match('./index.html').then((r) => r || caches.match('./reader.html'));
+          // Offline fallback: serve cached reader page when network fails.
+          if (req.mode === 'navigate' || req.destination === 'document') {
+            return caches.match('./reader.html')
+              .then((r) => r || caches.match('./index.html'))
+              .then((r) => r || caches.match('./'))
+              .then((r) => r || new Response('<h1>Offline</h1><p>Please check your connection and try again.</p>', {
+                status: 200,
+                headers: { 'Content-Type': 'text/html; charset=utf-8' }
+              }));
           }
         });
     })
