@@ -969,8 +969,8 @@
           if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
         }
 
-        statusEl.style.display = "none";
-        page.style.display = "block";
+        page.style.display = 'block';
+        requestAnimationFrame(() => { statusEl.style.display = 'none'; });
         prefetchSurah(n - 1);
         prefetchSurah(n + 1);
       } catch (e) {
