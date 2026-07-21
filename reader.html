@@ -49,10 +49,6 @@
         radial-gradient(1000px 700px at 50% -5%, #17403d 0%, var(--bg) 55%, #08181a 100%);
       color: #e9f2ef;
     }
-    @media (min-width: 1024px) {
-      body { padding-top: 90px; }
-    }
-
     /* ---------- Top navbar ---------- */
     .top-nav {
       position: fixed;
@@ -125,37 +121,6 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    .top-nav .nav-icon,
-    .top-nav .nav-badge {
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .top-nav .nav-icon svg {
-      width: 52px;
-      height: 52px;
-      color: var(--gold-1);
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
-    }
-    .top-nav .nav-badge {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: 2px solid var(--gold-1);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
-      box-shadow: 0 4px 12px rgba(0,0,0,.25), inset 0 0 10px rgba(0,0,0,.25);
-      color: var(--gold-1);
-      font-family: "Scheherazade New", "Amiri", serif;
-      font-size: 20px;
-      font-weight: 700;
-      text-align: center;
-      line-height: 1;
-    }
-    .top-nav .nav-badge span { display: block; padding: 2px; }
-    @media (min-width: 1024px) {
-      .top-nav .nav-icon,
-      .top-nav .nav-badge { display: inline-flex; }
-    }
     .top-nav select option { background: #0c2321; color: #e9f2ef; }
     .top-nav input[type="number"] { width: 56px; cursor: text; }
     .top-nav .nav-name {
@@ -185,12 +150,13 @@
         linear-gradient(135deg, #0c2321 0%, #143b37 55%, #1f6f6b 100%);
       box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 0 80px rgba(0,0,0,.25);
       overflow: hidden;
-      text-align: center;
-      line-height: 1.2;
       color: #fbf4e3;
       position: relative;
       font-weight: 700;
       font-size: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(12px, 3vw, 40px);
     }
     .desktop-banner::before {
       content: "";
@@ -199,20 +165,54 @@
       background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,.35) 100%);
       pointer-events: none;
     }
-    .banner-title {
+    .banner-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
       position: relative;
       z-index: 1;
+    }
+    .banner-icon,
+    .banner-badge {
+      position: relative;
+      z-index: 1;
+    }
+    .banner-icon svg {
+      width: clamp(70px, 10vw, 120px);
+      height: clamp(70px, 10vw, 120px);
+      color: var(--gold-1);
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.4));
+    }
+    .banner-badge {
+      width: clamp(70px, 10vw, 120px);
+      height: clamp(70px, 10vw, 120px);
+      border-radius: 50%;
+      border: 2px solid var(--gold-1);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      box-shadow: 0 4px 12px rgba(0,0,0,.25), inset 0 0 10px rgba(0,0,0,.25);
+      color: var(--gold-1);
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1;
+    }
+    .banner-badge span { display: block; padding: 4px; }
+    .banner-title {
       font-family: "Reem Kufi", "Noto Sans Bengali", sans-serif;
-      font-size: clamp(28px, 4vw, 46px);
+      font-size: clamp(22px, 3.5vw, 42px);
       font-weight: 700;
       color: #fbf4e3;
       text-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 24px rgba(201,162,75,.25);
-      padding: 0 20px;
+      padding: 0 10px;
       letter-spacing: .5px;
     }
     .banner-line {
-      position: relative;
-      z-index: 1;
       width: 140px;
       height: 4px;
       margin: 18px auto 0;
@@ -220,7 +220,7 @@
       background: linear-gradient(90deg, transparent, var(--gold-1), transparent);
     }
     @media (min-width: 1024px) {
-      .desktop-banner { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+      .desktop-banner { display: flex; }
     }
 
     /* Collapsible advanced tools (Font, Speed, Screen color) */
@@ -607,16 +607,7 @@
 <body>
 
   <nav class="top-nav">
-    <div class="nav-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 1-3-3H2V3z"></path>
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h9V3z"></path>
-      </svg>
-    </div>
     <div class="logo" id="logo" title="Home">Al Quran.BD</div>
-    <div class="nav-badge" aria-hidden="true">
-      <span>القرآن</span>
-    </div>
     <button class="btn" id="btnHome" title="Sura list">☰ Sura</button>
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
@@ -646,8 +637,19 @@
   </nav>
 
   <div class="desktop-banner" id="desktopBanner">
-    <div class="banner-title">Build Your Life With The Quran</div>
-    <div class="banner-line"></div>
+    <div class="banner-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="120" height="120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 1-3-3H2V3z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h9V3z"></path>
+      </svg>
+    </div>
+    <div class="banner-content">
+      <div class="banner-title">Build Your Life With The Quran</div>
+      <div class="banner-line"></div>
+    </div>
+    <div class="banner-badge" aria-hidden="true">
+      <span>القرآন</span>
+    </div>
   </div>
 
   <p id="status">সূরা লোড হচ্ছে...</p>
