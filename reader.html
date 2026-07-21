@@ -889,7 +889,7 @@
       document.getElementById("next").disabled = n === 114;
       // Keep the URL in sync so a page refresh stays on the current surah.
       history.replaceState(null, "", "?surah=" + n);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo(0, 0);
     }
 
     async function loadSurah(n, scrollToAyah) {
