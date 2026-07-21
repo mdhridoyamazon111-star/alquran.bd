@@ -49,6 +49,9 @@
         radial-gradient(1000px 700px at 50% -5%, #17403d 0%, var(--bg) 55%, #08181a 100%);
       color: #e9f2ef;
     }
+    @media (min-width: 1024px) {
+      body { padding-top: 90px; }
+    }
 
     /* ---------- Top navbar ---------- */
     .top-nav {
@@ -121,6 +124,37 @@
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
       cursor: pointer;
       white-space: nowrap;
+    }
+    .top-nav .nav-icon,
+    .top-nav .nav-badge {
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .top-nav .nav-icon svg {
+      width: 52px;
+      height: 52px;
+      color: var(--gold-1);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
+    }
+    .top-nav .nav-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-1);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      box-shadow: 0 4px 12px rgba(0,0,0,.25), inset 0 0 10px rgba(0,0,0,.25);
+      color: var(--gold-1);
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1;
+    }
+    .top-nav .nav-badge span { display: block; padding: 2px; }
+    @media (min-width: 1024px) {
+      .top-nav .nav-icon,
+      .top-nav .nav-badge { display: inline-flex; }
     }
     .top-nav select option { background: #0c2321; color: #e9f2ef; }
     .top-nav input[type="number"] { width: 56px; cursor: text; }
@@ -573,7 +607,16 @@
 <body>
 
   <nav class="top-nav">
+    <div class="nav-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 1-3-3H2V3z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h9V3z"></path>
+      </svg>
+    </div>
     <div class="logo" id="logo" title="Home">Al Quran.BD</div>
+    <div class="nav-badge" aria-hidden="true">
+      <span>القرآن</span>
+    </div>
     <button class="btn" id="btnHome" title="Sura list">☰ Sura</button>
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
