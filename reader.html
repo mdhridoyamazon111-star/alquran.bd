@@ -452,6 +452,23 @@
       .ayah-arabic { font-size: 28px; }
       .surah-title { font-size: 21px; }
     }
+    /* Desktop: show advanced tools inline and remove gear icon */
+    @media (min-width: 768px) {
+      .top-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      #btnSettings { display: none; }
+      .top-nav .nav-tools {
+        display: flex;
+        width: auto;
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding-top: 0;
+        margin-top: 0;
+        border-top: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -461,7 +478,7 @@
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
-    <button class="btn btn-install" id="btnInstall" title="App Install" style="display:none">App Install</button>
+    <button class="btn btn-install" id="btnInstall" title="App Install">App Install</button>
     <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
 
     <div class="nav-tools" id="navTools">
