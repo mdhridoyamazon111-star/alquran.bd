@@ -835,7 +835,7 @@
       if (scrollSpeed <= 0) { stopScroll(); return; }
       const max = document.documentElement.scrollHeight - window.innerHeight - 2;
       if (window.scrollY >= max) { stopScroll(); return; }
-      window.scrollBy(0, scrollSpeed);
+      window.scrollBy({ top: scrollSpeed, behavior: 'auto' });
       rafId = requestAnimationFrame(tick);
     }
     function startScroll() {
