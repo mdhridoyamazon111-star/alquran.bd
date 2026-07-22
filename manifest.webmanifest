@@ -4,7 +4,7 @@
   "description": "সম্পূর্ণ কুরআন আরবি টেক্সট ও বাংলা তরজমাসহ। ১১৪টি সূরা, রুকু ও সেজদা চিহ্নসহ।",
   "lang": "bn",
   "dir": "ltr",
-  "start_url": "./reader.html",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
