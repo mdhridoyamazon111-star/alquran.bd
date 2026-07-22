@@ -1018,7 +1018,7 @@
     }
     surahGrid.addEventListener("click", (e) => {
       const card = e.target.closest(".surah-card");
-      if (card) loadSurah(parseInt(card.dataset.n, 10));
+      if (card) loadSurah(parseInt(card.dataset.n, 10), undefined, true);
     });
 
     // Show the surah grid (home) and hide the reader
@@ -1032,12 +1032,22 @@
       window.scrollTo({ top: 0 });
     }
 
+    // Handle the browser back/forward buttons between home and surahs
+    window.addEventListener("popstate", (e) => {
+      const state = e.state;
+      if (state && state.surah >= 1 && state.surah <= 114) {
+        loadSurah(state.surah);
+      } else {
+        showGrid();
+      }
+    });
+
     surahSelect.addEventListener("change", () => {
       const n = parseInt(surahSelect.value, 10);
-      if (n >= 1 && n <= 114) loadSurah(n);
+      if (n >= 1 && n <= 114) loadSurah(n, undefined, true);
     });
-    document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1); });
-    document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1); });
+    document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1, undefined, true); });
+    document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1, undefined, true); });
 
     function prefetchSurah(n) {
       if (n < 1 || n > 114) return;
@@ -1045,23 +1055,27 @@
       fetch(url).catch(() => {});
     }
 
-    function setInputs(n) {
+    function setInputs(n, push = false) {
       currentSurah = n;
       surahSelect.value = n;
       document.getElementById("prev").disabled = n === 1;
       document.getElementById("next").disabled = n === 114;
       // Keep the URL in sync so a page refresh stays on the current surah.
-      history.replaceState(null, "", "?surah=" + n);
+      if (push) {
+        history.pushState({ surah: n }, "", "?surah=" + n);
+      } else {
+        history.replaceState({ surah: n }, "", "?surah=" + n);
+      }
       window.scrollTo(0, 0);
     }
 
-    async function loadSurah(n, scrollToAyah) {
+    async function loadSurah(n, scrollToAyah, push = false) {
       if (!n || n < 1 || n > 114) {
         statusEl.textContent = "সূরা নম্বর ১ থেকে ১১৪ এর মধ্যে হতে হবে।";
         return;
       }
       stopScroll();
-      setInputs(n);
+      setInputs(n, push);
       surahGrid.style.display = "none";
       desktopBanner.style.display = "none";
       statusEl.style.display = "block";
