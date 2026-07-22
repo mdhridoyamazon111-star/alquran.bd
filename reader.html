@@ -38,7 +38,7 @@
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }
 
     body {
       margin: 0;
@@ -832,38 +832,57 @@
 
     // --- Auto scroll ---
     function tick() {
-      if (scrollSpeed <= 0) { stopScroll(); return; }
+      if (scrollSpeed <= 0 || !rafId) { stopScroll(); return; }
       const max = document.documentElement.scrollHeight - window.innerHeight - 2;
       if (window.scrollY >= max) { stopScroll(); return; }
-      window.scrollBy({ top: scrollSpeed, behavior: 'auto' });
+      window.scrollBy(0, scrollSpeed);
       rafId = requestAnimationFrame(tick);
     }
-    function startScroll() {
-      stopScroll();
+    function startScroll(speed) {
+      if (typeof speed === "number") scrollSpeed = speed;
+      if (rafId) cancelAnimationFrame(rafId);
       document.getElementById("btnStop").style.display = "inline-block";
       rafId = requestAnimationFrame(tick);
     }
     function stopScroll() {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = null;
+      scrollSpeed = 0;
       document.getElementById("btnStop").style.display = "none";
       ["speedLow","speedMed","speedFast"].forEach(id => document.getElementById(id).classList.remove("active"));
+    }
+    function pauseScroll() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      document.getElementById("btnStop").style.display = "none";
+    }
+    function resumeScroll() {
+      if (!rafId && scrollSpeed > 0) {
+        document.getElementById("btnStop").style.display = "inline-block";
+        rafId = requestAnimationFrame(tick);
+      }
     }
     ["speedLow","speedMed","speedFast"].forEach(id => {
       const btn = document.getElementById(id);
       btn.addEventListener("click", () => {
         if (btn.classList.contains("active")) {
-          scrollSpeed = 0;
           stopScroll();
           return;
         }
         ["speedLow","speedMed","speedFast"].forEach(i => document.getElementById(i).classList.remove("active"));
         btn.classList.add("active");
-        scrollSpeed = parseFloat(btn.dataset.speed);
-        startScroll();
+        startScroll(parseFloat(btn.dataset.speed));
       });
     });
-    document.getElementById("btnStop").addEventListener("click", () => { scrollSpeed = 0; stopScroll(); });
+    document.getElementById("btnStop").addEventListener("click", () => { stopScroll(); });
+
+    // Touch: pause auto-scroll while a finger is on the page, resume on lift
+    page.addEventListener("touchstart", () => {
+      if (scrollSpeed > 0) pauseScroll();
+    }, { passive: true });
+    page.addEventListener("touchend", () => {
+      resumeScroll();
+    }, { passive: true });
 
     // Keyboard: Esc or S stops scrolling
     document.addEventListener("keydown", (e) => {
