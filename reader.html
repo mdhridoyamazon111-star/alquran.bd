@@ -1202,9 +1202,23 @@
     // --- PWA: register service worker for offline + installability ---
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch((err) =>
-          console.warn("Service worker registration failed:", err)
-        );
+        navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+          .then((registration) => {
+            // Whenever the device comes back online, check for a new app version
+            window.addEventListener("online", () => {
+              registration.update().catch(() => {});
+            });
+          })
+          .catch((err) => console.warn("Service worker registration failed:", err));
+      });
+
+      // Reload the page only when a new service worker takes over (not on first install)
+      let currentController = navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (currentController && currentController !== navigator.serviceWorker.controller) {
+          window.location.reload();
+        }
+        currentController = navigator.serviceWorker.controller;
       });
     }
 
