@@ -141,86 +141,38 @@
       max-width: 100%;
       height: 300px;
       margin: 10px auto 8px;
-      direction: ltr;
       border: 1px solid rgba(201,162,75,.55);
       border-radius: 12px;
-      background:
-        radial-gradient(circle at 25% 25%, rgba(201,162,75,.22) 0%, transparent 35%),
-        radial-gradient(circle at 80% 80%, rgba(31,111,107,.35) 0%, transparent 45%),
-        linear-gradient(135deg, #0c2321 0%, #143b37 55%, #1f6f6b 100%);
+      background: url("images/banner.jpg") center/cover no-repeat;
       box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 0 80px rgba(0,0,0,.25);
       overflow: hidden;
-      color: #fbf4e3;
       position: relative;
-      font-weight: 700;
-      font-size: 14px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(12px, 3vw, 40px);
     }
     .desktop-banner::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,.35) 100%);
+      background: rgba(0,0,0,.15);
       pointer-events: none;
+      z-index: 0;
     }
-    .banner-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      position: relative;
-      z-index: 1;
-    }
-    .banner-icon,
-    .banner-badge {
-      position: relative;
-      z-index: 1;
-    }
-    .banner-icon svg {
-      width: clamp(70px, 10vw, 120px);
-      height: clamp(70px, 10vw, 120px);
-      color: var(--gold-1);
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,.4));
-    }
-    .banner-badge {
-      width: clamp(70px, 10vw, 120px);
-      height: clamp(70px, 10vw, 120px);
-      border-radius: 50%;
-      border: 2px solid var(--gold-1);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
-      box-shadow: 0 4px 12px rgba(0,0,0,.25), inset 0 0 10px rgba(0,0,0,.25);
-      color: var(--gold-1);
-      font-family: "Scheherazade New", "Amiri", serif;
-      font-size: clamp(22px, 3vw, 38px);
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 1;
-    }
-    .banner-badge span { display: block; padding: 4px; }
-    .banner-title {
+    .desktop-banner::after {
+      content: "Al Quran.BD";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-18deg);
       font-family: "Reem Kufi", "Noto Sans Bengali", sans-serif;
-      font-size: clamp(22px, 3.5vw, 42px);
-      font-weight: 700;
-      color: #fbf4e3;
-      text-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 24px rgba(201,162,75,.25);
-      padding: 0 10px;
-      letter-spacing: .5px;
-    }
-    .banner-line {
-      width: 140px;
-      height: 4px;
-      margin: 18px auto 0;
-      border-radius: 4px;
-      background: linear-gradient(90deg, transparent, var(--gold-1), transparent);
+      font-size: clamp(36px, 6vw, 80px);
+      font-weight: 800;
+      color: rgba(255,255,255,.22);
+      text-shadow: 0 0 4px rgba(0,0,0,.3);
+      letter-spacing: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 1;
     }
     @media (min-width: 1024px) {
-      .desktop-banner { display: flex; }
+      .desktop-banner { display: block; }
     }
 
     /* Collapsible advanced tools (Font, Speed, Screen color) */
