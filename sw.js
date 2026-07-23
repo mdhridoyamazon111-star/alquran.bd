@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v59";
+const CACHE = "alquran-v60";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
@@ -72,7 +72,10 @@ self.addEventListener("fetch", (event) => {
   // Page navigations: always try network first so we never serve a stale/broken HTML.
   if (isPage) {
     event.respondWith(
-      fetch(req, { cache: 'reload' })
+      Promise.race([
+        fetch(req, { cache: 'reload' }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('network timeout')), 2500))
+      ])
         .then((res) => {
           if (res && res.status === 200) {
             const copy = res.clone();
@@ -81,13 +84,16 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() => {
-          return caches.match(req.url)
-            .then((r) => r || caches.match('./'))
-            .then((r) => r || caches.match('/'))
-            .then((r) => r || new Response('<h1>Offline</h1><p>Please check your connection and try again.</p>', {
+          const matches = [req.url, './', '/', new Request('./'), new Request('/')];
+          return matches.reduce(
+            (p, url) => p.then((r) => r || caches.match(url)),
+            Promise.resolve(null)
+          ).then(
+            (r) => r || new Response('<h1>Offline</h1><p>Please check your connection and try again.</p>', {
               status: 200,
               headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            }));
+            })
+          );
         })
     );
     return;
