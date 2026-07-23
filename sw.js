@@ -1,23 +1,32 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v55";
+const CACHE = "alquran-v56";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
 // because missing files would break offline caching of the HTML shell.
 const APP_SHELL = [
-  "./",
-  "./index.html",
-  "./reader.html",
+  "./",                // Cloudflare Pages rewrites / to reader.html
   "./manifest.webmanifest"
 ];
+const API_LIST = "https://api.alquran.cloud/v1/surah";
 
 // Install: pre-cache each app shell file individually so a single 404
-// (e.g., a missing icon) does not abort the whole cache.
+// (e.g., a missing icon) does not abort the whole cache. Also prime the
+// surah list API so the home grid works offline immediately after install.
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE)
-      .then((cache) => Promise.allSettled(APP_SHELL.map((url) => cache.add(url))))
+      .then((cache) =>
+        Promise.allSettled([
+          ...APP_SHELL.map((url) => cache.add(url)),
+          fetch(API_LIST)
+            .then((res) => {
+              if (res && res.status === 200) cache.put(API_LIST, res.clone());
+            })
+            .catch(() => {})
+        ])
+      )
       .then(() => self.skipWaiting())
   );
 });
@@ -72,10 +81,9 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() => {
-          return caches.match(req)
-            .then((r) => r || caches.match('./reader.html'))
-            .then((r) => r || caches.match('./index.html'))
+          return caches.match(req.url)
             .then((r) => r || caches.match('./'))
+            .then((r) => r || caches.match('/'))
             .then((r) => r || new Response('<h1>Offline</h1><p>Please check your connection and try again.</p>', {
               status: 200,
               headers: { 'Content-Type': 'text/html; charset=utf-8' }
