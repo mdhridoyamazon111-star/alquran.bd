@@ -156,9 +156,9 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,.14);
-      backdrop-filter: blur(14px) saturate(120%);
-      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      background: rgba(255,255,255,.10);
+      backdrop-filter: blur(4px) saturate(110%);
+      -webkit-backdrop-filter: blur(4px) saturate(110%);
       pointer-events: none;
       z-index: 0;
     }
@@ -170,12 +170,14 @@
       font-family: "Reem Kufi", "Noto Sans Bengali", sans-serif;
       font-size: clamp(36px, 6vw, 80px);
       font-weight: 800;
-      color: rgba(255,255,255,.75);
-      text-shadow: 0 4px 24px rgba(0,0,0,.45), 0 0 10px rgba(255,255,255,.35);
+      color: rgba(255,255,255,.18);
+      text-shadow: 0 0 14px rgba(255,255,255,.18);
       letter-spacing: 3px;
       white-space: nowrap;
       pointer-events: none;
       z-index: 1;
+      filter: blur(3px);
+      -webkit-filter: blur(3px);
     }
     @media (min-width: 1024px) {
       .desktop-banner { display: block; }
