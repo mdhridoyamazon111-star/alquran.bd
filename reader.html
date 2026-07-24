@@ -642,10 +642,14 @@
   <p id="status">সূরা লোড হচ্ছে...</p>
 
   <div class="surah-grid" id="mainMenu" style="display:grid">
-    <button class="surah-card menu-card" data-mode="website">Al Quran Bangla Bangla Quran Majeed</button>
+    <button class="surah-card menu-card" data-mode="website">বাংলা কোরআন মাজীদ</button>
     <button class="surah-card menu-card" data-mode="arabic">Arabic Quran Majeed</button>
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
+  </div>
+
+  <div class="surah-grid" id="necessaryMenu" style="display:none">
+    <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -674,6 +678,7 @@
     const navName = document.getElementById("navName");
     const surahGrid = document.getElementById("surahGrid");
     const mainMenu = document.getElementById("mainMenu");
+    const necessaryMenu = document.getElementById("necessaryMenu");
     const desktopBanner = document.getElementById("desktopBanner");
 
     // Settings (advanced tools) toggle
@@ -7451,13 +7456,16 @@
         "All Sura";
       surahGrid.innerHTML =
         `<div class="grid-heading">${heading}</div>` +
-        SURAH_LIST.map(s => `
+        SURAH_LIST.map(s => {
+          const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
+          return `
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
             <span class="en">${s.number}. ${s.englishName}</span>
-            <span class="bn">${s.bnName}</span>
+            ${bn}
             <span class="ar">${s.arName}</span>
-          </button>`).join("");
+          </button>`;
+        }).join("");
     }
     surahGrid.addEventListener("click", (e) => {
       const card = e.target.closest(".surah-card");
