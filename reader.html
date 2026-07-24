@@ -211,6 +211,17 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 8px;
     }
+    #mainMenu {
+      grid-template-columns: 1fr;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    #mainMenu .surah-card {
+      justify-content: center;
+      text-align: center;
+      min-height: 64px;
+      font-size: 18px;
+    }
     .grid-heading {
       grid-column: 1 / -1;
       text-align: center;
@@ -481,6 +492,17 @@
       background: rgba(255,255,255,.48);
       border-radius: 10px;
     }
+    .ayah-en {
+      direction: ltr;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.85;
+      color: #3d3024;
+      padding: 8px 8px;
+      background: rgba(255,255,255,.48);
+      border-radius: 10px;
+    }
     .ayah-bn .meaning { display: block; color: #2a2118; }
     .ayah-uc {
       direction: ltr;
@@ -525,6 +547,7 @@
     .inner.dark-screen .bismillah { color: #93e6d9; }
     .inner.dark-screen .ayah-arabic { color: #f7edd6; }
     .inner.dark-screen .ayah-bn { color: #f0e6d2; background: rgba(0,0,0,.25); }
+    .inner.dark-screen .ayah-en { color: #f0e6d2; background: rgba(0,0,0,.25); }
     .inner.dark-screen .ayah-uc { color: #f0e6d2; background: rgba(0,0,0,.25); }
     .inner.dark-screen .ayah-bn .meaning { color: #f0e6d2; }
     .inner.dark-screen .ayah-mark { color: #f7edd6; }
@@ -600,6 +623,13 @@
 
   <p id="status">সূরা লোড হচ্ছে...</p>
 
+  <div class="surah-grid" id="mainMenu" style="display:grid">
+    <button class="surah-card menu-card" data-mode="website">ওয়েবসাইট</button>
+    <button class="surah-card menu-card" data-mode="arabic">আরবি কুরআন মাজীদ</button>
+    <button class="surah-card menu-card" data-mode="english">আরবি টু ইংলিশ ট্রান্সলেট কুরআন</button>
+    <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
+  </div>
+
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
 
   <div id="toast"></div>
@@ -625,15 +655,16 @@
     const surahSelect = document.getElementById("surahSelect");
     const navName = document.getElementById("navName");
     const surahGrid = document.getElementById("surahGrid");
+    const mainMenu = document.getElementById("mainMenu");
     const desktopBanner = document.getElementById("desktopBanner");
 
     // Settings (advanced tools) toggle
     document.getElementById("btnSettings").addEventListener("click", () => {
       document.getElementById("navTools").classList.toggle("open");
     });
-    // Show the surah list (home) grid
-    document.getElementById("btnHome").addEventListener("click", showGrid);
-    document.getElementById("logo").addEventListener("click", showGrid);
+    // Show the main menu when the nav logo or Sura list button is clicked
+    document.getElementById("btnHome").addEventListener("click", showMainMenu);
+    document.getElementById("logo").addEventListener("click", showMainMenu);
 
     // --- Bookmark ("চিহ্ন") system: remember the last marked ayah in localStorage ---
     const BM_KEY = "quran_bookmark";
@@ -7172,6 +7203,7 @@
     };
 
     let currentSurah = 1;
+    let readingMode = "bangla";
     let arabicSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 34;
     const minSize = 20, maxSize = 60;
     let scrollSpeed = 0;
@@ -7395,8 +7427,12 @@
 
     // Build the surah list (home) grid of buttons
     function buildGrid() {
+      const heading =
+        readingMode === "arabic" ? "আরবি কুরআন মাজীদ" :
+        readingMode === "english" ? "আরবি টু ইংলিশ ট্রান্সলেট কুরআন" :
+        "All Sura";
       surahGrid.innerHTML =
-        `<div class="grid-heading">All Sura</div>` +
+        `<div class="grid-heading">${heading}</div>` +
         SURAH_LIST.map(s => `
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
@@ -7415,11 +7451,42 @@
       stopScroll();
       page.style.display = "none";
       statusEl.style.display = "none";
+      mainMenu.style.display = "none";
+      buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "";
       history.replaceState(null, "", "/");
       window.scrollTo({ top: 0 });
     }
+
+    // Show the main menu (four reading mode buttons)
+    function showMainMenu() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "grid";
+      desktopBanner.style.display = "";
+      history.replaceState(null, "", "/");
+      window.scrollTo({ top: 0 });
+    }
+
+    // Start the selected reading mode (website/full, Arabic-only, English, or Necessary)
+    function startMode(mode) {
+      if (mode === "necessary") {
+        statusEl.textContent = "প্রয়োজনীয় সূরাসমূহ শীঘ্রই যোগ করা হবে।";
+        statusEl.style.display = "block";
+        setTimeout(() => { statusEl.style.display = "none"; }, 3000);
+        return;
+      }
+      readingMode = (mode === "website") ? "bangla" : mode;
+      showGrid();
+    }
+
+    mainMenu.addEventListener("click", (e) => {
+      const card = e.target.closest(".surah-card");
+      if (card) startMode(card.dataset.mode);
+    });
 
     // Handle the browser back/forward buttons between home and surahs
     window.addEventListener("popstate", (e) => {
@@ -7427,7 +7494,7 @@
       if (state && state.surah >= 1 && state.surah <= 114) {
         loadSurah(state.surah);
       } else {
-        showGrid();
+        showMainMenu();
       }
     });
 
@@ -7440,7 +7507,10 @@
 
     function prefetchSurah(n) {
       if (n < 1 || n > 114) return;
-      const url = `https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`;
+      let editions = "quran-uthmani,bn.bengali";
+      if (readingMode === "arabic") editions = "quran-uthmani";
+      if (readingMode === "english") editions = "quran-uthmani,en.sahih";
+      const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
       fetch(url).catch(() => {});
     }
 
@@ -7471,12 +7541,15 @@
       page.style.display = "none";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
       try {
-        const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,bn.bengali`);
+        let editions = "quran-uthmani,bn.bengali";
+        if (readingMode === "arabic") editions = "quran-uthmani";
+        if (readingMode === "english") editions = "quran-uthmani,en.sahih";
+        const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`);
         const json = await res.json();
         if (json.code !== 200) throw new Error("API error");
 
         const arabic = json.data[0];
-        const bangla = json.data[1];
+        const trans = json.data[1] || { ayahs: [] };
         const surah = arabic;
 
         surahTitle.textContent = surah.name;
@@ -7502,10 +7575,16 @@
             a = stripLeadingBismillah(a);
           }
           if (!a) continue;
-          const t = bangla.ayahs[i].text;
           const num = ay.numberInSurah;
-          const uc = (SURAH_UCHARON[n] && i < SURAH_UCHARON[n].length) ? SURAH_UCHARON[n][i] : '';
-          const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : '';
+          const t = trans && trans.ayahs[i] ? trans.ayahs[i].text : "";
+          const uc = (readingMode === "bangla" && SURAH_UCHARON[n] && i < SURAH_UCHARON[n].length) ? SURAH_UCHARON[n][i] : "";
+          const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : "";
+          let translationHtml = "";
+          if (readingMode === "bangla") {
+            translationHtml = `<div class='ayah-bn'><span class='meaning'>${t}</span></div>`;
+          } else if (readingMode === "english") {
+            translationHtml = `<div class='ayah-en'>${t}</div>`;
+          }
           const ruku = ay.ruku;
           const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
           if (isNewRuku) rukuCount++;
@@ -7528,7 +7607,7 @@
             <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
             ${ucHtml}
             ${marksHtml}
-            <div class='ayah-bn'><span class='meaning'>${t}</span></div>
+            ${translationHtml}
           `;
           fragment.appendChild(div);
         }
@@ -7564,7 +7643,7 @@
         if (bm && bm.surah >= 1 && bm.surah <= 114) {
           loadSurah(bm.surah, bm.ayah);
         } else {
-          showGrid();
+          showMainMenu();
         }
       }
     });
