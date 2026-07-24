@@ -213,14 +213,32 @@
     }
     #mainMenu {
       grid-template-columns: 1fr;
-      max-width: 640px;
+      gap: 14px;
+      max-width: 520px;
       margin: 0 auto;
+      padding: 0 12px;
     }
     #mainMenu .surah-card {
       justify-content: center;
+      align-items: center;
       text-align: center;
-      min-height: 64px;
-      font-size: 18px;
+      min-height: 72px;
+      padding: 16px 18px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f2ead2;
+      background: linear-gradient(135deg, rgba(201,162,75,.22), rgba(14,35,33,.45));
+      border: 1px solid rgba(201,162,75,.55);
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.25);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    #mainMenu .surah-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      background: linear-gradient(135deg, rgba(201,162,75,.38), rgba(14,35,33,.55));
+      border-color: var(--gold-2);
+      box-shadow: 0 10px 22px rgba(201,162,75,.35);
     }
     .grid-heading {
       grid-column: 1 / -1;
@@ -624,9 +642,9 @@
   <p id="status">সূরা লোড হচ্ছে...</p>
 
   <div class="surah-grid" id="mainMenu" style="display:grid">
-    <button class="surah-card menu-card" data-mode="website">ওয়েবসাইট</button>
-    <button class="surah-card menu-card" data-mode="arabic">আরবি কুরআন মাজীদ</button>
-    <button class="surah-card menu-card" data-mode="english">আরবি টু ইংলিশ ট্রান্সলেট কুরআন</button>
+    <button class="surah-card menu-card" data-mode="website">Al Quran Bangla and Arabic Quran Majeed</button>
+    <button class="surah-card menu-card" data-mode="arabic">Arabic Quran Majeed</button>
+    <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
   </div>
 
