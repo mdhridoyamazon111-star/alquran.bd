@@ -7591,14 +7591,25 @@
     }
 
     // Handle the browser back/forward buttons between home and surahs
+    // Re-push a home state when the user reaches the first history entry
+    // so the hardware back button in the PWA does not close the app.
     window.addEventListener("popstate", (e) => {
       const state = e.state;
       if (state && state.surah >= 1 && state.surah <= 114) {
         loadSurah(state.surah);
+      } else if (state && state.view === "home") {
+        showMainMenu();
       } else {
+        history.pushState({ view: "home" }, "", "/");
         showMainMenu();
       }
     });
+
+    // Push an initial home entry so the back button has something to pop
+    // instead of exiting the PWA immediately on first press.
+    if (history.length <= 1) {
+      history.pushState({ view: "home" }, "", "/");
+    }
 
     surahSelect.addEventListener("change", () => {
       const n = parseInt(surahSelect.value, 10);
