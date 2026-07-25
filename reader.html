@@ -7478,6 +7478,7 @@
       page.style.display = "none";
       statusEl.style.display = "none";
       mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
       buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "";
@@ -7491,6 +7492,7 @@
       page.style.display = "none";
       statusEl.style.display = "none";
       surahGrid.style.display = "none";
+      necessaryMenu.style.display = "none";
       mainMenu.style.display = "grid";
       desktopBanner.style.display = "";
       history.replaceState(null, "", "/");
@@ -7500,9 +7502,7 @@
     // Start the selected reading mode (website/full, Arabic-only, English, or Necessary)
     function startMode(mode) {
       if (mode === "necessary") {
-        statusEl.textContent = "প্রয়োজনীয় সূরাসমূহ শীঘ্রই যোগ করা হবে।";
-        statusEl.style.display = "block";
-        setTimeout(() => { statusEl.style.display = "none"; }, 3000);
+        showNecessaryMenu();
         return;
       }
       readingMode = (mode === "website") ? "bangla" : mode;
@@ -7513,6 +7513,82 @@
       const card = e.target.closest(".surah-card");
       if (card) startMode(card.dataset.mode);
     });
+
+    necessaryMenu.addEventListener("click", (e) => {
+      const card = e.target.closest(".surah-card");
+      if (card && card.dataset.action === "ayatul-kursi") showAyatulKursi();
+    });
+
+    // Show the necessary-surahs submenu
+    function showNecessaryMenu() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "grid";
+      desktopBanner.style.display = "";
+      history.replaceState(null, "", "/");
+      window.scrollTo({ top: 0 });
+    }
+
+    // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
+    async function showAyatulKursi() {
+      stopScroll();
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      surahGrid.style.display = "none";
+      page.style.display = "none";
+      desktopBanner.style.display = "none";
+      statusEl.style.display = "block";
+      statusEl.textContent = "আয়াতুল কুরসি লোড হচ্ছে...";
+
+      try {
+        const res = await fetch("https://api.alquran.cloud/v1/surah/2/editions/quran-uthmani,bn.bengali");
+        const json = await res.json();
+        if (json.code !== 200) throw new Error("API error");
+
+        const arabic = json.data[0];
+        const trans = json.data[1] || { ayahs: [] };
+        const idx = arabic.ayahs.findIndex(a => a.numberInSurah === 255);
+        if (idx === -1) throw new Error("Ayatul Kursi not found");
+
+        const ay = arabic.ayahs[idx];
+        const a = ay.text.trim();
+        const num = ay.numberInSurah;
+        const t = trans && trans.ayahs[idx] ? trans.ayahs[idx].text : "";
+        const uc = (SURAH_UCHARON[2] && idx < SURAH_UCHARON[2].length) ? SURAH_UCHARON[2][idx] : "";
+        const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : "";
+        const translationHtml = t ? `<div class='ayah-bn'><span class='meaning'>${t}</span></div>` : "";
+
+        const bm = getBookmark();
+        const isBookmarked = (bm && bm.surah === 2 && bm.ayah === num);
+
+        surahTitle.textContent = "আয়াতুল কুরসি";
+        navName.textContent = "আয়াতুল কুরসি";
+        bismillahEl.style.display = "none";
+        currentSurah = 2;
+
+        ayahsEl.innerHTML = "";
+        const div = document.createElement("div");
+        div.className = "ayah-block" + (isBookmarked ? " bookmarked" : "");
+        div.dataset.ayah = num;
+        div.innerHTML = `
+          <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
+          <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
+          ${ucHtml}
+          ${translationHtml}
+        `;
+        ayahsEl.appendChild(div);
+
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "আয়াতুল কুরসি লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।";
+        page.style.display = "none";
+      }
+    }
 
     // Handle the browser back/forward buttons between home and surahs
     window.addEventListener("popstate", (e) => {
