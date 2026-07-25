@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v68";
+const CACHE = "alquran-v69";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
