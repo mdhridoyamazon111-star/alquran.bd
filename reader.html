@@ -646,6 +646,7 @@
     <button class="surah-card menu-card" data-mode="arabic">Arabic Quran Majeed</button>
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
+    <button class="surah-card menu-card" data-mode="nurani">বাংলা নূরানি কাইদা</button>
   </div>
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
@@ -7499,8 +7500,14 @@
       window.scrollTo({ top: 0 });
     }
 
-    // Start the selected reading mode (website/full, Arabic-only, English, or Necessary)
+    // Start the selected reading mode (website/full, Arabic-only, English, Necessary, or Nurani Qaida)
     function startMode(mode) {
+      if (mode === "nurani") {
+        const pdfUrl = "https://elmulquran.org/ebooks/Noorani_Kaida_Nadiatul.pdf";
+        const win = window.open(pdfUrl, "_blank");
+        if (!win) location.href = pdfUrl;
+        return;
+      }
       if (mode === "necessary") {
         showNecessaryMenu();
         return;
