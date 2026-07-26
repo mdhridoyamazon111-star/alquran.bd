@@ -392,7 +392,7 @@
       max-width: none;
       height: clamp(48px, 7vw, 90px);
       background: url("images/Sura.jpg") center/100% 100% no-repeat;
-      color: #0c2321;
+      color: #000;
       border: none;
     }
     /* Text sits in the image's empty center; names shown in full */
@@ -410,17 +410,19 @@
     }
     .surah-title .st-left {
       font-family: "Noto Sans Bengali", serif;
-      font-weight: 700;
-      font-size: clamp(12px, 2.4vw, 18px);
+      font-weight: 800;
+      font-size: clamp(13px, 2.6vw, 18px);
       line-height: 1.1;
       white-space: nowrap;
+      color: #000;
     }
     .surah-title .st-right {
       font-family: "Scheherazade New", "Amiri", serif;
-      font-weight: 700;
-      font-size: clamp(14px, 2.8vw, 20px);
+      font-weight: 800;
+      font-size: clamp(15px, 3vw, 20px);
       line-height: 1.1;
       white-space: nowrap;
+      color: #000;
     }
     /* Wrapper so the info line can sit inside the image on desktop */
     .surah-head { position: relative; }
@@ -429,21 +431,22 @@
       direction: ltr;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       gap: 6px 14px;
       margin: 4px 10px 16px;
       padding: 7px 12px;
-      border: 1px solid rgba(201,162,75,.4);
+      border: 1px solid rgba(0,0,0,.25);
       border-radius: 10px;
-      background: rgba(201,162,75,.08);
-      color: #f2ead2;
+      background: rgba(255,255,255,.65);
+      color: #000;
       font-family: "Noto Sans Bengali", sans-serif;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 700;
     }
     .surah-info:empty { display: none; }
     .surah-info span { display: inline-flex; align-items: center; gap: 5px; }
-    .surah-info strong { color: var(--teal); font-weight: 700; }
+    .surah-info strong { color: #0a5c50; font-weight: 800; }
     /* DESKTOP: lift the info line inside the image, under the names */
     @media (min-width: 768px) {
       .surah-title { height: 104px; }
