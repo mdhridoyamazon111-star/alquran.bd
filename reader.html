@@ -422,6 +422,49 @@
       line-height: 1.1;
       white-space: nowrap;
     }
+    /* Wrapper so the info line can sit inside the image on desktop */
+    .surah-head { position: relative; }
+    /* Surah info (number / ayah / ruku / sejda): MOBILE default -> below image */
+    .surah-info {
+      direction: ltr;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px 14px;
+      margin: 4px 10px 16px;
+      padding: 7px 12px;
+      border: 1px solid rgba(201,162,75,.4);
+      border-radius: 10px;
+      background: rgba(201,162,75,.08);
+      color: #f2ead2;
+      font-family: "Noto Sans Bengali", sans-serif;
+      font-size: 13px;
+    }
+    .surah-info:empty { display: none; }
+    .surah-info span { display: inline-flex; align-items: center; gap: 5px; }
+    .surah-info strong { color: var(--teal); font-weight: 700; }
+    /* DESKTOP: lift the info line inside the image, under the names */
+    @media (min-width: 768px) {
+      .surah-title { height: 104px; }
+      .surah-title .st-inner { top: 20px; bottom: auto; height: 34px; left: 22%; right: 22%; }
+      .surah-info {
+        position: absolute;
+        left: 20%;
+        right: 20%;
+        top: 58px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #0c2321;
+        font-size: 12.5px;
+        font-weight: 700;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+      }
+      .surah-info strong { color: #0a5c50; }
+    }
     .info-banner {
       direction: ltr;
       display: flex;
@@ -684,7 +727,10 @@
   <div class="page" id="page" style="display:none">
     <div class="frame">
       <div class="inner">
-        <div class="surah-title" id="surahTitle">سُورَة</div>
+        <div class="surah-head">
+          <div class="surah-title" id="surahTitle">سُورَة</div>
+          <div class="surah-info" id="surahInfo"></div>
+        </div>
 
         <div class="bismillah" id="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
 
@@ -697,6 +743,7 @@
     const page = document.getElementById("page");
     const statusEl = document.getElementById("status");
     const surahTitle = document.getElementById("surahTitle");
+    const surahInfo = document.getElementById("surahInfo");
     const ayahsEl = document.getElementById("ayahs");
     const bismillahEl = document.getElementById("bismillah");
     const surahSelect = document.getElementById("surahSelect");
@@ -7596,6 +7643,7 @@
         const isBookmarked = (bm && bm.surah === 2 && bm.ayah === num);
 
         surahTitle.textContent = "আয়াতুল কুরসি";
+        surahInfo.innerHTML = "";
         navName.textContent = "আয়াতুল কুরসি";
         bismillahEl.style.display = "none";
         currentSurah = 2;
@@ -7763,6 +7811,12 @@
           fragment.appendChild(div);
         }
         ayahsEl.appendChild(fragment);
+        surahInfo.innerHTML =
+          `<span>সূরা <strong>${toArabicNum(n)}</strong></span>` +
+          `<span>আয়াত <strong>${toArabicNum(surah.numberOfAyahs)}</strong></span>` +
+          `<span>রুকু <strong>${toArabicNum(rukuCount)}</strong></span>` +
+          `<span>সেজদা <strong>${toArabicNum(sajdaCount)}</strong></span>` +
+          `<span><strong>${type}</strong></span>`;
         applyBookmarkHighlight(n);
         if (scrollToAyah) {
           const target = ayahsEl.querySelector(`.ayah-block[data-ayah="${scrollToAyah}"]`);
