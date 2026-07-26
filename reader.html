@@ -762,7 +762,6 @@
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
     <button class="surah-card menu-card" data-mode="nurani">বাংলা নূরানি কাইদা</button>
-    <button class="surah-card menu-card" id="btnOffline" data-mode="offline">📥 অফলাইনের জন্য ডাউনলোড</button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -7645,16 +7644,12 @@
         showNecessaryMenu();
         return;
       }
-      if (mode === "offline") {
-        downloadAllOffline();
-        return;
-      }
       readingMode = (mode === "website") ? "bangla" : mode;
       showGrid();
     }
 
     // ---- Full offline download: cache all 114 surahs in every edition ----
-    const btnOffline = document.getElementById("btnOffline");
+    // Triggered automatically when the user installs the app (App Install button).
     const offlineProgress = document.getElementById("offlineProgress");
     const offlineLabel = document.getElementById("offlineLabel");
     const offlineFill = document.getElementById("offlineFill");
@@ -7667,24 +7662,17 @@
 
     function markOfflineDone() {
       localStorage.setItem("offlineReady", "1");
-      btnOffline.classList.add("done");
-      btnOffline.textContent = "✅ অফলাইনে সংরক্ষিত";
     }
-
-    if (localStorage.getItem("offlineReady") === "1") markOfflineDone();
 
     offlineCancel.addEventListener("click", () => { offlineCancelled = true; });
 
     async function downloadAllOffline() {
       if (offlineDownloading) return;
-      if (!navigator.onLine) {
-        alert("ডাউনলোড করতে ইন্টারনেট সংযোগ প্রয়োজন।");
-        return;
-      }
+      if (localStorage.getItem("offlineReady") === "1") return;
+      if (!navigator.onLine) return;
       offlineDownloading = true;
       offlineCancelled = false;
       offlineProgress.style.display = "block";
-      btnOffline.disabled = true;
 
       const urls = [];
       for (let n = 1; n <= 114; n++) {
@@ -7724,7 +7712,6 @@
       await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
       offlineDownloading = false;
-      btnOffline.disabled = false;
 
       if (offlineCancelled) {
         offlineLabel.textContent = "ডাউনলোড বাতিল করা হয়েছে।";
@@ -8044,15 +8031,23 @@
       btnInstall.style.display = "inline-flex";
     });
     btnInstall.addEventListener("click", async () => {
-      if (!deferredPrompt) return;
+      if (!deferredPrompt) {
+        // No install prompt available (already installed or unsupported):
+        // still let the user download everything for offline use.
+        downloadAllOffline();
+        return;
+      }
       deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
+      const choice = await deferredPrompt.userChoice;
       deferredPrompt = null;
       btnInstall.style.display = "none";
+      if (choice && choice.outcome === "accepted") downloadAllOffline();
     });
     window.addEventListener("appinstalled", () => {
       deferredPrompt = null;
       btnInstall.style.display = "none";
+      // Ensure the full Quran is cached for offline use after install.
+      downloadAllOffline();
     });
   </script>
 </body>
