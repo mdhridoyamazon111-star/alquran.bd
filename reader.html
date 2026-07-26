@@ -385,11 +385,8 @@
 
     /* ---------- Surah title & info ---------- */
     .surah-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8%;
-      text-align: center;
+      position: relative;
+      display: block;
       margin: 4px auto 14px;
       width: 100%;
       max-width: 520px;
@@ -397,18 +394,33 @@
       background: url("images/Sura.jpg") center/100% 100% no-repeat;
       color: #0c2321;
       border: none;
-      padding: 0 4%;
+    }
+    /* Text is confined to the image's empty center (~38%–62% width) */
+    .surah-title .st-inner {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 37%;
+      right: 37%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
     }
     .surah-title .st-left {
       font-family: "Noto Sans Bengali", serif;
       font-weight: 700;
-      font-size: clamp(14px, 3.2vw, 20px);
+      font-size: clamp(11px, 2.2vw, 16px);
+      line-height: 1.1;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .surah-title .st-right {
       font-family: "Scheherazade New", "Amiri", serif;
       font-weight: 700;
-      font-size: clamp(16px, 3.6vw, 24px);
+      font-size: clamp(13px, 2.6vw, 19px);
+      line-height: 1.1;
       white-space: nowrap;
     }
     .info-banner {
@@ -7691,7 +7703,7 @@
             ? (info.englishName || surah.englishName)
             : (info.bnName || surah.englishName);
           surahTitle.innerHTML =
-            `<span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span>`;
+            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>`;
         }
         navName.textContent = `${surah.number}. ${surah.englishName}`;
 
