@@ -1,12 +1,13 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v86";
+const CACHE = "alquran-v87";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
 // because missing files would break offline caching of the HTML shell.
 const APP_SHELL = [
   "./",                // Cloudflare Pages rewrites / to reader.html
+  "./reader.html",     // cache the real HTML directly (redirect-free copy)
   "./manifest.webmanifest"
 ];
 const API_LIST = "https://api.alquran.cloud/v1/surah";
@@ -40,9 +41,32 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Return the cached app shell as a clean (non-redirected) HTML response.
+// Tries several cache keys so it works regardless of how the page was cached.
+async function serveOfflineShell() {
+  const cache = await caches.open(CACHE);
+  const candidates = ["./reader.html", "./", "/", "/reader.html"];
+  for (const key of candidates) {
+    const hit = await cache.match(key);
+    if (hit) {
+      // Rebuild the response so a redirected/opaque flag can't break navigation.
+      const body = await hit.blob();
+      return new Response(body, {
+        status: 200,
+        statusText: "OK",
+        headers: { "Content-Type": "text/html; charset=utf-8" }
+      });
+    }
+  }
+  return new Response(
+    "<h1>অফলাইন</h1><p>একবার ইন্টারনেট সংযোগ দিয়ে অ্যাপটি খুলুন, তারপর অফলাইনে কাজ করবে।</p>",
+    { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } }
+  );
+}
+
 // Fetch strategy:
-// - Quran API calls (alquran.cloud): network-first, fall back to cache when offline.
-// - Page navigations (reader.html, root, etc.): network-first, then cache, then offline page.
+// - Quran API calls (alquran.cloud): cache-first, fall back to network.
+// - Page navigations (reader.html, root, etc.): network-first, then cached shell.
 // - Everything else (app shell, fonts): cache-first, fall back to network.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
@@ -69,7 +93,10 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Page navigations: always try network first so we never serve a stale/broken HTML.
+  // Page navigations: network-first, then fall back to the cached app shell.
+  // IMPORTANT: a *redirected* response cannot be returned to a navigation
+  // request (the browser rejects it -> ERR_FAILED). So when serving from
+  // cache offline we rebuild a clean, non-redirected Response.
   if (isPage) {
     event.respondWith(
       Promise.race([
@@ -78,23 +105,16 @@ self.addEventListener("fetch", (event) => {
       ])
         .then((res) => {
           if (res && res.status === 200) {
+            // Cache a clean copy keyed to the reusable shell URLs.
             const copy = res.clone();
-            caches.open(CACHE).then((cache) => cache.put(req, copy));
+            caches.open(CACHE).then((cache) => {
+              cache.put("./reader.html", copy.clone());
+              cache.put("./", copy);
+            });
           }
           return res;
         })
-        .catch(() => {
-          const matches = [req.url, './', '/', new Request('./'), new Request('/')];
-          return matches.reduce(
-            (p, url) => p.then((r) => r || caches.match(url)),
-            Promise.resolve(null)
-          ).then(
-            (r) => r || new Response('<h1>Offline</h1><p>Please check your connection and try again.</p>', {
-              status: 200,
-              headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            })
-          );
-        })
+        .catch(() => serveOfflineShell())
     );
     return;
   }
