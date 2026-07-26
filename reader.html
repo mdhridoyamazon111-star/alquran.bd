@@ -253,40 +253,57 @@
       flex-direction: row;
       flex-wrap: nowrap;
       align-items: center;
-      justify-content: space-between;
       gap: 6px;
-      margin: 5px 5px 0 0;
-      background: url("images/Sura.jpg") center/100% 100% no-repeat;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
+      border: 1px solid rgba(201,162,75,.40);
+      border-radius: 10px;
+      padding: 8px;
       cursor: pointer;
-      color: #0c2321;
+      color: #f2ead2;
       text-align: left;
       font-family: "Noto Sans Bengali", sans-serif;
       overflow: hidden;
-      transition: transform .15s ease, box-shadow .15s ease;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
     }
     .surah-card:hover {
       transform: translateY(-2px);
+      border-color: var(--gold-2);
+      background: linear-gradient(180deg, rgba(230,197,110,.22), rgba(201,162,75,.16));
       box-shadow: 0 6px 16px rgba(201,162,75,.30);
+    }
+    .surah-card .no {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      color: #0c2321;
+      font-weight: 800;
+      font-family: "Scheherazade New", serif;
+      font-size: 14px;
     }
     .surah-card .bn {
       flex: 1 1 auto;
       min-width: 0;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.2;
-      color: #0c2321;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .surah-card .en {
+      flex: 0 0 auto;
+      font-size: 14px;
+      color: #e9d9b0;
+      white-space: nowrap;
+    }
     .surah-card .ar {
       flex: 0 0 auto;
       font-family: "Scheherazade New", "Amiri", serif;
-      color: #0c2321;
-      font-weight: 700;
+      color: var(--gold-1);
       font-size: 18px;
       white-space: nowrap;
       margin-left: auto;
@@ -368,18 +385,31 @@
 
     /* ---------- Surah title & info ---------- */
     .surah-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8%;
       text-align: center;
       margin: 4px auto 14px;
-      max-width: 360px;
-      background: linear-gradient(180deg, var(--teal-2), var(--teal));
-      color: #fdf6e3;
-      border: 2px solid var(--gold-1);
-      border-radius: 40px / 30px;
-      padding: 8px 10px;
-      font-family: "Reem Kufi", "Amiri", serif;
-      font-size: 26px;
-      letter-spacing: .5px;
-      box-shadow: inset 0 0 0 3px rgba(253,246,227,.25);
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 1024 / 165;
+      background: url("images/Sura.jpg") center/100% 100% no-repeat;
+      color: #0c2321;
+      border: none;
+      padding: 0 4%;
+    }
+    .surah-title .st-left {
+      font-family: "Noto Sans Bengali", serif;
+      font-weight: 700;
+      font-size: clamp(14px, 3.2vw, 20px);
+      white-space: nowrap;
+    }
+    .surah-title .st-right {
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-weight: 700;
+      font-size: clamp(16px, 3.6vw, 24px);
+      white-space: nowrap;
     }
     .info-banner {
       direction: ltr;
@@ -542,7 +572,7 @@
 
     /* Dark-screen text overrides */
     .inner.dark-screen { color: #f7edd6; }
-    .inner.dark-screen .surah-title { color: #fdf6e3; }
+    .inner.dark-screen .surah-title { color: #0c2321; }
     .inner.dark-screen .info-banner { color: #e8dbc0; border-color: rgba(247,237,214,.5); background: rgba(0,0,0,.25); }
     .inner.dark-screen .info-banner strong { color: #93e6d9; }
     .inner.dark-screen .bismillah { color: #93e6d9; }
@@ -7441,10 +7471,12 @@
       surahGrid.innerHTML =
         `<div class="grid-heading">${heading}</div>` +
         SURAH_LIST.map(s => {
-          const leftName = readingMode === "english" ? s.englishName : s.bnName;
+          const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
           return `
           <button class="surah-card" data-n="${s.number}">
-            <span class="bn">${leftName}</span>
+            <span class="no">${toArabicNum(s.number)}</span>
+            <span class="en">${s.number}. ${s.englishName}</span>
+            ${bn}
             <span class="ar">${s.arName}</span>
           </button>`;
         }).join("");
@@ -7653,7 +7685,14 @@
         const trans = json.data[1] || { ayahs: [] };
         const surah = arabic;
 
-        surahTitle.textContent = surah.name;
+        {
+          const info = SURAH_LIST.find(x => x.number === n) || {};
+          const leftName = readingMode === "english"
+            ? (info.englishName || surah.englishName)
+            : (info.bnName || surah.englishName);
+          surahTitle.innerHTML =
+            `<span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span>`;
+        }
         navName.textContent = `${surah.number}. ${surah.englishName}`;
 
         const type = surah.revelationType === "Medinan" ? "মাদানি" : "মাক্কি";
