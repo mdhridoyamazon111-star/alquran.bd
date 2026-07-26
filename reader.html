@@ -308,6 +308,9 @@
       white-space: nowrap;
       margin-left: auto;
     }
+    /* Arabic-to-English mode: larger English + Arabic fonts on all devices */
+    .surah-grid.english-mode .surah-card .en { font-size: 19px; font-weight: 700; }
+    .surah-grid.english-mode .surah-card .ar { font-size: 26px; }
 
     /* ---------- Loading / error ---------- */
     #status {
@@ -7529,8 +7532,9 @@
     function buildGrid() {
       const heading =
         readingMode === "arabic" ? "আরবি কুরআন মাজীদ" :
-        readingMode === "english" ? "আরবি টু ইংলিশ ট্রান্সলেট কুরআন" :
+        readingMode === "english" ? "Arabic to English Translate Quran" :
         "All Sura";
+      surahGrid.classList.toggle("english-mode", readingMode === "english");
       surahGrid.innerHTML =
         `<div class="grid-heading">${heading}</div>` +
         SURAH_LIST.map(s => {
