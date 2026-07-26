@@ -387,39 +387,37 @@
     .surah-title {
       position: relative;
       display: block;
-      margin: 4px auto 14px;
-      width: 100%;
-      max-width: 520px;
+      margin: 4px 10px 14px;
+      width: auto;
+      max-width: none;
       aspect-ratio: 1024 / 165;
       background: url("images/Sura.jpg") center/100% 100% no-repeat;
       color: #0c2321;
       border: none;
     }
-    /* Text is confined to the image's empty center (~38%–62% width) */
+    /* Text sits in the image's empty center; names shown in full */
     .surah-title .st-inner {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 37%;
-      right: 37%;
+      left: 30%;
+      right: 30%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      gap: 10px;
     }
     .surah-title .st-left {
       font-family: "Noto Sans Bengali", serif;
       font-weight: 700;
-      font-size: clamp(11px, 2.2vw, 16px);
+      font-size: clamp(12px, 2.4vw, 18px);
       line-height: 1.1;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .surah-title .st-right {
       font-family: "Scheherazade New", "Amiri", serif;
       font-weight: 700;
-      font-size: clamp(13px, 2.6vw, 19px);
+      font-size: clamp(14px, 2.8vw, 20px);
       line-height: 1.1;
       white-space: nowrap;
     }
