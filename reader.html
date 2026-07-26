@@ -390,13 +390,14 @@
       margin: 4px 10px 14px;
       width: auto;
       max-width: none;
-      aspect-ratio: 1024 / 165;
+      height: clamp(48px, 7vw, 90px);
       background: url("images/Sura.jpg") center/100% 100% no-repeat;
       color: #0c2321;
       border: none;
     }
     /* Text sits in the image's empty center; names shown in full */
     .surah-title .st-inner {
+      direction: ltr;
       position: absolute;
       top: 0;
       bottom: 0;
