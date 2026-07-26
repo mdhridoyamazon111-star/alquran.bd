@@ -7553,8 +7553,8 @@
       if (card) loadSurah(parseInt(card.dataset.n, 10), undefined, true);
     });
 
-    // Show the surah grid (home) and hide the reader
-    function showGrid() {
+    // Render the surah grid (list of 114) without touching history
+    function renderGrid() {
       stopScroll();
       page.style.display = "none";
       statusEl.style.display = "none";
@@ -7563,8 +7563,14 @@
       buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "";
-      history.replaceState(null, "", "/");
       window.scrollTo({ top: 0 });
+    }
+
+    // Show the surah grid and push a history entry so the back button
+    // returns here (the surah list) before going to the home menu.
+    function showGrid() {
+      renderGrid();
+      history.pushState({ view: "grid", mode: readingMode }, "", "/");
     }
 
     // Show the main menu (four reading mode buttons)
@@ -7576,7 +7582,7 @@
       necessaryMenu.style.display = "none";
       mainMenu.style.display = "grid";
       desktopBanner.style.display = "";
-      history.replaceState(null, "", "/");
+      history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
     }
 
@@ -7685,6 +7691,9 @@
       const state = e.state;
       if (state && state.surah >= 1 && state.surah <= 114) {
         loadSurah(state.surah);
+      } else if (state && state.view === "grid") {
+        if (state.mode) readingMode = state.mode;
+        renderGrid();
       } else if (state && state.view === "home") {
         showMainMenu();
       } else {
