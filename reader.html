@@ -240,6 +240,46 @@
       border-color: var(--gold-2);
       box-shadow: 0 10px 22px rgba(201,162,75,.35);
     }
+    #btnOffline.done {
+      background: linear-gradient(135deg, rgba(46,160,110,.30), rgba(14,35,33,.55));
+      border-color: #2ea06e;
+    }
+    #offlineProgress {
+      max-width: 640px;
+      margin: 10px auto;
+      padding: 14px 16px;
+      text-align: center;
+      color: #f2ead2;
+      background: linear-gradient(135deg, rgba(201,162,75,.15), rgba(14,35,33,.45));
+      border: 1px solid rgba(201,162,75,.45);
+      border-radius: 14px;
+    }
+    .offline-label { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .offline-bar {
+      height: 14px;
+      width: 100%;
+      background: rgba(0,0,0,.30);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(201,162,75,.35);
+    }
+    .offline-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+      transition: width .2s ease;
+    }
+    .offline-cancel {
+      margin-top: 10px;
+      padding: 8px 18px;
+      font-size: 14px;
+      color: #f2ead2;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(201,162,75,.45);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .offline-cancel:hover { border-color: var(--gold-2); }
     .grid-heading {
       grid-column: 1 / -1;
       text-align: center;
@@ -722,6 +762,13 @@
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
     <button class="surah-card menu-card" data-mode="nurani">বাংলা নূরানি কাইদা</button>
+    <button class="surah-card menu-card" id="btnOffline" data-mode="offline">📥 অফলাইনের জন্য ডাউনলোড</button>
+  </div>
+
+  <div id="offlineProgress" style="display:none">
+    <div class="offline-label" id="offlineLabel">ডাউনলোড হচ্ছে...</div>
+    <div class="offline-bar"><div class="offline-fill" id="offlineFill"></div></div>
+    <button class="offline-cancel" id="offlineCancel">বাতিল করুন</button>
   </div>
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
@@ -7598,8 +7645,100 @@
         showNecessaryMenu();
         return;
       }
+      if (mode === "offline") {
+        downloadAllOffline();
+        return;
+      }
       readingMode = (mode === "website") ? "bangla" : mode;
       showGrid();
+    }
+
+    // ---- Full offline download: cache all 114 surahs in every edition ----
+    const btnOffline = document.getElementById("btnOffline");
+    const offlineProgress = document.getElementById("offlineProgress");
+    const offlineLabel = document.getElementById("offlineLabel");
+    const offlineFill = document.getElementById("offlineFill");
+    const offlineCancel = document.getElementById("offlineCancel");
+    let offlineDownloading = false;
+    let offlineCancelled = false;
+
+    // Editions needed so every reading mode works offline.
+    const OFFLINE_EDITIONS = ["quran-uthmani,bn.bengali", "quran-uthmani", "quran-uthmani,en.sahih"];
+
+    function markOfflineDone() {
+      localStorage.setItem("offlineReady", "1");
+      btnOffline.classList.add("done");
+      btnOffline.textContent = "✅ অফলাইনে সংরক্ষিত";
+    }
+
+    if (localStorage.getItem("offlineReady") === "1") markOfflineDone();
+
+    offlineCancel.addEventListener("click", () => { offlineCancelled = true; });
+
+    async function downloadAllOffline() {
+      if (offlineDownloading) return;
+      if (!navigator.onLine) {
+        alert("ডাউনলোড করতে ইন্টারনেট সংযোগ প্রয়োজন।");
+        return;
+      }
+      offlineDownloading = true;
+      offlineCancelled = false;
+      offlineProgress.style.display = "block";
+      btnOffline.disabled = true;
+
+      const urls = [];
+      for (let n = 1; n <= 114; n++) {
+        for (const ed of OFFLINE_EDITIONS) {
+          urls.push(`https://api.alquran.cloud/v1/surah/${n}/editions/${ed}`);
+        }
+      }
+      urls.push("https://api.alquran.cloud/v1/surah");
+
+      const total = urls.length;
+      let done = 0;
+      let failed = 0;
+
+      const updateBar = () => {
+        const pct = Math.round((done / total) * 100);
+        offlineFill.style.width = pct + "%";
+        offlineLabel.textContent = `ডাউনলোড হচ্ছে... ${pct}% (${done}/${total})`;
+      };
+      updateBar();
+
+      // Fetch with limited concurrency so we don't overwhelm the network.
+      const CONCURRENCY = 6;
+      let cursor = 0;
+      async function worker() {
+        while (cursor < urls.length && !offlineCancelled) {
+          const url = urls[cursor++];
+          try {
+            const res = await fetch(url, { cache: "reload" });
+            if (!res || res.status !== 200) failed++;
+          } catch (e) {
+            failed++;
+          }
+          done++;
+          updateBar();
+        }
+      }
+      await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+
+      offlineDownloading = false;
+      btnOffline.disabled = false;
+
+      if (offlineCancelled) {
+        offlineLabel.textContent = "ডাউনলোড বাতিল করা হয়েছে।";
+        setTimeout(() => { offlineProgress.style.display = "none"; }, 1500);
+        return;
+      }
+
+      if (failed === 0) {
+        offlineLabel.textContent = "✅ সম্পূর্ণ! এখন ইন্টারনেট ছাড়াই পুরো কুরআন পড়া যাবে।";
+        markOfflineDone();
+      } else {
+        offlineLabel.textContent = `সম্পন্ন, তবে ${failed}টি অংশ ডাউনলোড হয়নি। আবার চেষ্টা করুন।`;
+      }
+      setTimeout(() => { offlineProgress.style.display = "none"; }, 2500);
     }
 
     mainMenu.addEventListener("click", (e) => {
