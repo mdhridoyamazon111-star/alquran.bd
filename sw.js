@@ -1,6 +1,11 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v88";
+const CACHE = "alquran-v90";
+
+// PERSISTENT data cache for downloaded Quran (API) responses.
+// This name is NEVER version-bumped, so bumping CACHE (the app shell) will
+// NOT wipe surahs the user already downloaded for offline use.
+const DATA_CACHE = "alquran-data";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
@@ -23,9 +28,13 @@ self.addEventListener("install", (event) => {
       .then((cache) =>
         Promise.allSettled([
           ...APP_SHELL.map((url) => cache.add(url)),
+          // Prime the surah list into the persistent data cache.
           fetch(API_LIST)
             .then((res) => {
-              if (res && res.status === 200) cache.put(API_LIST, res.clone());
+              if (res && res.status === 200) {
+                const copy = res.clone();
+                caches.open(DATA_CACHE).then((dc) => dc.put(API_LIST, copy));
+              }
             })
             .catch(() => {})
         ])
@@ -34,11 +43,13 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate: remove old caches.
+// Activate: remove old app-shell caches, but ALWAYS keep the persistent
+// data cache so downloaded surahs survive every version bump.
 self.addEventListener("activate", (event) => {
+  const keep = [CACHE, DATA_CACHE];
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => !keep.includes(k)).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
@@ -79,6 +90,8 @@ self.addEventListener("fetch", (event) => {
   const isPage = req.mode === 'navigate' || req.destination === 'document';
 
   // Quran API: cache-first so switching surahs is instant after first load.
+  // Responses go into the PERSISTENT data cache (survives version bumps).
+  // caches.match() searches every cache, so it also finds page-downloaded data.
   if (isApi) {
     event.respondWith(
       caches.match(req).then((cached) => {
@@ -86,7 +99,7 @@ self.addEventListener("fetch", (event) => {
         return fetch(req).then((res) => {
           if (res && res.status === 200) {
             const copy = res.clone();
-            caches.open(CACHE).then((cache) => cache.put(req, copy));
+            caches.open(DATA_CACHE).then((cache) => cache.put(req, copy));
           }
           return res;
         });

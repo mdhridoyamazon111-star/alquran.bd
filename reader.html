@@ -258,6 +258,8 @@
     .offline-bar {
       height: 14px;
       width: 100%;
+      direction: ltr;
+      text-align: left;
       background: rgba(0,0,0,.30);
       border-radius: 8px;
       overflow: hidden;
@@ -7660,6 +7662,10 @@
     // Editions needed so every reading mode works offline.
     const OFFLINE_EDITIONS = ["quran-uthmani,bn.bengali", "quran-uthmani", "quran-uthmani,en.sahih"];
 
+    // Persistent cache name — MUST match DATA_CACHE in sw.js. Downloaded data
+    // lives here and is NEVER wiped by app-shell version bumps.
+    const DATA_CACHE = "alquran-data";
+
     function markOfflineDone() {
       localStorage.setItem("offlineReady", "1");
     }
@@ -7668,8 +7674,19 @@
 
     async function downloadAllOffline() {
       if (offlineDownloading) return;
-      if (localStorage.getItem("offlineReady") === "1") return;
       if (!navigator.onLine) return;
+      // If marked ready, verify the data is actually still cached. Older app
+      // versions could wipe it on a cache bump, so re-download if it's gone.
+      if (localStorage.getItem("offlineReady") === "1") {
+        try {
+          const dc = await caches.open(DATA_CACHE);
+          const probe = await dc.match("https://api.alquran.cloud/v1/surah/114/editions/quran-uthmani,bn.bengali");
+          if (probe) return;               // data genuinely present -> nothing to do
+          localStorage.removeItem("offlineReady");  // data lost -> allow re-download
+        } catch (e) {
+          localStorage.removeItem("offlineReady");
+        }
+      }
       offlineDownloading = true;
       offlineCancelled = false;
       offlineProgress.style.display = "block";
@@ -7696,12 +7713,20 @@
       // Fetch with limited concurrency so we don't overwhelm the network.
       const CONCURRENCY = 6;
       let cursor = 0;
+      // Store every response directly into the persistent data cache and AWAIT
+      // the write, so "100%" means the data is truly saved (quota errors count
+      // as failures instead of being silently ignored).
+      const dataCache = await caches.open(DATA_CACHE);
       async function worker() {
         while (cursor < urls.length && !offlineCancelled) {
           const url = urls[cursor++];
           try {
             const res = await fetch(url, { cache: "reload" });
-            if (!res || res.status !== 200) failed++;
+            if (res && res.status === 200) {
+              await dataCache.put(url, res.clone());
+            } else {
+              failed++;
+            }
           } catch (e) {
             failed++;
           }
@@ -7723,7 +7748,7 @@
         offlineLabel.textContent = "✅ সম্পূর্ণ! এখন ইন্টারনেট ছাড়াই পুরো কুরআন পড়া যাবে।";
         markOfflineDone();
       } else {
-        offlineLabel.textContent = `সম্পন্ন, তবে ${failed}টি অংশ ডাউনলোড হয়নি। আবার চেষ্টা করুন।`;
+        offlineLabel.textContent = `সম্পন্ন, তবে ${failed}টি অংশ সেভ হয়নি। আবার App Install-এ চাপ দিয়ে চেষ্টা করুন।`;
       }
       setTimeout(() => { offlineProgress.style.display = "none"; }, 2500);
     }
