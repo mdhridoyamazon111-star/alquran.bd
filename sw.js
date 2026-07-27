@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v87";
+const CACHE = "alquran-v88";
 
 // App shell files that make the app work offline (the UI itself).
 // Only list assets that exist in the repo. Icons are not pre-cached here
@@ -8,7 +8,9 @@ const CACHE = "alquran-v87";
 const APP_SHELL = [
   "./",                // Cloudflare Pages rewrites / to reader.html
   "./reader.html",     // cache the real HTML directly (redirect-free copy)
-  "./manifest.webmanifest"
+  "./manifest.webmanifest",
+  "./images/Sura.jpg", // surah-name banner shown on every surah page
+  "./images/banner.jpg"
 ];
 const API_LIST = "https://api.alquran.cloud/v1/surah";
 
