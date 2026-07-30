@@ -127,6 +127,10 @@
     }
     .top-nav select option { background: #0c2321; color: #e9f2ef; }
     .top-nav input[type="number"] { width: 56px; cursor: text; }
+    @media (max-width: 767px) {
+      body.home { padding-top: 0; }
+      body.home .top-nav { display: none; }
+    }
     .top-nav .nav-name {
       color: #0c2321;
       background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
@@ -143,7 +147,7 @@
       display: block;
       width: 100%;
       max-width: 100%;
-      height: 180px;
+      height: 165px;
       margin: 10px auto 8px;
       border: 1px solid rgba(255,255,255,.25);
       border-radius: 12px;
@@ -180,10 +184,10 @@
       -webkit-filter: blur(3px);
     }
     @media (min-width: 768px) {
-      .desktop-banner { height: 240px; }
+      .desktop-banner { height: 225px; }
     }
     @media (min-width: 1024px) {
-      .desktop-banner { height: 300px; }
+      .desktop-banner { height: 285px; }
     }
 
     /* Collapsible advanced tools (Font, Speed, Screen color) */
@@ -7612,6 +7616,7 @@
       statusEl.style.display = "none";
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
+      document.body.classList.remove("home");
       buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "";
@@ -7633,6 +7638,7 @@
       surahGrid.style.display = "none";
       necessaryMenu.style.display = "none";
       mainMenu.style.display = "grid";
+      document.body.classList.add("home");
       desktopBanner.style.display = "";
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
@@ -7769,6 +7775,7 @@
       surahGrid.style.display = "none";
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "grid";
+      document.body.classList.remove("home");
       desktopBanner.style.display = "";
       history.replaceState(null, "", "/");
       window.scrollTo({ top: 0 });
@@ -7777,6 +7784,7 @@
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
     async function showAyatulKursi() {
       stopScroll();
+      document.body.classList.remove("home");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
@@ -7894,6 +7902,7 @@
       }
       stopScroll();
       setInputs(n, push);
+      document.body.classList.remove("home");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
