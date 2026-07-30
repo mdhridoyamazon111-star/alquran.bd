@@ -449,17 +449,17 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 30%;
-      right: 30%;
+      left: 16%;
+      right: 16%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 6px;
     }
     .surah-title .st-left {
       font-family: "Noto Sans Bengali", serif;
       font-weight: 800;
-      font-size: clamp(13px, 2.6vw, 18px);
+      font-size: clamp(11px, 3.6vw, 15px);
       line-height: 1.1;
       white-space: nowrap;
       color: #000;
@@ -467,7 +467,7 @@
     .surah-title .st-right {
       font-family: "Scheherazade New", "Amiri", serif;
       font-weight: 800;
-      font-size: clamp(15px, 3vw, 20px);
+      font-size: clamp(13px, 4.2vw, 17px);
       line-height: 1.1;
       white-space: nowrap;
       color: #000;
@@ -500,7 +500,9 @@
     /* DESKTOP: lift the info line inside the image, under the names */
     @media (min-width: 768px) {
       .surah-title { height: 104px; }
-      .surah-title .st-inner { top: 31px; bottom: auto; height: 32px; left: 30%; right: 30%; }
+      .surah-title .st-inner { top: 31px; bottom: auto; height: 32px; left: 30%; right: 30%; gap: 10px; }
+      .surah-title .st-left { font-size: clamp(13px, 2.6vw, 18px); }
+      .surah-title .st-right { font-size: clamp(15px, 3vw, 20px); }
       .surah-info {
         position: absolute;
         left: 26%;
