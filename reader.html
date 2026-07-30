@@ -7617,11 +7617,9 @@
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       document.body.classList.remove("home");
-      localStorage.setItem("lastView", "grid");
-      localStorage.setItem("lastMode", readingMode);
       buildGrid();
       surahGrid.style.display = "grid";
-      desktopBanner.style.display = "";
+      desktopBanner.style.display = "none";
       window.scrollTo({ top: 0 });
     }
 
@@ -7643,7 +7641,6 @@
       document.body.classList.add("home");
       desktopBanner.style.display = "";
       history.replaceState({ view: "home" }, "", "/");
-      localStorage.setItem("lastView", "home");
       window.scrollTo({ top: 0 });
     }
 
@@ -7779,9 +7776,8 @@
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "grid";
       document.body.classList.remove("home");
-      desktopBanner.style.display = "";
-      history.replaceState(null, "", "/");
-      localStorage.setItem("lastView", "necessary");
+      desktopBanner.style.display = "none";
+      history.pushState({ view: "necessary" }, "", "/");
       window.scrollTo({ top: 0 });
     }
 
@@ -7789,12 +7785,12 @@
     async function showAyatulKursi() {
       stopScroll();
       document.body.classList.remove("home");
-      localStorage.setItem("lastView", "ayatulKursi");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
       page.style.display = "none";
       desktopBanner.style.display = "none";
+      history.pushState({ view: "ayatulKursi" }, "", "/");
       statusEl.style.display = "block";
       statusEl.textContent = "আয়াতুল কুরসি লোড হচ্ছে...";
 
@@ -7856,19 +7852,17 @@
       } else if (state && state.view === "grid") {
         if (state.mode) readingMode = state.mode;
         renderGrid();
+      } else if (state && state.view === "necessary") {
+        showNecessaryMenu();
+      } else if (state && state.view === "ayatulKursi") {
+        showAyatulKursi();
       } else if (state && state.view === "home") {
         showMainMenu();
       } else {
-        history.pushState({ view: "home" }, "", "/");
         showMainMenu();
       }
     });
 
-    // Push an initial home entry so the back button has something to pop
-    // instead of exiting the PWA immediately on first press.
-    if (history.length <= 1) {
-      history.pushState({ view: "home" }, "", "/");
-    }
 
     surahSelect.addEventListener("change", () => {
       const n = parseInt(surahSelect.value, 10);
@@ -7907,8 +7901,6 @@
       }
       stopScroll();
       setInputs(n, push);
-      localStorage.setItem("lastView", "surah");
-      localStorage.setItem("lastSurah", String(n));
       document.body.classList.remove("home");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
@@ -8028,27 +8020,13 @@
       const s = parseInt(params.get("surah"), 10);
       if (s >= 1 && s <= 114) {
         loadSurah(s);
-        return;
-      }
-      const bm = getBookmark();
-      if (bm && bm.surah >= 1 && bm.surah <= 114) {
-        loadSurah(bm.surah, bm.ayah);
-        return;
-      }
-      const lastView = localStorage.getItem("lastView");
-      const lastMode = localStorage.getItem("lastMode");
-      const lastSurah = parseInt(localStorage.getItem("lastSurah"), 10);
-      if (lastView === "grid" && lastMode) {
-        readingMode = lastMode;
-        renderGrid();
-      } else if (lastView === "necessary") {
-        showNecessaryMenu();
-      } else if (lastView === "ayatulKursi") {
-        showAyatulKursi();
-      } else if (lastView === "surah" && lastSurah >= 1 && lastSurah <= 114) {
-        loadSurah(lastSurah);
       } else {
-        showMainMenu();
+        const bm = getBookmark();
+        if (bm && bm.surah >= 1 && bm.surah <= 114) {
+          loadSurah(bm.surah, bm.ayah);
+        } else {
+          showMainMenu();
+        }
       }
     });
 
