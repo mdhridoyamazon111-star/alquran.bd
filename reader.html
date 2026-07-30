@@ -144,7 +144,7 @@
 
     /* ---------- Home banner below navbar ---------- */
     .desktop-banner {
-      display: none;
+      display: block;
       width: 100%;
       max-width: 100%;
       height: 165px;
@@ -7617,6 +7617,8 @@
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       document.body.classList.remove("home");
+      localStorage.setItem("lastView", "grid");
+      localStorage.setItem("lastMode", readingMode);
       buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "";
@@ -7641,6 +7643,7 @@
       document.body.classList.add("home");
       desktopBanner.style.display = "";
       history.replaceState({ view: "home" }, "", "/");
+      localStorage.setItem("lastView", "home");
       window.scrollTo({ top: 0 });
     }
 
@@ -7778,6 +7781,7 @@
       document.body.classList.remove("home");
       desktopBanner.style.display = "";
       history.replaceState(null, "", "/");
+      localStorage.setItem("lastView", "necessary");
       window.scrollTo({ top: 0 });
     }
 
@@ -7785,6 +7789,7 @@
     async function showAyatulKursi() {
       stopScroll();
       document.body.classList.remove("home");
+      localStorage.setItem("lastView", "ayatulKursi");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
@@ -7902,6 +7907,8 @@
       }
       stopScroll();
       setInputs(n, push);
+      localStorage.setItem("lastView", "surah");
+      localStorage.setItem("lastSurah", String(n));
       document.body.classList.remove("home");
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
@@ -8021,13 +8028,27 @@
       const s = parseInt(params.get("surah"), 10);
       if (s >= 1 && s <= 114) {
         loadSurah(s);
+        return;
+      }
+      const bm = getBookmark();
+      if (bm && bm.surah >= 1 && bm.surah <= 114) {
+        loadSurah(bm.surah, bm.ayah);
+        return;
+      }
+      const lastView = localStorage.getItem("lastView");
+      const lastMode = localStorage.getItem("lastMode");
+      const lastSurah = parseInt(localStorage.getItem("lastSurah"), 10);
+      if (lastView === "grid" && lastMode) {
+        readingMode = lastMode;
+        renderGrid();
+      } else if (lastView === "necessary") {
+        showNecessaryMenu();
+      } else if (lastView === "ayatulKursi") {
+        showAyatulKursi();
+      } else if (lastView === "surah" && lastSurah >= 1 && lastSurah <= 114) {
+        loadSurah(lastSurah);
       } else {
-        const bm = getBookmark();
-        if (bm && bm.surah >= 1 && bm.surah <= 114) {
-          loadSurah(bm.surah, bm.ayah);
-        } else {
-          showMainMenu();
-        }
+        showMainMenu();
       }
     });
 
