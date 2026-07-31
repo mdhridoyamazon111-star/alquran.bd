@@ -7650,7 +7650,13 @@
       document.body.classList.add("home");
       desktopBanner.style.display = "";
       const btnInstall = document.getElementById("btnInstall");
-      if (btnInstall && btnInstall.dataset.installed !== "true") btnInstall.style.display = "inline-flex";
+      if (btnInstall) {
+        const isTouch = window.matchMedia("(pointer: coarse)").matches;
+        const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+        btnInstall.textContent = isTouch ? "অ্যাপ ইন্সটল" : "App Install";
+        btnInstall.title = isTouch ? "মোবাইলে অ্যাপ ইন্সটল" : "Install app on this device";
+        btnInstall.style.display = isStandalone ? "none" : "inline-flex";
+      }
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
     }
@@ -8096,7 +8102,6 @@
     window.addEventListener("appinstalled", () => {
       deferredPrompt = null;
       btnInstall.style.display = "none";
-      btnInstall.dataset.installed = "true";
       // Ensure the full Quran is cached for offline use after install.
       downloadAllOffline();
     });
