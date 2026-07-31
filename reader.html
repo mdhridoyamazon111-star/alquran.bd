@@ -728,7 +728,7 @@
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
-    <button class="btn btn-install" id="btnInstall" title="মোবাইলে অ্যাপ ইন্সটল" style="display:none">অ্যাপ ইন্সটল</button>
+    <button class="btn btn-install" id="btnInstall" title="Install this app" style="display:none">App Install</button>
     <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
 
     <div class="nav-tools" id="navTools">
@@ -8063,10 +8063,9 @@
     const btnInstall = document.getElementById("btnInstall");
     function updateInstallBtn() {
       if (!btnInstall) return;
-      const isTouch = window.matchMedia("(pointer: coarse)").matches;
       const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-      btnInstall.textContent = isTouch ? "অ্যাপ ইন্সটল" : "App Install";
-      btnInstall.title = isTouch ? "মোবাইলে অ্যাপ ইন্সটল" : "Install app on this device";
+      btnInstall.textContent = "App Install";
+      btnInstall.title = "Install this app";
       btnInstall.style.display = isStandalone ? "none" : "inline-flex";
     }
     window.addEventListener("beforeinstallprompt", (e) => {
