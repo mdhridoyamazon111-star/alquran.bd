@@ -745,7 +745,7 @@
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
-    <button class="btn btn-install" id="btnInstall" title="App Install">App Install</button>
+    <button class="btn btn-install" id="btnInstall" title="মোবাইলে অ্যাপ ইন্সটল" style="display:none">অ্যাপ ইন্সটল</button>
     <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
 
     <div class="nav-tools" id="navTools">
@@ -7627,6 +7627,8 @@
       buildGrid();
       surahGrid.style.display = "grid";
       desktopBanner.style.display = "none";
+      const bi = document.getElementById("btnInstall");
+      if (bi) bi.style.display = "none";
       window.scrollTo({ top: 0 });
     }
 
@@ -7647,6 +7649,8 @@
       mainMenu.style.display = "grid";
       document.body.classList.add("home");
       desktopBanner.style.display = "";
+      const btnInstall = document.getElementById("btnInstall");
+      if (btnInstall && btnInstall.dataset.installed !== "true") btnInstall.style.display = "inline-flex";
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
     }
@@ -7788,6 +7792,8 @@
       necessaryMenu.style.display = "grid";
       document.body.classList.remove("home");
       desktopBanner.style.display = "none";
+      const bi = document.getElementById("btnInstall");
+      if (bi) bi.style.display = "none";
       history.pushState({ view: "necessary" }, "", "/");
       window.scrollTo({ top: 0 });
     }
@@ -7801,6 +7807,8 @@
       surahGrid.style.display = "none";
       page.style.display = "none";
       desktopBanner.style.display = "none";
+      const bi = document.getElementById("btnInstall");
+      if (bi) bi.style.display = "none";
       history.pushState({ view: "ayatulKursi" }, "", "/");
       statusEl.style.display = "block";
       statusEl.textContent = "আয়াতুল কুরসি লোড হচ্ছে...";
@@ -7917,8 +7925,9 @@
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
       desktopBanner.style.display = "none";
+      const bi = document.getElementById("btnInstall");
+      if (bi) bi.style.display = "none";
       statusEl.style.display = "block";
-      page.style.display = "none";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
       try {
         let editions = "quran-uthmani,bn.bengali";
@@ -8070,7 +8079,6 @@
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      btnInstall.style.display = "inline-flex";
     });
     btnInstall.addEventListener("click", async () => {
       if (!deferredPrompt) {
@@ -8088,6 +8096,7 @@
     window.addEventListener("appinstalled", () => {
       deferredPrompt = null;
       btnInstall.style.display = "none";
+      btnInstall.dataset.installed = "true";
       // Ensure the full Quran is cached for offline use after install.
       downloadAllOffline();
     });
