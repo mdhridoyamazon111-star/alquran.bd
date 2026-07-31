@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v109";
+const CACHE = "alquran-v110";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will

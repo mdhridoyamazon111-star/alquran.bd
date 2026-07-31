@@ -183,6 +183,9 @@
       filter: blur(3px);
       -webkit-filter: blur(3px);
     }
+    @media (max-width: 767px) {
+      .desktop-banner { display: none; }
+    }
     @media (min-width: 768px) {
       .desktop-banner { display: block; height: 225px; }
     }
@@ -7649,14 +7652,7 @@
       mainMenu.style.display = "grid";
       document.body.classList.add("home");
       desktopBanner.style.display = "";
-      const btnInstall = document.getElementById("btnInstall");
-      if (btnInstall) {
-        const isTouch = window.matchMedia("(pointer: coarse)").matches;
-        const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-        btnInstall.textContent = isTouch ? "অ্যাপ ইন্সটল" : "App Install";
-        btnInstall.title = isTouch ? "মোবাইলে অ্যাপ ইন্সটল" : "Install app on this device";
-        btnInstall.style.display = isStandalone ? "none" : "inline-flex";
-      }
+      updateInstallBtn();
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
     }
@@ -8054,6 +8050,7 @@
           showMainMenu();
         }
       }
+      updateInstallBtn();
     });
 
     // --- PWA: register service worker for offline + installability ---
@@ -8082,6 +8079,14 @@
     // --- PWA: custom install button ---
     let deferredPrompt = null;
     const btnInstall = document.getElementById("btnInstall");
+    function updateInstallBtn() {
+      if (!btnInstall) return;
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+      btnInstall.textContent = isTouch ? "অ্যাপ ইন্সটল" : "App Install";
+      btnInstall.title = isTouch ? "মোবাইলে অ্যাপ ইন্সটল" : "Install app on this device";
+      btnInstall.style.display = isStandalone ? "none" : "inline-flex";
+    }
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
