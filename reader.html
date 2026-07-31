@@ -166,23 +166,6 @@
       pointer-events: none;
       z-index: 0;
     }
-    .desktop-banner::after {
-      content: "Al Quran.BD";
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%) rotate(-18deg);
-      font-family: "Reem Kufi", "Noto Sans Bengali", sans-serif;
-      font-size: clamp(36px, 6vw, 80px);
-      font-weight: 800;
-      color: rgba(255,255,255,.18);
-      text-shadow: 0 0 14px rgba(255,255,255,.18);
-      letter-spacing: 3px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 1;
-      filter: blur(3px);
-      -webkit-filter: blur(3px);
-    }
     @media (min-width: 768px) {
       .desktop-banner { display: block; height: 225px; }
     }
@@ -7638,9 +7621,7 @@
       document.body.classList.remove("home");
       buildGrid();
       surahGrid.style.display = "grid";
-      desktopBanner.style.display = "none";
-      const bi = document.getElementById("btnInstall");
-      if (bi) bi.style.display = "none";
+      updateInstallBtn();
       window.scrollTo({ top: 0 });
     }
 
@@ -7660,7 +7641,6 @@
       necessaryMenu.style.display = "none";
       mainMenu.style.display = "grid";
       document.body.classList.add("home");
-      desktopBanner.style.display = "";
       updateInstallBtn();
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
@@ -7802,9 +7782,7 @@
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "grid";
       document.body.classList.remove("home");
-      desktopBanner.style.display = "none";
-      const bi = document.getElementById("btnInstall");
-      if (bi) bi.style.display = "none";
+      updateInstallBtn();
       history.pushState({ view: "necessary" }, "", "/");
       window.scrollTo({ top: 0 });
     }
@@ -7812,14 +7790,11 @@
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
     async function showAyatulKursi() {
       stopScroll();
-      document.body.classList.remove("home");
-      mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
       page.style.display = "none";
-      desktopBanner.style.display = "none";
-      const bi = document.getElementById("btnInstall");
-      if (bi) bi.style.display = "none";
+      updateInstallBtn();
       history.pushState({ view: "ayatulKursi" }, "", "/");
       statusEl.style.display = "block";
       statusEl.textContent = "আয়াতুল কুরসি লোড হচ্ছে...";
@@ -7932,12 +7907,10 @@
       stopScroll();
       setInputs(n, push);
       document.body.classList.remove("home");
-      mainMenu.style.display = "none";
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
-      desktopBanner.style.display = "none";
-      const bi = document.getElementById("btnInstall");
-      if (bi) bi.style.display = "none";
+      mainMenu.style.display = "none";
+      updateInstallBtn();
       statusEl.style.display = "block";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
       try {
