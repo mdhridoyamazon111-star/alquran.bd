@@ -7839,6 +7839,7 @@
         currentSurah = 2;
 
         ayahsEl.innerHTML = "";
+        ayahsEl.style.cssText = "";
         const div = document.createElement("div");
         div.className = "ayah-block" + (isBookmarked ? " bookmarked" : "");
         div.dataset.ayah = num;
@@ -7881,6 +7882,7 @@
         );
         bismillahEl.style.display = "none";
         ayahsEl.innerHTML = "";
+        ayahsEl.style.cssText = "background: #0f2b29; border: 1px solid rgba(247,237,214,0.15); border-radius: 12px; padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);";
         surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0; border-bottom:1px solid var(--gold-1); margin-bottom:6px;">আল কুরআনের 21 টি সূরা</div>';
         surahInfo.innerHTML = "";
         navName.textContent = "২১ ছোট সূরা";
@@ -7891,13 +7893,6 @@
           const n = surahNumbers[s];
           const arabic = json.data[0];
           const trans = json.data[1] || { ayahs: [] };
-          const info = SURAH_LIST.find(x => x.number === n) || {};
-          const englishName = info.englishName || arabic.englishName;
-          const bnName = info.bnName || englishName;
-          const heading = document.createElement("div");
-          heading.className = "surah-title";
-          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}<br>${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
-          fragment.appendChild(heading);
           if (n !== 1 && n !== 9) {
             const b = document.createElement("div");
             b.className = "bismillah";
@@ -8034,6 +8029,7 @@
         bismillahEl.style.display = (n === 1 || n === 9) ? "none" : "block";
 
         ayahsEl.innerHTML = "";
+        ayahsEl.style.cssText = "";
         const fragment = document.createDocumentFragment();
         let prevRuku = null;
         let rukuCount = 0;
