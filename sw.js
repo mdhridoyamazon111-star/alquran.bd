@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v105";
+const CACHE = "alquran-v106";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -109,33 +109,37 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Page navigations: network-first, then fall back to the cached app shell.
-  // IMPORTANT: a *redirected* response cannot be returned to a navigation
-  // request (the browser rejects it -> ERR_FAILED). So when serving from
-  // cache offline we rebuild a clean, non-redirected Response.
+  // Page navigations: cache-first, then network, then fall back to shell.
+  // Cache-first lets cached pages (including noorani_qaida.html) open
+  // instantly even when the device has no internet, while the network
+  // still refreshes the cache in the background whenever possible.
   if (isPage) {
     event.respondWith(
-      Promise.race([
-        fetch(req, { cache: 'reload' }),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('network timeout')), 2500))
-      ])
-        .then((res) => {
-          if (res && res.status === 200) {
-            // Cache a clean copy keyed to the actual requested URL.
-            caches.open(CACHE).then((cache) => {
-              const shell = res.clone();
-              cache.put(req.url, shell);
+      caches.open(CACHE).then((cache) =>
+        cache.match(req).then((cached) => {
+          const network = fetch(req, { cache: 'reload' }).then((res) => {
+            if (res && res.status === 200) {
+              cache.put(req.url, res.clone());
               // Keep the root shell mapping for the main app pages.
               const path = new URL(req.url).pathname;
               if (path === "/" || path === "/reader.html") {
                 cache.put("./reader.html", res.clone());
                 cache.put("./", res.clone());
               }
-            });
+            }
+            return res;
+          });
+
+          if (cached) {
+            // Refresh in background but return cached version immediately.
+            network.catch(() => {});
+            return cached;
           }
-          return res;
+
+          // Not in cache yet: try network, then fall back to reader shell.
+          return network.catch(() => serveOfflineShell());
         })
-        .catch(() => caches.match(req).then((cached) => cached || serveOfflineShell()))
+      )
     );
     return;
   }
