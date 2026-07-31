@@ -47,7 +47,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 60px 5px 50px;
+      padding: 0 5px 50px;
       font-family: "Noto Sans Bengali", system-ui, sans-serif;
       background:
         radial-gradient(1000px 700px at 50% -5%, #17403d 0%, var(--bg) 55%, #08181a 100%);
@@ -55,7 +55,7 @@
     }
     /* ---------- Top navbar ---------- */
     .top-nav {
-      position: fixed;
+      position: sticky;
       top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(12, 35, 33, 0.94);
       border-bottom: 1px solid var(--gold-1);
@@ -183,9 +183,6 @@
       filter: blur(3px);
       -webkit-filter: blur(3px);
     }
-    @media (max-width: 767px) {
-      .desktop-banner { display: none; }
-    }
     @media (min-width: 768px) {
       .desktop-banner { display: block; height: 225px; }
     }
@@ -234,7 +231,7 @@
       text-align: center;
       min-height: 72px;
       padding: 16px 18px;
-      font-size: 17px;
+      font-size: 19px;
       font-weight: 700;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #f2ead2;
@@ -750,6 +747,7 @@
     <button class="btn" id="next" title="Next">&rarr;</button>
     <button class="btn btn-install" id="btnInstall" title="মোবাইলে অ্যাপ ইন্সটল" style="display:none">অ্যাপ ইন্সটল</button>
     <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
+    <button class="btn" id="btnShare" title="শেয়ার করুন" style="margin-left:auto">⇧</button>
 
     <div class="nav-tools" id="navTools">
       <span class="nav-name" id="navName"></span>
@@ -830,6 +828,17 @@
     // Settings (advanced tools) toggle
     document.getElementById("btnSettings").addEventListener("click", () => {
       document.getElementById("navTools").classList.toggle("open");
+    });
+    // Share button
+    document.getElementById("btnShare").addEventListener("click", () => {
+      const shareData = { title: "আল কুরআন — বাংলা অনুবাদ", url: "https://alquran-bd.pages.dev/" };
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareData.url).then(() => alert("লিংক কপি হয়ে গেছে!")).catch(() => {});
+      } else {
+        prompt("লিংক:", shareData.url);
+      }
     });
     // Show the main menu when the nav logo or Sura list button is clicked
     document.getElementById("btnHome").addEventListener("click", showMainMenu);
