@@ -729,11 +729,11 @@
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
     <button class="btn btn-install" id="btnInstall" title="Install this app" style="display:none">App Install</button>
+    <button class="btn" id="btnShare" title="শেয়ার করুন">⇧</button>
     <button class="btn" id="btnSettings" title="সেটিংস">⚙</button>
 
     <div class="nav-tools" id="navTools">
       <span class="nav-name" id="navName"></span>
-      <button class="btn" id="btnShare" title="শেয়ার করুন">⇧</button>
       <button class="btn" id="btnFontDown">Font -</button>
       <button class="btn" id="btnFontUp">Font +</button>
       <button class="btn" data-speed="0.7" id="speedLow">Low</button>
@@ -7621,6 +7621,7 @@
       document.body.classList.remove("home");
       buildGrid();
       surahGrid.style.display = "grid";
+      desktopBanner.style.display = "none";
       updateInstallBtn();
       window.scrollTo({ top: 0 });
     }
@@ -7641,6 +7642,7 @@
       necessaryMenu.style.display = "none";
       mainMenu.style.display = "grid";
       document.body.classList.add("home");
+      desktopBanner.style.display = "";
       updateInstallBtn();
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
@@ -7782,6 +7784,7 @@
       mainMenu.style.display = "none";
       necessaryMenu.style.display = "grid";
       document.body.classList.remove("home");
+      desktopBanner.style.display = "none";
       updateInstallBtn();
       history.pushState({ view: "necessary" }, "", "/");
       window.scrollTo({ top: 0 });
@@ -7794,6 +7797,7 @@
       surahGrid.style.display = "none";
       mainMenu.style.display = "none";
       page.style.display = "none";
+      desktopBanner.style.display = "none";
       updateInstallBtn();
       history.pushState({ view: "ayatulKursi" }, "", "/");
       statusEl.style.display = "block";
@@ -7910,6 +7914,7 @@
       necessaryMenu.style.display = "none";
       surahGrid.style.display = "none";
       mainMenu.style.display = "none";
+      desktopBanner.style.display = "none";
       updateInstallBtn();
       statusEl.style.display = "block";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
