@@ -158,6 +158,13 @@
     }
     .big-example .ar { font-size: 28px; }
     .big-example .bn { font-size: 16px; color: var(--cream); }
+    @media (max-width: 600px) {
+      .ar { font-size: clamp(32px, 10.5vw, 48px); }
+      .bn { font-size: 20px; }
+      .row-table td .ar { font-size: 30px; }
+      .big-example .ar { font-size: 32px; }
+      .big-example .bn { font-size: 18px; }
+    }
   </style>
   <script>
     if ("serviceWorker" in navigator) {
