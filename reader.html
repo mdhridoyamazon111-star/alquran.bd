@@ -777,6 +777,7 @@
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
     <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
+    <button class="surah-card menu-card" data-action="small-15">কুরআন মাজিদের ছোট ১৫টি সূরা</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7776,7 +7777,10 @@
 
     necessaryMenu.addEventListener("click", (e) => {
       const card = e.target.closest(".surah-card");
-      if (card && card.dataset.action === "ayatul-kursi") showAyatulKursi();
+      if (!card) return;
+      const action = card.dataset.action;
+      if (action === "ayatul-kursi") showAyatulKursi();
+      else if (action === "small-15") showSmall15Surahs();
     });
 
     // Show the necessary-surahs submenu
@@ -7855,6 +7859,82 @@
       }
     }
 
+    // Load and display 15 small surahs (starting from Al-Fatiha, serially)
+    async function showSmall15Surahs() {
+      stopScroll();
+      document.body.classList.remove("home");
+      necessaryMenu.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      statusEl.style.display = "block";
+      statusEl.textContent = "ছোট ১৫টি সূরা লোড হচ্ছে...";
+      const surahNumbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+      try {
+        const editions = "quran-uthmani,bn.bengali";
+        const results = await Promise.all(
+          surahNumbers.map(n =>
+            fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`)
+              .then(r => r.json())
+          )
+        );
+        bismillahEl.style.display = "none";
+        ayahsEl.innerHTML = "";
+        surahTitle.innerHTML = `<span class="st-inner"><span class="st-left">কুরআন মাজিদের ছোট ১৫টি সূরা</span><span class="st-right">سُور</span></span>`;
+        surahInfo.innerHTML = `<span>সূরা <strong>${toArabicNum(1)}–${toArabicNum(15)}</strong></span><span>সূরা ফাতিহা থেকে</span>`;
+        navName.textContent = "ছোট ১৫টি সূরা";
+        const fragment = document.createDocumentFragment();
+        for (let s = 0; s < results.length; s++) {
+          const json = results[s];
+          if (json.code !== 200) throw new Error("API error for surah " + surahNumbers[s]);
+          const n = surahNumbers[s];
+          const arabic = json.data[0];
+          const trans = json.data[1] || { ayahs: [] };
+          const info = SURAH_LIST.find(x => x.number === n) || {};
+          const bnName = info.bnName || arabic.englishName;
+          const heading = document.createElement("div");
+          heading.style.cssText = "color: var(--gold-3); border-bottom: 1px solid var(--gold-1); padding: 16px 0 8px; margin: 18px 0 8px; text-align: center; font-weight: 700; font-size: 18px;";
+          heading.innerHTML = `${toArabicNum(n)}. ${bnName} <span style="display:block; font-size: 22px; direction: rtl; margin-top: 4px;">${arabic.name}</span>`;
+          fragment.appendChild(heading);
+          if (n !== 1 && n !== 9) {
+            const b = document.createElement("div");
+            b.className = "bismillah";
+            b.textContent = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+            fragment.appendChild(b);
+          }
+          for (let i = 0; i < arabic.ayahs.length; i++) {
+            const ay = arabic.ayahs[i];
+            let a = ay.text.trim();
+            if (i === 0 && n !== 1 && n !== 9) {
+              a = stripLeadingBismillah(a);
+            }
+            if (!a) continue;
+            const num = ay.numberInSurah;
+            const t = trans.ayahs[i] ? trans.ayahs[i].text : "";
+            const uc = (SURAH_UCHARON[n] && i < SURAH_UCHARON[n].length) ? SURAH_UCHARON[n][i] : "";
+            const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : "";
+            const div = document.createElement("div");
+            div.className = "ayah-block";
+            div.innerHTML = `
+              <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
+              ${ucHtml}
+              <div class='ayah-bn'><span class='meaning'>${t}</span></div>
+            `;
+            fragment.appendChild(div);
+          }
+        }
+        ayahsEl.appendChild(fragment);
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+        window.scrollTo(0, 0);
+        history.pushState({ view: "small15" }, "", "?small15");
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "সূরাগুলো লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।";
+      }
+    }
+
     // Handle the browser back/forward buttons between home and surahs
     // Re-push a home state when the user reaches the first history entry
     // so the hardware back button in the PWA does not close the app.
@@ -7867,6 +7947,8 @@
         renderGrid();
       } else if (state && state.view === "necessary") {
         showNecessaryMenu();
+      } else if (state && state.view === "small15") {
+        showSmall15Surahs();
       } else if (state && state.view === "ayatulKursi") {
         showAyatulKursi();
       } else if (state && state.view === "home") {
