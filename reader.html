@@ -777,7 +777,7 @@
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
     <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
-    <button class="surah-card menu-card" data-action="small-15">কুরআন মাজিদের ছোট ১৫টি সূরা</button>
+    <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা বাংলা এবং ইংলিশ</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7780,7 +7780,7 @@
       if (!card) return;
       const action = card.dataset.action;
       if (action === "ayatul-kursi") showAyatulKursi();
-      else if (action === "small-15") showSmall15Surahs();
+      else if (action === "small-21") showSmall21Surahs();
     });
 
     // Show the necessary-surahs submenu
@@ -7859,8 +7859,8 @@
       }
     }
 
-    // Load and display 15 small surahs (starting from Al-Fatiha, serially)
-    async function showSmall15Surahs() {
+    // Load and display 21 small surahs (starting from Al-Fatiha, serially)
+    async function showSmall21Surahs() {
       stopScroll();
       document.body.classList.remove("home");
       necessaryMenu.style.display = "none";
@@ -7869,8 +7869,8 @@
       desktopBanner.style.display = "none";
       updateInstallBtn();
       statusEl.style.display = "block";
-      statusEl.textContent = "ছোট ১৫টি সূরা লোড হচ্ছে...";
-      const surahNumbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+      statusEl.textContent = "২১টি ছোট সূরা লোড হচ্ছে...";
+      const surahNumbers = [1,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114];
       try {
         const editions = "quran-uthmani,bn.bengali";
         const results = await Promise.all(
@@ -7881,9 +7881,9 @@
         );
         bismillahEl.style.display = "none";
         ayahsEl.innerHTML = "";
-        surahTitle.innerHTML = `<span class="st-inner"><span class="st-left">কুরআন মাজিদের ছোট ১৫টি সূরা</span><span class="st-right">سُور</span></span>`;
-        surahInfo.innerHTML = `<span>সূরা <strong>${toArabicNum(1)}–${toArabicNum(15)}</strong></span><span>সূরা ফাতিহা থেকে</span>`;
-        navName.textContent = "ছোট ১৫টি সূরা";
+        surahTitle.innerHTML = `<span class="st-inner"><span class="st-left">আল কুরআনের 21 টি ছোট সূরা<br>বাংলা এবং ইংলিশ</span><span class="st-right">سُوَر</span></span>`;
+        surahInfo.innerHTML = `<span>সূরা <strong>${toArabicNum(1)}, ${toArabicNum(95)}–${toArabicNum(114)}</strong></span><span>২১টি ছোট সূরা</span>`;
+        navName.textContent = "২১ ছোট সূরা";
         const fragment = document.createDocumentFragment();
         for (let s = 0; s < results.length; s++) {
           const json = results[s];
@@ -7892,10 +7892,11 @@
           const arabic = json.data[0];
           const trans = json.data[1] || { ayahs: [] };
           const info = SURAH_LIST.find(x => x.number === n) || {};
-          const bnName = info.bnName || arabic.englishName;
+          const englishName = info.englishName || arabic.englishName;
+          const bnName = info.bnName || englishName;
           const heading = document.createElement("div");
-          heading.style.cssText = "color: var(--gold-3); border-bottom: 1px solid var(--gold-1); padding: 16px 0 8px; margin: 18px 0 8px; text-align: center; font-weight: 700; font-size: 18px;";
-          heading.innerHTML = `${toArabicNum(n)}. ${bnName} <span style="display:block; font-size: 22px; direction: rtl; margin-top: 4px;">${arabic.name}</span>`;
+          heading.className = "surah-title";
+          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}<br>${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
           fragment.appendChild(heading);
           if (n !== 1 && n !== 9) {
             const b = document.createElement("div");
@@ -7928,7 +7929,7 @@
         page.style.display = "block";
         requestAnimationFrame(() => { statusEl.style.display = "none"; });
         window.scrollTo(0, 0);
-        history.pushState({ view: "small15" }, "", "?small15");
+        history.pushState({ view: "small21" }, "", "?small21");
       } catch (e) {
         console.error(e);
         statusEl.textContent = "সূরাগুলো লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।";
@@ -7947,8 +7948,8 @@
         renderGrid();
       } else if (state && state.view === "necessary") {
         showNecessaryMenu();
-      } else if (state && state.view === "small15") {
-        showSmall15Surahs();
+      } else if (state && state.view === "small21") {
+        showSmall21Surahs();
       } else if (state && state.view === "ayatulKursi") {
         showAyatulKursi();
       } else if (state && state.view === "home") {
