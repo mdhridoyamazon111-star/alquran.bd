@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>নূরানী কায়দা | Noorani Qaida</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#0b211f">
+  <style>
+    :root {
+      --green-1: #0b211f;
+      --green-2: #142b28;
+      --green-3: #1e3c38;
+      --cream: #f5ecd0;
+      --gold-1: #c9a24b;
+      --gold-2: #e9d9b0;
+      --gold-3: #d4af37;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--green-1);
+      color: var(--cream);
+      font-family: "Noto Sans Bengali", "Noto Sans Arabic", sans-serif;
+      line-height: 1.8;
+      font-size: 16px;
+      padding-bottom: 40px;
+    }
+    header {
+      background: linear-gradient(135deg, var(--green-3), var(--green-2));
+      border-bottom: 2px solid var(--gold-1);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .home {
+      color: var(--gold-2);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      border: 1px solid var(--gold-1);
+      border-radius: 8px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+    h1 {
+      flex: 1;
+      margin: 0;
+      font-size: clamp(18px, 5vw, 26px);
+      color: var(--gold-3);
+      text-align: center;
+    }
+    main { max-width: 800px; margin: 0 auto; padding: 16px; }
+    section {
+      background: var(--green-2);
+      border: 1px solid var(--green-3);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    }
+    h2 {
+      color: var(--gold-3);
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gold-1);
+      font-size: clamp(20px, 5.5vw, 26px);
+    }
+    h3 {
+      color: var(--gold-2);
+      margin: 18px 0 10px;
+      font-size: clamp(17px, 4.5vw, 22px);
+    }
+    p, li { color: var(--cream); margin: 10px 0; }
+    ul { padding-left: 20px; }
+    .intro {
+      background: rgba(201,162,75,.12);
+      border-left: 4px solid var(--gold-1);
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .table {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .pair {
+      background: var(--green-3);
+      border: 1px solid var(--gold-1);
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .ar {
+      font-family: "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+      font-size: clamp(24px, 7vw, 34px);
+      color: var(--gold-3);
+      line-height: 1.2;
+    }
+    .bn { font-size: 15px; color: var(--gold-2); }
+    .row-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+    .row-table th, .row-table td {
+      border: 1px solid var(--gold-1);
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .row-table th { background: var(--green-3); color: var(--gold-3); }
+    .row-table td .ar { font-size: 26px; }
+    .practice {
+      direction: ltr;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(201,162,75,.1);
+      border-radius: 10px;
+    }
+    .practice .item {
+      background: var(--green-3);
+      border: 1px solid var(--gold-1);
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .note {
+      background: rgba(233,217,176,.12);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .note strong { color: var(--gold-3); }
+    .big-example {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .big-example .ar { font-size: 28px; }
+    .big-example .bn { font-size: 16px; color: var(--cream); }
+  </style>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <a class="home" href="./reader.html">← হোম</a>
+    <h1>নূরানী কায়দা</h1>
+  </header>
+
+  <main>
+    <section id="part-1">
+      <h2>পার্ট–১: আরবি অক্ষর</h2>
+      <div class="table">
+        <div class="pair"><div class="ar">ا</div><div class="bn">আলিফ</div></div>
+        <div class="pair"><div class="ar">ب</div><div class="bn">বা</div></div>
+        <div class="pair"><div class="ar">ت</div><div class="bn">তা</div></div>
+        <div class="pair"><div class="ar">ث</div><div class="bn">ছা</div></div>
+        <div class="pair"><div class="ar">ج</div><div class="bn">জীম</div></div>
+        <div class="pair"><div class="ar">ح</div><div class="bn">হা (গলা থেকে)</div></div>
+        <div class="pair"><div class="ar">خ</div><div class="bn">খা (গলা থেকে)</div></div>
+        <div class="pair"><div class="ar">د</div><div class="bn">দাল</div></div>
+        <div class="pair"><div class="ar">ذ</div><div class="bn">যাল</div></div>
+        <div class="pair"><div class="ar">ر</div><div class="bn">রা</div></div>
+        <div class="pair"><div class="ar">ز</div><div class="bn">যায়</div></div>
+        <div class="pair"><div class="ar">س</div><div class="bn">সীন</div></div>
+        <div class="pair"><div class="ar">ش</div><div class="bn">শীন</div></div>
+        <div class="pair"><div class="ar">ص</div><div class="bn">সোয়াদ</div></div>
+        <div class="pair"><div class="ar">ض</div><div class="bn">যোয়াদ</div></div>
+        <div class="pair"><div class="ar">ط</div><div class="bn">তোয়া</div></div>
+        <div class="pair"><div class="ar">ظ</div><div class="bn">যোয়া</div></div>
+        <div class="pair"><div class="ar">ع</div><div class="bn">আইন</div></div>
+        <div class="pair"><div class="ar">غ</div><div class="bn">গইন</div></div>
+        <div class="pair"><div class="ar">ف</div><div class="bn">ফা</div></div>
+        <div class="pair"><div class="ar">ق</div><div class="bn">ক্বাফ</div></div>
+        <div class="pair"><div class="ar">ك</div><div class="bn">কাফ</div></div>
+        <div class="pair"><div class="ar">ل</div><div class="bn">লাম</div></div>
+        <div class="pair"><div class="ar">م</div><div class="bn">মীম</div></div>
+        <div class="pair"><div class="ar">ن</div><div class="bn">নূন</div></div>
+        <div class="pair"><div class="ar">و</div><div class="bn">ওয়াও</div></div>
+        <div class="pair"><div class="ar">ه</div><div class="bn">হা</div></div>
+        <div class="pair"><div class="ar">ء</div><div class="bn">হামযাহ</div></div>
+        <div class="pair"><div class="ar">ي</div><div class="bn">ইয়া</div></div>
+      </div>
+    </section>
+
+    <section id="part-2">
+      <h2>পার্ট–২: যবর, যের, পেশ</h2>
+
+      <h3>১. যবর ( َ )</h3>
+      <p>যবর থাকলে অক্ষরের পরে "আ" ধ্বনি হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بَ</div><div class="bn">বা</div></div>
+        <div class="pair"><div class="ar">تَ</div><div class="bn">তা</div></div>
+        <div class="pair"><div class="ar">ثَ</div><div class="bn">ছা</div></div>
+        <div class="pair"><div class="ar">جَ</div><div class="bn">যা</div></div>
+        <div class="pair"><div class="ar">حَ</div><div class="bn">হা</div></div>
+        <div class="pair"><div class="ar">خَ</div><div class="bn">খা</div></div>
+        <div class="pair"><div class="ar">دَ</div><div class="bn">দা</div></div>
+        <div class="pair"><div class="ar">رَ</div><div class="bn">রা</div></div>
+        <div class="pair"><div class="ar">سَ</div><div class="bn">সা</div></div>
+        <div class="pair"><div class="ar">شَ</div><div class="bn">শা</div></div>
+        <div class="pair"><div class="ar">فَ</div><div class="bn">ফা</div></div>
+        <div class="pair"><div class="ar">قَ</div><div class="bn">ক্বা</div></div>
+        <div class="pair"><div class="ar">كَ</div><div class="bn">কা</div></div>
+        <div class="pair"><div class="ar">لَ</div><div class="bn">লা</div></div>
+        <div class="pair"><div class="ar">مَ</div><div class="bn">মা</div></div>
+        <div class="pair"><div class="ar">نَ</div><div class="bn">না</div></div>
+        <div class="pair"><div class="ar">وَ</div><div class="bn">ওয়া</div></div>
+        <div class="pair"><div class="ar">هَ</div><div class="bn">হা</div></div>
+        <div class="pair"><div class="ar">يَ</div><div class="bn">ইয়া</div></div>
+      </div>
+
+      <h3>২. যের ( ِ )</h3>
+      <p>যের থাকলে অক্ষরের পরে "ই" ধ্বনি হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بِ</div><div class="bn">বি</div></div>
+        <div class="pair"><div class="ar">تِ</div><div class="bn">তি</div></div>
+        <div class="pair"><div class="ar">ثِ</div><div class="bn">ছি</div></div>
+        <div class="pair"><div class="ar">جِ</div><div class="bn">জি</div></div>
+        <div class="pair"><div class="ar">حِ</div><div class="bn">হি</div></div>
+        <div class="pair"><div class="ar">خِ</div><div class="bn">খি</div></div>
+        <div class="pair"><div class="ar">دِ</div><div class="bn">দি</div></div>
+        <div class="pair"><div class="ar">رِ</div><div class="bn">রি</div></div>
+        <div class="pair"><div class="ar">سِ</div><div class="bn">সি</div></div>
+        <div class="pair"><div class="ar">شِ</div><div class="bn">শি</div></div>
+        <div class="pair"><div class="ar">فِ</div><div class="bn">ফি</div></div>
+        <div class="pair"><div class="ar">قِ</div><div class="bn">ক্বি</div></div>
+        <div class="pair"><div class="ar">كِ</div><div class="bn">কি</div></div>
+        <div class="pair"><div class="ar">لِ</div><div class="bn">লি</div></div>
+        <div class="pair"><div class="ar">مِ</div><div class="bn">মি</div></div>
+        <div class="pair"><div class="ar">نِ</div><div class="bn">নি</div></div>
+        <div class="pair"><div class="ar">وِ</div><div class="bn">উই</div></div>
+        <div class="pair"><div class="ar">هِ</div><div class="bn">হি</div></div>
+        <div class="pair"><div class="ar">يِ</div><div class="bn">ই</div></div>
+      </div>
+
+      <h3>৩. পেশ ( ُ )</h3>
+      <p>পেশ থাকলে অক্ষরের পরে "উ" ধ্বনি হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بُ</div><div class="bn">বু</div></div>
+        <div class="pair"><div class="ar">تُ</div><div class="bn">তু</div></div>
+        <div class="pair"><div class="ar">ثُ</div><div class="bn">ছু</div></div>
+        <div class="pair"><div class="ar">جُ</div><div class="bn">জু</div></div>
+        <div class="pair"><div class="ar">حُ</div><div class="bn">হু</div></div>
+        <div class="pair"><div class="ar">خُ</div><div class="bn">খু</div></div>
+        <div class="pair"><div class="ar">دُ</div><div class="bn">দু</div></div>
+        <div class="pair"><div class="ar">رُ</div><div class="bn">রু</div></div>
+        <div class="pair"><div class="ar">سُ</div><div class="bn">সু</div></div>
+        <div class="pair"><div class="ar">شُ</div><div class="bn">শু</div></div>
+        <div class="pair"><div class="ar">فُ</div><div class="bn">ফু</div></div>
+        <div class="pair"><div class="ar">قُ</div><div class="bn">ক্বু</div></div>
+        <div class="pair"><div class="ar">كُ</div><div class="bn">কু</div></div>
+        <div class="pair"><div class="ar">لُ</div><div class="bn">লু</div></div>
+        <div class="pair"><div class="ar">مُ</div><div class="bn">মু</div></div>
+        <div class="pair"><div class="ar">نُ</div><div class="bn">নু</div></div>
+        <div class="pair"><div class="ar">وُ</div><div class="bn">উ</div></div>
+        <div class="pair"><div class="ar">هُ</div><div class="bn">হু</div></div>
+        <div class="pair"><div class="ar">يُ</div><div class="bn">ইউ</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচেরগুলো পড়ার চেষ্টা করুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بَ تَ ثَ جَ</div><div class="bn">বা তা ছা যা</div></div>
+        <div class="item"><div class="ar">بِ تِ ثِ جِ</div><div class="bn">বি তি ছি জি</div></div>
+        <div class="item"><div class="ar">بُ تُ ثُ جُ</div><div class="bn">বু তু ছু জু</div></div>
+        <div class="item"><div class="ar">مَ نَ لَ كَ</div><div class="bn">মা না লা কা</div></div>
+        <div class="item"><div class="ar">مِ نِ لِ كِ</div><div class="bn">মি নি লি কি</div></div>
+        <div class="item"><div class="ar">مُ نُ لُ كُ</div><div class="bn">মু নু লু কু</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> বাংলা উচ্চারণ শুধু শেখার সুবিধার জন্য। আরবি অক্ষরের সঠিক মাখরাজ (উচ্চারণের স্থান) একজন অভিজ্ঞ ক্বারী বা শিক্ষকের কাছ থেকে শিখলে তিলাওয়াত আরও শুদ্ধ হবে।</div>
+    </section>
+
+    <section id="part-3">
+      <h2>পার্ট–৩: দুই যবর (ً), দুই যের (ٍ), দুই পেশ (ٌ) — তানওয়ীন</h2>
+      <p>তানওয়ীন হলো কোনো অক্ষরের শেষে "ন" (ন্) ধ্বনি যোগ হওয়া। এটি তিন প্রকার:</p>
+      <ul>
+        <li>দুই যবর (ً) = আন</li>
+        <li>দুই যের (ٍ) = ইন</li>
+        <li>দুই পেশ (ٌ) = উন</li>
+      </ul>
+
+      <h3>১. দুই যবর (ً) — "আন"</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بً</div><div class="bn">বান</div></div>
+        <div class="pair"><div class="ar">تً</div><div class="bn">তান</div></div>
+        <div class="pair"><div class="ar">ثً</div><div class="bn">ছান</div></div>
+        <div class="pair"><div class="ar">جً</div><div class="bn">জান</div></div>
+        <div class="pair"><div class="ar">حً</div><div class="bn">হান</div></div>
+        <div class="pair"><div class="ar">خً</div><div class="bn">খান</div></div>
+        <div class="pair"><div class="ar">مً</div><div class="bn">মান</div></div>
+        <div class="pair"><div class="ar">نً</div><div class="bn">নান</div></div>
+      </div>
+
+      <h3>২. দুই যের (ٍ) — "ইন"</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بٍ</div><div class="bn">বিন</div></div>
+        <div class="pair"><div class="ar">تٍ</div><div class="bn">তিন</div></div>
+        <div class="pair"><div class="ar">ثٍ</div><div class="bn">ছিন</div></div>
+        <div class="pair"><div class="ar">جٍ</div><div class="bn">জিন</div></div>
+        <div class="pair"><div class="ar">حٍ</div><div class="bn">হিন</div></div>
+        <div class="pair"><div class="ar">خٍ</div><div class="bn">খিন</div></div>
+        <div class="pair"><div class="ar">مٍ</div><div class="bn">মিন</div></div>
+        <div class="pair"><div class="ar">نٍ</div><div class="bn">নিন</div></div>
+      </div>
+
+      <h3>৩. দুই পেশ (ٌ) — "উন"</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بٌ</div><div class="bn">বুন</div></div>
+        <div class="pair"><div class="ar">تٌُ</div><div class="bn">তুন</div></div>
+        <div class="pair"><div class="ar">ثٌ</div><div class="bn">ছুন</div></div>
+        <div class="pair"><div class="ar">جٌ</div><div class="bn">জুন</div></div>
+        <div class="pair"><div class="ar">حٌ</div><div class="bn">হুন</div></div>
+        <div class="pair"><div class="ar">خٌ</div><div class="bn">খুন</div></div>
+        <div class="pair"><div class="ar">مٌ</div><div class="bn">মুন</div></div>
+        <div class="pair"><div class="ar">نٌ</div><div class="bn">নুন</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচের শব্দগুলো পড়ার চেষ্টা করুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بً تً ثً جً</div><div class="bn">বান তান ছান জান</div></div>
+        <div class="item"><div class="ar">بٍ تٍ ثٍ جٍ</div><div class="bn">বিন তিন ছিন জিন</div></div>
+        <div class="item"><div class="ar">بٌ تٌُ ثٌ جٌ</div><div class="bn">বুন তুন ছুন জুন</div></div>
+        <div class="item"><div class="ar">مً مٍ مٌ</div><div class="bn">মান মিন মুন</div></div>
+        <div class="item"><div class="ar">نً نٍ نٌ</div><div class="bn">নান নিন নুন</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখুন:</strong> ً = আন, ٍ = ইন, ٌ = উন</div>
+      <div class="big-example"><div class="ar">عَلِيمٌ</div><div class="bn">আলীমুন</div></div>
+      <div class="big-example"><div class="ar">غَفُورٌ</div><div class="bn">গাফূরুন</div></div>
+      <div class="big-example"><div class="ar">كِتَابٍ</div><div class="bn">কিতাবিন</div></div>
+      <div class="big-example"><div class="ar">رَحْمَةً</div><div class="bn">রাহমাতান</div></div>
+      <p><strong>দ্রষ্টব্য:</strong> বাংলা উচ্চারণ শুধু শেখার সুবিধার জন্য। কুরআন তিলাওয়াতের সঠিক উচ্চারণ (মাখরাজ ও তাজবীদ) একজন যোগ্য শিক্ষকের কাছ থেকে শিখতে হবে।</p>
+    </section>
+
+    <section id="part-4">
+      <h2>পার্ট–৪: জযম (ْ / সুকূন)</h2>
+      <p>জযম (ْ) বা সুকূন এমন একটা চিহ্ন, যার অর্থ হলো অক্ষরের পরে কোনো স্বর (আ, ই, উ) থাকবে না। অর্থাৎ অক্ষরটা থেমে বা স্থিরভাবে পড়তে হয়।</p>
+
+      <h3>১. জযমের পরিচয়</h3>
+      <p>চিহ্ন: ْ</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بْ</div><div class="bn">ব্</div></div>
+        <div class="pair"><div class="ar">تْ</div><div class="bn">ত্</div></div>
+        <div class="pair"><div class="ar">جْ</div><div class="bn">জ্</div></div>
+        <div class="pair"><div class="ar">مْ</div><div class="bn">ম্</div></div>
+        <div class="pair"><div class="ar">نْ</div><div class="bn">ন্</div></div>
+      </div>
+
+      <h3>২. যবর + জযম</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">أَبْ</div><div class="bn">আব্</div></div>
+        <div class="pair"><div class="ar">أَتْ</div><div class="bn">আত্</div></div>
+        <div class="pair"><div class="ar">أَجْ</div><div class="bn">আজ্</div></div>
+        <div class="pair"><div class="ar">أَمْ</div><div class="bn">আম্</div></div>
+        <div class="pair"><div class="ar">أَنْ</div><div class="bn">আন্</div></div>
+      </div>
+
+      <h3>৩. যের + জযম</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">إِبْ</div><div class="bn">ইব্</div></div>
+        <div class="pair"><div class="ar">إِتْ</div><div class="bn">ইত্</div></div>
+        <div class="pair"><div class="ar">إِجْ</div><div class="bn">ইজ্</div></div>
+        <div class="pair"><div class="ar">إِمْ</div><div class="bn">ইম্</div></div>
+        <div class="pair"><div class="ar">إِنْ</div><div class="bn">ইন্</div></div>
+      </div>
+
+      <h3>৪. পেশ + জযম</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">أُبْ</div><div class="bn">উব্</div></div>
+        <div class="pair"><div class="ar">أُتْ</div><div class="bn">উত্</div></div>
+        <div class="pair"><div class="ar">أُجْ</div><div class="bn">উজ্</div></div>
+        <div class="pair"><div class="ar">أُمْ</div><div class="bn">উম্</div></div>
+        <div class="pair"><div class="ar">أُنْ</div><div class="bn">উন্</div></div>
+      </div>
+
+      <h3>৫. অনুশীলন</h3>
+      <p>নিচেরগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">أَبْ</div><div class="bn">আব্</div></div>
+        <div class="item"><div class="ar">أَتْ</div><div class="bn">আত্</div></div>
+        <div class="item"><div class="ar">أَجْ</div><div class="bn">আজ্</div></div>
+        <div class="item"><div class="ar">أَمْ</div><div class="bn">আম্</div></div>
+        <div class="item"><div class="ar">أَنْ</div><div class="bn">আন্</div></div>
+        <div class="item"><div class="ar">إِبْ</div><div class="bn">ইব্</div></div>
+        <div class="item"><div class="ar">إِتْ</div><div class="bn">ইত্</div></div>
+        <div class="item"><div class="ar">إِجْ</div><div class="bn">ইজ্</div></div>
+        <div class="item"><div class="ar">إِمْ</div><div class="bn">ইম্</div></div>
+        <div class="item"><div class="ar">إِنْ</div><div class="bn">ইন্</div></div>
+        <div class="item"><div class="ar">أُبْ</div><div class="bn">উব্</div></div>
+        <div class="item"><div class="ar">أُتْ</div><div class="bn">উত্</div></div>
+        <div class="item"><div class="ar">أُجْ</div><div class="bn">উজ্</div></div>
+        <div class="item"><div class="ar">أُمْ</div><div class="bn">উম্</div></div>
+        <div class="item"><div class="ar">أُنْ</div><div class="bn">উন্</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখুন:</strong> بَ = বা, بِ = বি, بُ = বু, بْ = ব্ (এখানে কোনো স্বর নেই)</div>
+
+      <h3>ছোট অনুশীলন</h3>
+      <p>পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بَتْ</div><div class="bn">বাত্</div></div>
+        <div class="item"><div class="ar">كَتْ</div><div class="bn">কাত্</div></div>
+        <div class="item"><div class="ar">نَبْ</div><div class="bn">নাব্</div></div>
+        <div class="item"><div class="ar">سَمْ</div><div class="bn">সাম্</div></div>
+        <div class="item"><div class="ar">قُلْ</div><div class="bn">কুল্</div></div>
+      </div>
+    </section>
+
+    <section id="part-5">
+      <h2>পার্ট–৫: তাশদীদ (ّ)</h2>
+      <p>তাশদীদ (ّ) হলো এমন একটা চিহ্ন, যা বোঝায় একই অক্ষর দুইবার পড়তে হবে। প্রথমবার অক্ষরটা সুকূন (থেমে) থাকবে, তারপর দ্বিতীয়বার হরকতসহ পড়তে হবে।</p>
+      <p>উদাহরণ:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بّ</div><div class="bn">ব্ + ব</div></div>
+        <div class="item"><div class="ar">مّ</div><div class="bn">ম্ + ম</div></div>
+        <div class="item"><div class="ar">نّ</div><div class="bn">ন্ + ন</div></div>
+      </div>
+
+      <h3>১. যবরসহ তাশদীদ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بَّ</div><div class="bn">ব্বা</div></div>
+        <div class="pair"><div class="ar">تَّ</div><div class="bn">ত্তা</div></div>
+        <div class="pair"><div class="ar">جَّ</div><div class="bn">জ্জা</div></div>
+        <div class="pair"><div class="ar">مَّ</div><div class="bn">ম্মা</div></div>
+        <div class="pair"><div class="ar">نَّ</div><div class="bn">ন্না</div></div>
+        <div class="pair"><div class="ar">لَّ</div><div class="bn">ল্লা</div></div>
+      </div>
+
+      <h3>২. যেরসহ তাশদীদ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بِّ</div><div class="bn">ব্বি</div></div>
+        <div class="pair"><div class="ar">تِّ</div><div class="bn">ত্তি</div></div>
+        <div class="pair"><div class="ar">جِّ</div><div class="bn">জ্জি</div></div>
+        <div class="pair"><div class="ar">مِّ</div><div class="bn">ম্মি</div></div>
+        <div class="pair"><div class="ar">نِّ</div><div class="bn">ন্নি</div></div>
+        <div class="pair"><div class="ar">لِّ</div><div class="bn">ল্লি</div></div>
+      </div>
+
+      <h3>৩. পেশসহ তাশদীদ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بُّ</div><div class="bn">ব্বু</div></div>
+        <div class="pair"><div class="ar">تُّ</div><div class="bn">ত্তু</div></div>
+        <div class="pair"><div class="ar">جُّ</div><div class="bn">জ্জু</div></div>
+        <div class="pair"><div class="ar">مُّ</div><div class="bn">ম্মু</div></div>
+        <div class="pair"><div class="ar">نُّ</div><div class="bn">ন্নু</div></div>
+        <div class="pair"><div class="ar">لُّ</div><div class="bn">ল্লু</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচেরগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بَّ تَّ ثَّ جَّ</div><div class="bn">ব্বা ত্তা ছা জ্জা</div></div>
+        <div class="item"><div class="ar">بِّ تِّ ثِّ جِّ</div><div class="bn">ব্বি ত্তি ছি জ্জি</div></div>
+        <div class="item"><div class="ar">بُّ تُّ ثُّ جُّ</div><div class="bn">ব্বু ত্তু ছু জ্জু</div></div>
+      </div>
+
+      <h3>আরও অনুশীলন</h3>
+      <div class="big-example"><div class="ar">رَبَّ</div><div class="bn">রব্বা</div></div>
+      <div class="big-example"><div class="ar">حَقٌّ</div><div class="bn">হাক্কুন</div></div>
+      <div class="big-example"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+      <div class="big-example"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+      <div class="big-example"><div class="ar">أُمٌّ</div><div class="bn">উম্মুন</div></div>
+      <div class="note"><strong>মনে রাখবেন:</strong> بَ = বা, بْ = ব্, بَّ = ব্বা (একই অক্ষর দুইবার পড়া)<br>তাশদীদযুক্ত অক্ষর পড়ার সময় অক্ষরটিকে সামান্য জোর দিয়ে উচ্চারণ করতে হয়।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>নিচেরগুলো ১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">رَبَّ</div><div class="bn">রব্বা</div></div>
+        <div class="item"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="item"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="item"><div class="ar">حَقٌّ</div><div class="bn">হাক্কুন</div></div>
+        <div class="item"><div class="ar">أُمٌّ</div><div class="bn">উম্মুন</div></div>
+      </div>
+    </section>
+
+    <section id="part-6">
+      <h2>পার্ট–৬: মাদ্দ (টেনে পড়া)</h2>
+      <p>মাদ্দ (مد) অর্থ হলো টেনে পড়া। যখন কোনো হরফের পরে ا (আলিফ), و (ওয়াও), ي (ইয়া) নির্দিষ্ট নিয়মে আসে, তখন সেই ধ্বনিকে দীর্ঘ করে পড়তে হয়।</p>
+
+      <h3>১. আলিফ (ا) দ্বারা মাদ্দ</h3>
+      <p>যবর (َ) এর পরে ا এলে ২ হারাকাত (এক আলিফ) টেনে পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بَا</div><div class="bn">বা-আ</div></div>
+        <div class="pair"><div class="ar">تَا</div><div class="bn">তা-আ</div></div>
+        <div class="pair"><div class="ar">جَا</div><div class="bn">যা-আ</div></div>
+        <div class="pair"><div class="ar">مَا</div><div class="bn">মা-আ</div></div>
+        <div class="pair"><div class="ar">نَا</div><div class="bn">না-আ</div></div>
+      </div>
+
+      <h3>২. ইয়া (ي) দ্বারা মাদ্দ</h3>
+      <p>যের (ِ) এর পরে ي এলে ২ হারাকাত টেনে পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بِي</div><div class="bn">বি-ই</div></div>
+        <div class="pair"><div class="ar">تِي</div><div class="bn">তি-ই</div></div>
+        <div class="pair"><div class="ar">جِي</div><div class="bn">জি-ই</div></div>
+        <div class="pair"><div class="ar">مِي</div><div class="bn">মি-ই</div></div>
+        <div class="pair"><div class="ar">نِي</div><div class="bn">নি-ই</div></div>
+      </div>
+
+      <h3>৩. ওয়াও (و) দ্বারা মাদ্দ</h3>
+      <p>পেশ (ُ) এর পরে و এলে ২ হারাকাত টেনে পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">بُو</div><div class="bn">বুউ</div></div>
+        <div class="pair"><div class="ar">تُو</div><div class="bn">তুউ</div></div>
+        <div class="pair"><div class="ar">جُو</div><div class="bn">জুউ</div></div>
+        <div class="pair"><div class="ar">مُو</div><div class="bn">মুউ</div></div>
+        <div class="pair"><div class="ar">نُو</div><div class="bn">নুউ</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচেরগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بَا تَا ثَا جَا</div><div class="bn">বা-আ তা-আ ছা-আ যা-আ</div></div>
+        <div class="item"><div class="ar">بِي تِي ثِي جِي</div><div class="bn">বি-ই তি-ই ছি-ই জি-ই</div></div>
+        <div class="item"><div class="ar">بُو تُو ثُو جُو</div><div class="bn">বুউ তুউ ছুউ জুউ</div></div>
+      </div>
+
+      <h3>কুরআনের সহজ উদাহরণ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">قَالَ</div><div class="bn">ক্বা-লা</div></div>
+        <div class="pair"><div class="ar">كَانَ</div><div class="bn">কা-না</div></div>
+        <div class="pair"><div class="ar">نُورٌ</div><div class="bn">নূ-রুন</div></div>
+        <div class="pair"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+        <div class="pair"><div class="ar">يَقُولُ</div><div class="bn">ইয়া-কূ-লু</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> ا = যবরের পরে এলে টান, ي = যেরের পরে এলে টান, و = পেশের পরে এলে টান। সাধারণ মাদ্দ ২ হারাকাত (এক আলিফ পরিমাণ) টেনে পড়তে হয়।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بَا بِي بُو</div><div class="bn">বা-আ বি-ই বুউ</div></div>
+        <div class="item"><div class="ar">مَا مِي مُو</div><div class="bn">মা-আ মি-ই মুউ</div></div>
+        <div class="item"><div class="ar">نَا نِي نُو</div><div class="bn">না-আ নি-ই নুউ</div></div>
+        <div class="item"><div class="ar">قَالَ</div><div class="bn">ক্বা-লা</div></div>
+        <div class="item"><div class="ar">نُورٌ</div><div class="bn">নূ-রুন</div></div>
+        <div class="item"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+      </div>
+    </section>
+
+    <section id="part-7">
+      <h2>পার্ট–৭: ছোট ছোট আরবি শব্দ</h2>
+      <p>এখন এগুলো মিলিয়ে ছোট ছোট আরবি শব্দ পড়ার অনুশীলন করব।</p>
+
+      <h3>১. দুই অক্ষরের শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بَتَ</div><div class="bn">বাতা</div></div>
+        <div class="pair"><div class="ar">كَتَ</div><div class="bn">কাতা</div></div>
+        <div class="pair"><div class="ar">ذَهَبَ</div><div class="bn">যাহাবা</div></div>
+        <div class="pair"><div class="ar">خَرَجَ</div><div class="bn">খারাজা</div></div>
+        <div class="pair"><div class="ar">جَلَسَ</div><div class="bn">জালাসা</div></div>
+      </div>
+
+      <h3>২. তিন অক্ষরের শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">كَتَبَ</div><div class="bn">কাতাবা</div></div>
+        <div class="pair"><div class="ar">دَخَلَ</div><div class="bn">দাখালা</div></div>
+        <div class="pair"><div class="ar">خَلَقَ</div><div class="bn">খালাকা</div></div>
+        <div class="pair"><div class="ar">رَجَعَ</div><div class="bn">রাজাআ</div></div>
+        <div class="pair"><div class="ar">سَمِعَ</div><div class="bn">সামিআ</div></div>
+      </div>
+
+      <h3>৩. সুকূনসহ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">يَكْتُبُ</div><div class="bn">ইয়া-কতুবু</div></div>
+        <div class="pair"><div class="ar">يَفْتَحُ</div><div class="bn">ইয়া-ফতাহু</div></div>
+        <div class="pair"><div class="ar">يَخْرُجُ</div><div class="bn">ইয়া-খরুজু</div></div>
+        <div class="pair"><div class="ar">يَذْهَبُ</div><div class="bn">ইয়া-যহাবু</div></div>
+        <div class="pair"><div class="ar">يَقْرَأُ</div><div class="bn">ইয়া-করাউ</div></div>
+      </div>
+
+      <h3>৪. তাশদীদসহ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">رَبَّنَا</div><div class="bn">রব্বানা</div></div>
+        <div class="pair"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="pair"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="pair"><div class="ar">أُمِّي</div><div class="bn">উম্মী</div></div>
+        <div class="pair"><div class="ar">حَقٌّ</div><div class="bn">হাক্কুন</div></div>
+      </div>
+
+      <h3>৫. মাদ্দসহ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">قَالَ</div><div class="bn">ক্বালা</div></div>
+        <div class="pair"><div class="ar">نُورٌ</div><div class="bn">নূরুন</div></div>
+        <div class="pair"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+        <div class="pair"><div class="ar">كَانَ</div><div class="bn">কানা</div></div>
+        <div class="pair"><div class="ar">يَقُولُ</div><div class="bn">ইয়া-কূলু</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">كَتَبَ</div><div class="bn">কাতাবা</div></div>
+        <div class="item"><div class="ar">دَخَلَ</div><div class="bn">দাখালা</div></div>
+        <div class="item"><div class="ar">خَلَقَ</div><div class="bn">খালাকা</div></div>
+        <div class="item"><div class="ar">رَبَّنَا</div><div class="bn">রব্বানা</div></div>
+        <div class="item"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="item"><div class="ar">قَالَ</div><div class="bn">ক্বালা</div></div>
+        <div class="item"><div class="ar">نُورٌ</div><div class="bn">নূরুন</div></div>
+        <div class="item"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+        <div class="item"><div class="ar">يَقْرَأُ</div><div class="bn">ইয়া-করাউ</div></div>
+        <div class="item"><div class="ar">يَكْتُبُ</div><div class="bn">ইয়া-কতুবু</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> প্রতিটি অক্ষরের মাখরাজ (উচ্চারণের স্থান) ঠিক রাখতে হবে। অযথা টান দেবেন না। যেখানে মাদ্দ আছে, সেখানে ২ হারাকাত টানবেন। যেখানে তাশদীদ আছে, সেখানে অক্ষরটা জোর দিয়ে পড়বেন।</div>
+    </section>
+
+    <section id="part-8">
+      <h2>পার্ট–৮: আলিফ-লাম (ال), চার ও পাঁচ অক্ষরের শব্দ এবং সহজ কুরআনের শব্দ</h2>
+      <p>এখন আমরা আলিফ-লাম (ال) চিনব এবং ছোট ছোট কুরআনের শব্দ পড়ার অনুশীলন করব।</p>
+
+      <h3>১. আলিফ-লাম (ال)</h3>
+      <p>ال অনেক আরবি শব্দের শুরুতে থাকে। এটিকে সাধারণভাবে "আল" পড়া হয় (কিছু ক্ষেত্রে উচ্চারণের নিয়ম ভিন্ন হতে পারে)।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">الْبَيْتُ</div><div class="bn">আল-বাইতু</div></div>
+        <div class="pair"><div class="ar">الْقَمَرُ</div><div class="bn">আল-কামারু</div></div>
+        <div class="pair"><div class="ar">الْكِتَابُ</div><div class="bn">আল-কিতাবু</div></div>
+        <div class="pair"><div class="ar">الْمَسْجِدُ</div><div class="bn">আল-মাসজিদু</div></div>
+        <div class="pair"><div class="ar">الْحَمْدُ</div><div class="bn">আল-হামদু</div></div>
+      </div>
+
+      <h3>২. চার অক্ষরের সহজ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">كِتَابٌ</div><div class="bn">কিতাবুন</div></div>
+        <div class="pair"><div class="ar">رَسُولٌ</div><div class="bn">রাসূলুন</div></div>
+        <div class="pair"><div class="ar">مُسْلِمٌ</div><div class="bn">মুসলিমুন</div></div>
+        <div class="pair"><div class="ar">مَسْجِدٌ</div><div class="bn">মাসজিদুন</div></div>
+        <div class="pair"><div class="ar">قَلْبٌ</div><div class="bn">কালবুন</div></div>
+      </div>
+
+      <h3>৩. পাঁচ অক্ষরের সহজ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">الْحَمْدُ</div><div class="bn">আল-হামদু</div></div>
+        <div class="pair"><div class="ar">الرَّحْمٰنُ</div><div class="bn">আর-রাহমানু</div></div>
+        <div class="pair"><div class="ar">الرَّحِيمُ</div><div class="bn">আর-রাহীমু</div></div>
+        <div class="pair"><div class="ar">مُحَمَّدٌ</div><div class="bn">মুহাম্মাদুন</div></div>
+        <div class="pair"><div class="ar">إِبْرَاهِيمُ</div><div class="bn">ইবরাহীমু</div></div>
+      </div>
+
+      <h3>৪. সূরা আল-ফাতিহা থেকে সহজ শব্দ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بِسْمِ</div><div class="bn">বিসমি</div></div>
+        <div class="pair"><div class="ar">اللّٰهِ</div><div class="bn">আল্লাহি</div></div>
+        <div class="pair"><div class="ar">الرَّحْمٰنِ</div><div class="bn">আর-রাহমানি</div></div>
+        <div class="pair"><div class="ar">الرَّحِيمِ</div><div class="bn">আর-রাহীমি</div></div>
+        <div class="pair"><div class="ar">الْحَمْدُ</div><div class="bn">আল-হামদু</div></div>
+        <div class="pair"><div class="ar">رَبِّ</div><div class="bn">রব্বি</div></div>
+        <div class="pair"><div class="ar">الْعَالَمِينَ</div><div class="bn">আল-আলামীন</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচের শব্দগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بِسْمِ</div><div class="bn">বিসমি</div></div>
+        <div class="item"><div class="ar">اللّٰهِ</div><div class="bn">আল্লাহি</div></div>
+        <div class="item"><div class="ar">الرَّحْمٰنِ</div><div class="bn">আর-রাহমানি</div></div>
+        <div class="item"><div class="ar">الرَّحِيمِ</div><div class="bn">আর-রাহীমি</div></div>
+        <div class="item"><div class="ar">الْحَمْدُ</div><div class="bn">আল-হামদু</div></div>
+        <div class="item"><div class="ar">رَبِّ</div><div class="bn">রব্বি</div></div>
+        <div class="item"><div class="ar">كِتَابٌ</div><div class="bn">কিতাবুন</div></div>
+        <div class="item"><div class="ar">مَسْجِدٌ</div><div class="bn">মাসজিদুন</div></div>
+        <div class="item"><div class="ar">رَسُولٌ</div><div class="bn">রাসূলুন</div></div>
+        <div class="item"><div class="ar">مُسْلِمٌ</div><div class="bn">মুসলিমুন</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> ال-এর উচ্চারণ সব সময় এক রকম নয়। পরবর্তী পাঠে সূর্যবর্ণ (حروف شمسية) ও চন্দ্রবর্ণ (حروف قمرية) অনুযায়ী এর নিয়ম শিখবেন।<br>اللّٰه (আল্লাহ) শব্দের উচ্চারণ বিশেষ নিয়মে হয়।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">بِسْمِ اللّٰهِ</div><div class="bn">বিসমিল্লাহি</div></div>
+        <div class="item"><div class="ar">الْحَمْدُ لِلّٰهِ</div><div class="bn">আল-হামদু লিল্লাহি</div></div>
+        <div class="item"><div class="ar">رَبِّ الْعَالَمِينَ</div><div class="bn">রব্বিল আলামীন</div></div>
+        <div class="item"><div class="ar">كِتَابٌ</div><div class="bn">কিতাবুন</div></div>
+        <div class="item"><div class="ar">مَسْجِدٌ</div><div class="bn">মাসজিদুন</div></div>
+      </div>
+    </section>
+
+    <section id="part-9">
+      <h2>পার্ট–৯: সূর্যবর্ণ (حروف شمسية) ও চন্দ্রবর্ণ (حروف قمرية)</h2>
+      <p>আরবি শব্দের শুরুতে ال (আলিফ-লাম) থাকলে দুইভাবে পড়তে হয়।</p>
+      <ul>
+        <li>🌙 চন্দ্রবর্ণ (قمرية) → লাম (ل) স্পষ্টভাবে পড়তে হয়।</li>
+        <li>☀️ সূর্যবর্ণ (شمسية) → লাম (ل) পড়া হয় না; পরের অক্ষরটা তাশদীদসহ জোর দিয়ে পড়তে হয়।</li>
+      </ul>
+
+      <h3>১. চন্দ্রবর্ণ (حروف قمرية)</h3>
+      <p>চন্দ্রবর্ণ মোট ১৪টি: ا، ب، ج، ح، خ، ع، غ، ف، ق، ك، م، و، هـ، ي</p>
+      <p>এগুলোর আগে ال এলে লাম স্পষ্টভাবে পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">الْقَمَرُ</div><div class="bn">আল-কামারু</div></div>
+        <div class="pair"><div class="ar">الْكِتَابُ</div><div class="bn">আল-কিতাবু</div></div>
+        <div class="pair"><div class="ar">الْبَيْتُ</div><div class="bn">আল-বাইতু</div></div>
+        <div class="pair"><div class="ar">الْمَسْجِدُ</div><div class="bn">আল-মাসজিদু</div></div>
+        <div class="pair"><div class="ar">الْهُدَى</div><div class="bn">আল-হুদা</div></div>
+      </div>
+
+      <h3>২. সূর্যবর্ণ (حروف شمسية)</h3>
+      <p>সূর্যবর্ণ মোট ১৪টি: ت، ث، د، ذ، ر، ز، س، ش، ص، ض، ط، ظ، ل، ن</p>
+      <p>এগুলোর আগে ال এলে লাম পড়া হয় না, বরং পরের অক্ষরটা জোর দিয়ে (তাশদীদসহ) পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">الشَّمْسُ</div><div class="bn">আশ-শামসু</div></div>
+        <div class="pair"><div class="ar">الرَّحْمٰنُ</div><div class="bn">আর-রাহমানু</div></div>
+        <div class="pair"><div class="ar">النَّاسُ</div><div class="bn">আন-নাসু</div></div>
+        <div class="pair"><div class="ar">السَّمَاءُ</div><div class="bn">আস-সামাউ</div></div>
+        <div class="pair"><div class="ar">الدِّينُ</div><div class="bn">আদ-দীনু</div></div>
+      </div>
+
+      <h3>সহজে মনে রাখার নিয়ম</h3>
+      <div class="note"><strong>চন্দ্রবর্ণ = "লাম" পড়তে হবে:</strong> الْقَمَرُ → আল-কামারু, الْكِتَابُ → আল-কিতাবু<br><strong>সূর্যবর্ণ = "লাম" পড়া হবে না:</strong> الشَّمْسُ → আশ-শামসু, الرَّحْمٰنُ → আর-রাহমানু</div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচের শব্দগুলো পড়ুন:</p>
+      <p><strong>চন্দ্রবর্ণ</strong></p>
+      <div class="practice">
+        <div class="item"><div class="ar">الْقُرْآنُ</div><div class="bn">আল-কুরআনু</div></div>
+        <div class="item"><div class="ar">الْكِتَابُ</div><div class="bn">আল-কিতাবু</div></div>
+        <div class="item"><div class="ar">الْبَيْتُ</div><div class="bn">আল-বাইতু</div></div>
+        <div class="item"><div class="ar">الْمَلِكُ</div><div class="bn">আল-মালিকু</div></div>
+        <div class="item"><div class="ar">الْهُدَى</div><div class="bn">আল-হুদা</div></div>
+      </div>
+      <p><strong>সূর্যবর্ণ</strong></p>
+      <div class="practice">
+        <div class="item"><div class="ar">الشَّمْسُ</div><div class="bn">আশ-শামসু</div></div>
+        <div class="item"><div class="ar">الرَّحْمٰنُ</div><div class="bn">আর-রাহমানু</div></div>
+        <div class="item"><div class="ar">الرَّحِيمُ</div><div class="bn">আর-রাহীমু</div></div>
+        <div class="item"><div class="ar">النَّاسُ</div><div class="bn">আন-নাসু</div></div>
+        <div class="item"><div class="ar">السَّمَاءُ</div><div class="bn">আস-সামাউ</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> চন্দ্রবর্ণ → লাম উচ্চারণ হবে। সূর্যবর্ণ → লাম উচ্চারণ হবে না, পরের অক্ষরটা তাশদীদসহ পড়তে হবে। কুরআন তিলাওয়াতের সময় এই নিয়ম খুব গুরুত্বপূর্ণ।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">الْقُرْآنُ</div><div class="bn">আল-কুরআনু</div></div>
+        <div class="item"><div class="ar">الْكِتَابُ</div><div class="bn">আল-কিতাবু</div></div>
+        <div class="item"><div class="ar">الشَّمْسُ</div><div class="bn">আশ-শামসু</div></div>
+        <div class="item"><div class="ar">الرَّحْمٰنُ</div><div class="bn">আর-রাহমানু</div></div>
+        <div class="item"><div class="ar">النَّاسُ</div><div class="bn">আন-নাসু</div></div>
+      </div>
+    </section>
+
+    <section id="part-10">
+      <h2>পার্ট–১০: মাখরাজ (مخارج الحروف)</h2>
+      <p>আরবি হরফের সঠিক উচ্চারণের জন্য মাখরাজ জানা অত্যন্ত গুরুত্বপূর্ণ।</p>
+
+      <h3>১. গলা (الحلق)</h3>
+      <h4>গলার নিচের অংশ</h4>
+      <div class="table">
+        <div class="pair"><div class="ar">ء</div><div class="bn">হামযাহ</div></div>
+        <div class="pair"><div class="ar">ه</div><div class="bn">হা</div></div>
+      </div>
+      <p>উদাহরণ:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">أَحَدٌ</div><div class="bn">আহাদুন</div></div>
+        <div class="item"><div class="ar">هُدًى</div><div class="bn">হুদান</div></div>
+      </div>
+
+      <h4>গলার মাঝের অংশ</h4>
+      <div class="table">
+        <div class="pair"><div class="ar">ع</div><div class="bn">আইন</div></div>
+        <div class="pair"><div class="ar">ح</div><div class="bn">হা</div></div>
+      </div>
+      <p>উদাহরণ:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">عَلِيمٌ</div><div class="bn">আলীমুন</div></div>
+        <div class="item"><div class="ar">حَكِيمٌ</div><div class="bn">হাকীমুন</div></div>
+      </div>
+
+      <h4>গলার উপরের অংশ</h4>
+      <div class="table">
+        <div class="pair"><div class="ar">غ</div><div class="bn">গইন</div></div>
+        <div class="pair"><div class="ar">خ</div><div class="bn">খা</div></div>
+      </div>
+      <p>উদাহরণ:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">غَفُورٌ</div><div class="bn">গাফূরুন</div></div>
+        <div class="item"><div class="ar">خَبِيرٌ</div><div class="bn">খাবীরুন</div></div>
+      </div>
+
+      <h3>২. জিহ্বা (اللسان)</h3>
+      <p>বেশিরভাগ আরবি অক্ষর জিহ্বা থেকে উচ্চারিত হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">ق</div><div class="bn">ক্বাফ</div></div>
+        <div class="pair"><div class="ar">ك</div><div class="bn">কাফ</div></div>
+        <div class="pair"><div class="ar">ج</div><div class="bn">জীম</div></div>
+        <div class="pair"><div class="ar">ش</div><div class="bn">শীন</div></div>
+        <div class="pair"><div class="ar">ي</div><div class="bn">ইয়া</div></div>
+        <div class="pair"><div class="ar">ل</div><div class="bn">লাম</div></div>
+        <div class="pair"><div class="ar">ن</div><div class="bn">নূন</div></div>
+        <div class="pair"><div class="ar">ر</div><div class="bn">রা</div></div>
+        <div class="pair"><div class="ar">ت</div><div class="bn">তা</div></div>
+        <div class="pair"><div class="ar">د</div><div class="bn">দাল</div></div>
+        <div class="pair"><div class="ar">ط</div><div class="bn">তোয়া</div></div>
+        <div class="pair"><div class="ar">ص</div><div class="bn">সোয়াদ</div></div>
+        <div class="pair"><div class="ar">س</div><div class="bn">সীন</div></div>
+        <div class="pair"><div class="ar">ز</div><div class="bn">যায়</div></div>
+      </div>
+
+      <h3>৩. ঠোঁট (الشفتان)</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">ف</div><div class="bn">ফা</div></div>
+        <div class="pair"><div class="ar">ب</div><div class="bn">বা</div></div>
+        <div class="pair"><div class="ar">م</div><div class="bn">মীম</div></div>
+        <div class="pair"><div class="ar">و</div><div class="bn">ওয়াও</div></div>
+      </div>
+
+      <h3>৪. নাক (الخيشوم)</h3>
+      <p>গুন্নাহ সাধারণত দুই হারাকাত (প্রায় দুই মাত্রা) ধরে পড়া হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">نّ</div><div class="bn">নূনের গুন্নাহ</div></div>
+        <div class="pair"><div class="ar">مّ</div><div class="bn">মীমের গুন্নাহ</div></div>
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p><strong>গলার হরফ:</strong></p>
+      <div class="practice">
+        <div class="item"><div class="ar">ء ه</div><div class="bn">হামযাহ, হা</div></div>
+        <div class="item"><div class="ar">ع ح</div><div class="bn">আইন, হা</div></div>
+        <div class="item"><div class="ar">غ خ</div><div class="bn">গইন, খা</div></div>
+      </div>
+      <p><strong>জিহ্বার হরফ:</strong></p>
+      <div class="practice">
+        <div class="item"><div class="ar">ق ك</div><div class="bn">ক্বাফ, কাফ</div></div>
+        <div class="item"><div class="ar">ج ش</div><div class="bn">জীম, শীন</div></div>
+        <div class="item"><div class="ar">ل ن ر</div><div class="bn">লাম, নূন, রা</div></div>
+      </div>
+      <p><strong>ঠোঁটের হরফ:</strong></p>
+      <div class="practice">
+        <div class="item"><div class="ar">ف ب م و</div><div class="bn">ফা, বা, মীম, ওয়াও</div></div>
+      </div>
+
+      <h3>বিশেষভাবে খেয়াল রাখুন</h3>
+      <p>এই অক্ষরগুলো অনেকেই ভুল উচ্চারণ করেন:</p>
+      <div class="row-table">
+        <table class="row-table">
+          <tr><th>আরবি</th><th>সঠিক নির্দেশনা</th></tr>
+          <tr><td class="ar">ح</td><td>গলার ভেতর থেকে, সাধারণ "হ" নয়</td></tr>
+          <tr><td class="ar">خ</td><td>গলার ভেতর থেকে "খ"</td></tr>
+          <tr><td class="ar">ع</td><td>গলার মাঝখান থেকে, বাংলায় এর সঠিক সমতুল্য নেই</td></tr>
+          <tr><td class="ar">غ</td><td>গলার ওপরের অংশ থেকে</td></tr>
+          <tr><td class="ar">ق</td><td>জিহ্বার পেছন অংশ থেকে, সাধারণ "ক" নয়</td></tr>
+          <tr><td class="ar">ص</td><td>মোটা "স"</td></tr>
+          <tr><td class="ar">ض</td><td>মোটা "দ/য"-ধ্বনি, বিশেষ উচ্চারণ</td></tr>
+          <tr><td class="ar">ط</td><td>মোটা "ত"</td></tr>
+          <tr><td class="ar">ظ</td><td>মোটা "য/জ়"-ধ্বনি</td></tr>
+        </table>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> বাংলা উচ্চারণ কেবল শেখার সুবিধার জন্য দেওয়া হয়েছে। শুদ্ধ কুরআন তিলাওয়াতের জন্য মাখরাজ একজন যোগ্য ক্বারী বা তাজবীদ শিক্ষকের কাছ থেকে শুনে অনুশীলন করা সবচেয়ে উত্তম।</div>
+    </section>
+
+    <section id="part-11">
+      <h2>পার্ট–১১: গুন্নাহ (غُنَّة)</h2>
+      <p>গুন্নাহ (غُنَّة) হলো নাক দিয়ে বের হওয়া একটা মধুর ধ্বনি। এটা প্রধানত নূন (ن) ও মীম (م)-এর কিছু অবসথায় পড়া হয়।</p>
+
+      <h3>১. গুন্নাহ কী?</h3>
+      <p>গুন্নাহ অর্থ হলো নাক দিয়ে টেনে উচ্চারণ করা। এটা সাধারণত ২ হারাকাত (প্রায় দুই মাত্রা) ধরে পড়তে হয়।</p>
+
+      <h3>২. কোথায় গুন্নাহ হবে?</h3>
+      <h4>(ক) নূন মুশাদ্দাদ (نّ)</h4>
+      <p>যখন ن-এর উপর তাশদীদ (ّ) থাকে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="pair"><div class="ar">ثُمَّ إِنَّ</div><div class="bn">ছুম্মা ইন্না</div></div>
+        <div class="pair"><div class="ar">جَنَّةٌ</div><div class="bn">জান্নাতুন</div></div>
+      </div>
+      <p>এখানে نّ দুই হারাকাত গুন্নাহসহ পড়তে হবে।</p>
+
+      <h4>(খ) মীম মুশাদ্দাদ (مّ)</h4>
+      <p>যখন م-এর উপর তাশদীদ (ّ) থাকে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="pair"><div class="ar">أُمٌّ</div><div class="bn">উম্মুন</div></div>
+        <div class="pair"><div class="ar">عَمَّ</div><div class="bn">আম্মা</div></div>
+      </div>
+      <p>এখানে مّ দুই হারাকাত গুন্নাহসহ পড়তে হবে।</p>
+
+      <h3>৩. অনুশীলন</h3>
+      <p>নিচেরগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="item"><div class="ar">أَنَّ</div><div class="bn">আন্না</div></div>
+        <div class="item"><div class="ar">جَنَّةٌ</div><div class="bn">জান্নাতুন</div></div>
+        <div class="item"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="item"><div class="ar">أُمٌّ</div><div class="bn">উম্মুন</div></div>
+        <div class="item"><div class="ar">عَمَّ</div><div class="bn">আম্মা</div></div>
+      </div>
+
+      <h3>৪. কুরআন থেকে উদাহরণ</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">إِنَّ اللَّهَ</div><div class="bn">ইন্নাল্লাহা</div></div>
+        <div class="pair"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="pair"><div class="ar">أَمَّا</div><div class="bn">আম্মা</div></div>
+        <div class="pair"><div class="ar">جَنَّاتٍ</div><div class="bn">জান্নাতিন</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> نّ = দুই হারাকাত গুন্নাহ, مّ = দুই হারাকাত গুন্নাহ। শব্দে নাকের ধ্বনি স্পষ্ট শোনা যাবে, কিন্তু অতিরিক্ত টান দেওয়া যাবে না।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">إِنَّ</div><div class="bn">ইন্না</div></div>
+        <div class="item"><div class="ar">أَنَّ</div><div class="bn">আন্না</div></div>
+        <div class="item"><div class="ar">ثُمَّ</div><div class="bn">ছুম্মা</div></div>
+        <div class="item"><div class="ar">أُمٌّ</div><div class="bn">উম্মুন</div></div>
+        <div class="item"><div class="ar">جَنَّةٌ</div><div class="bn">জান্নাতুন</div></div>
+        <div class="item"><div class="ar">عَمَّ</div><div class="bn">আম্মা</div></div>
+      </div>
+      <div class="note"><strong>আজকের সারাংশ:</strong> গুন্নাহ = নাক দিয়ে মধুর ধ্বনি। নূন মুশাদ্দাদ (نّ) → ২ হারাকাত। মীম মুশাদ্দাদ (مّ) → ২ হারাকাত।</div>
+    </section>
+
+    <section id="part-12">
+      <h2>পার্ট–১২: নূন সাকিন (نْ) ও তানওয়ীন (ً ٍ ٌ)-এর ৪টি গুরুত্বপূর্ণ নিয়ম</h2>
+      <p>যখন নূন সাকিন (نْ) বা তানওয়ীন (ً ٍ ٌ)-এর পরে অন্য কোনো অক্ষর আসে, তখন চারটা নিয়মের একটা প্রযোজ্য হয়।</p>
+
+      <h3>১. ইযহার (إظهار)</h3>
+      <p>অর্থ: স্পষ্টভাব পড়া। ইযহারের অক্ষর ৬টি: ء هـ ع ح غ خ</p>
+      <p>নূন সাকিন বা তানওয়ীনের পরে এই ৬টা অক্ষরের যেকোনো একটা এলে নূনের ধ্বনি স্পষ্টভাব পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">مِنْهُ</div><div class="bn">মিনহু</div></div>
+        <div class="pair"><div class="ar">أَنْعَمْتَ</div><div class="bn">আন'আমতা</div></div>
+        <div class="pair"><div class="ar">عَلِيمٌ حَكِيمٌ</div><div class="bn">আলীমুন হাকীমুন</div></div>
+      </div>
+
+      <h3>২. ইদগাম (إدغام)</h3>
+      <p>অর্থ: মিলিয়ে পড়া। ইদগামের অক্ষর ৬টি: ي ر م ل و ن (সহজে মনে রাখুন: يرملون)</p>
+      <p>নূন সাকিন বা তানওয়ীনের পরে এই অক্ষরগুলোর একটা এলে দুই অক্ষর মিলিয়ে পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">مِنْ رَبِّهِمْ</div><div class="bn">মির্ রাব্বিহিম</div></div>
+        <div class="pair"><div class="ar">مِنْ وَالٍ</div><div class="bn">মিওয়াালিন</div></div>
+        <div class="pair"><div class="ar">غَفُورٌ رَحِيمٌ</div><div class="bn">গাফূরুর রাহীম</div></div>
+      </div>
+
+      <h3>৩. ইকলাব (إقلاب)</h3>
+      <p>অর্থ: রূপান্তর করা। ইকলাবের অক্ষর: ب</p>
+      <p>নূন সাকিন বা তানওয়ীনের পরে ب এলে নূনের ধ্বনি মীমের মতো (ম্) হয়ে যায় এবং গুন্নাহসহ পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">أَنْبِئْهُمْ</div><div class="bn">আম্বিঅহুম</div></div>
+        <div class="pair"><div class="ar">سَمِيعٌ بَصِيرٌ</div><div class="bn">সামীউম বাসীর</div></div>
+      </div>
+
+      <h3>৪. ইখফা (إخفاء)</h3>
+      <p>অর্থ: আংশিক গোপন করে পড়া। ইখফার অক্ষর ১৫টি: ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك</p>
+      <p>নূন সাকিন বা তানওয়ীনের পরে এই অক্ষরগুলোর একটা এলে নূনের ধ্বনি পুরোপুরি স্পষ্টও হবে না, পুরোপুরি মিলিয়েও যাবে না; গুন্নাহসহ আংশিক গোপন করে পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">مِنْ قَبْلِ</div><div class="bn">মিন্ (গুন্নাহ) কাবলি</div></div>
+        <div class="pair"><div class="ar">أَنْتَ</div><div class="bn">আন্ (গুন্নাহ) তা</div></div>
+        <div class="pair"><div class="ar">عَلِيمٌ خَبِيرٌ</div><div class="bn">(এটা ইযহার, ইখফা নয় — কারণ خ ইযহারের অক্ষর)</div></div>
+      </div>
+
+      <h3>সহজে মনে রাখার সূত্র</h3>
+      <div class="note">
+        <strong>ইযহার</strong> — ৬ অক্ষর: ء هـ ع ح غ খ<br>
+        <strong>ইদগাম</strong> — ৬ অক্ষর: يرملون<br>
+        <strong>ইকলাব</strong> — ১ অক্ষর: ب<br>
+        <strong>ইখফা</strong> — বাকি ১৫টা অক্ষর
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">مِنْهُ</div><div class="bn">মিনহু</div></div>
+        <div class="item"><div class="ar">أَنْعَمْتَ</div><div class="bn">আন'আমতা</div></div>
+        <div class="item"><div class="ar">مِنْ رَبِّهِمْ</div><div class="bn">মির্ রাব্বিহিম</div></div>
+        <div class="item"><div class="ar">مِنْ وَالٍ</div><div class="bn">মিওয়াালিন</div></div>
+        <div class="item"><div class="ar">أَنْبِئْهُمْ</div><div class="bn">আম্বিঅহুম</div></div>
+        <div class="item"><div class="ar">مِنْ قَبْلِ</div><div class="bn">মিন্ (গুন্নাহ) কাবলি</div></div>
+        <div class="item"><div class="ar">أَنْتَ</div><div class="bn">আন্ (গুন্নাহ) তা</div></div>
+      </div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>প্রতিটা উদাহরণ ১০ বার করে পড়ুন এবং চেষ্টা করুন কোনটা ইযহার, কোনটা ইদগাম, কোনটা ইকলাব এবং কোনটা ইখফা তা নিজে চিনতে।</p>
+    </section>
+
+    <section id="part-13">
+      <h2>পার্ট–১৩: মীম সাকিন (مْ)-এর ৩টা নিয়ম</h2>
+      <p>আজ আমরা মীম সাকিন (مْ)-এর তিনটা গুরুত্বপূর্ণ নিয়ম শিখব। কুরআন তিলাওয়াত এগুলো খুবই গুরুত্বপূর্ণ।</p>
+
+      <h3>১. ইখফা শাফাওয়ী (إخفاء شفوي)</h3>
+      <p>অক্ষর: ب (বা)</p>
+      <p>যদি মীম সাকিন (مْ)-এর পরে বা আসে, তাহলে গুন্নাহসহ (২ হারাকাত) আংশিক গোপন করে পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">تَرْمِيهِمْ بِحِجَارَةٍ</div><div class="bn">তারমীহিম (গুন্নাহ) বিহিজারাতিন</div></div>
+        <div class="pair"><div class="ar">هُمْ بِهِ</div><div class="bn">হুম (গুন্নাহ) বিহি</div></div>
+      </div>
+
+      <h3>২. ইদগাম শাফাওয়ী (إدغام شفوي)</h3>
+      <p>অক্ষর: م (মীম)</p>
+      <p>যদি মীম সাকিন (مْ)-এর পরে আরেকটা মীম (م) আসে, তাহলে দুইটা মীম একসাথে মিলিয়ে গুন্নাহসহ (২ হারাকাত) পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">لَهُمْ مَا</div><div class="bn">লাহুম্মা</div></div>
+        <div class="pair"><div class="ar">كَمْ مِنْ</div><div class="bn">কাম্মিন</div></div>
+      </div>
+
+      <h3>৩. ইযহার শাফাওয়ী (إظهار شفوي)</h3>
+      <p>অক্ষর: ب এবং م ছাড়া বাকি ২৬টা অক্ষর।</p>
+      <p>মীম সাকিনের পরে যদি ব বা মীম ছাড়া অন্য যেকোনো অক্ষর আসে, তাহলে মীম স্পষ্টভাবে পড়তে হবে।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">أَمْ كُنْتُمْ</div><div class="bn">আম কুনতুম</div></div>
+        <div class="pair"><div class="ar">هُمْ فِيهَا</div><div class="bn">হুম ফীহা</div></div>
+        <div class="pair"><div class="ar">عَلَيْهِمْ صَلَوَاتٌ</div><div class="bn">আলাইহিম সালাওয়াতুন</div></div>
+      </div>
+
+      <h3>সহজে মনে রাখার নিয়ম</h3>
+      <div class="note">
+        <strong>ب</strong> → ইখফা শাফাওয়ী<br>
+        <strong>م</strong> → ইদগাম শাফাওয়ী<br>
+        <strong>অন্য ২৬টা</strong> → ইযহার শাফাওয়ী
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচের শব্দগুলো ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">هُمْ بِهِ</div><div class="bn">হুম (গুন্নাহ) বিহি</div></div>
+        <div class="item"><div class="ar">تَرْمِيهِمْ بِحِجَارَةٍ</div><div class="bn">তারমীহিম (গুন্নাহ) বিহিজারাতিন</div></div>
+        <div class="item"><div class="ar">لَهُمْ مَا</div><div class="bn">লাহুম্মা</div></div>
+        <div class="item"><div class="ar">كَمْ مِنْ</div><div class="bn">কাম্মিন</div></div>
+        <div class="item"><div class="ar">هُمْ فِيهَا</div><div class="bn">হুম ফীহা</div></div>
+        <div class="item"><div class="ar">أَمْ كُنْتُمْ</div><div class="bn">আম কুনতুম</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> مْ + ب = ইখফা শাফাওয়ী (গুন্নাহ ২ হারাকাত), مْ + م = ইদগাম শাফাওয়ী (গুন্নাহ ২ হারাকাত), মীম + অন্য সব অক্ষর = ইযহার শাফাওয়ী (স্পষ্ট উচ্চারণ)</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>প্রতিটা উদাহরণ ১০ বার করে পড়ুন এবং নিজে চিনতে চেষ্টা করুন কোনটা ইখফা, কোনটা ইদগাম এবং কোনটা ইযহার।</p>
+    </section>
+
+    <section id="part-14">
+      <h2>পার্ট–১৪: মাদ্দ (مد)-এর প্রকারভেদ</h2>
+      <p>আজ আমরা মাদ্দ (টেনে পড়া) সম্পর্কে বিস্তারিত জানব। তাজবীদের অন্যতম গুরুত্বপূর্ণ বিষয় এটি।</p>
+
+      <h3>মাদ্দ কী?</h3>
+      <p>মাদ্দ অর্থ হলো টেনে পড়া। মাদ্দের অক্ষর ৩টা: ا (আলিফ), و (ওয়াও), ي (ইয়া)</p>
+
+      <h3>১. মাদ্দে আসলী (المد الأصلي)</h3>
+      <p>একে মাদ্দে তাবীঈও বলা হয়। সাধারণভাবে ২ হারাকাত টেনে পড়তে হয়।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">قَالَ</div><div class="bn">ক্বা-লা</div></div>
+        <div class="pair"><div class="ar">نُورٌ</div><div class="bn">নূ-রুন</div></div>
+        <div class="pair"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+      </div>
+
+      <h3>২. মাদ্দে মুত্তাসিল (المد المتصل)</h3>
+      <p>একই শব্দে মাদ্দের অক্ষরের পরে হামযা (ء) এলে। টান: ৪–৫ হারাকাত।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">جَاءَ</div><div class="bn">জা-আ</div></div>
+        <div class="pair"><div class="ar">السَّمَاءِ</div><div class="bn">আস্-সামা-ই</div></div>
+      </div>
+
+      <h3>৩. মাদ্দে মুনফাসিল (المد المنفصل)</h3>
+      <p>এক শব্দে মাদ্দের অক্ষর এবং পরের শব্দে হামযা এলে। টান: ৪–৫ হারাকাত।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">فِي أَنْفُسِكُمْ</div><div class="bn">ফী-ই আনফুসিকুম</div></div>
+        <div class="pair"><div class="ar">بِمَا أُنْزِلَ</div><div class="bn">বিমা-আ উনযিলা</div></div>
+      </div>
+
+      <h3>৪. মাদ্দে লাযিম (المد اللازم)</h3>
+      <p>মাদ্দের পরে সুকূন লাযিম এলে। টান: ৬ হারাকাত।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">الضَّالِّينَ</div><div class="bn">আদ্-দ্বা-ল্লীন</div></div>
+        <div class="pair"><div class="ar">آلآنَ</div><div class="bn">আ-ল্-আন</div></div>
+      </div>
+
+      <h3>৫. মাদ্দে আরিয লিস্‌সুকূন (المد العارض للسكون)</h3>
+      <p>ওয়াকফ (থামার) কারণে শেষে সুকূন সৃষ্টি হলে। টান: ২ / ৪ / ৬ হারাকাত।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">الْعَالَمِينَ</div><div class="bn">আল-আলামীন (থামলে)</div></div>
+        <div class="pair"><div class="ar">الرَّحِيمِ</div><div class="bn">আর-রাহীম (থামলে)</div></div>
+      </div>
+
+      <h3>৬. মাদ্দে লীন (مد اللين)</h3>
+      <p>যবরের পরে وْ অথবা يْ থাকলে এবং শেষে থামলে। টান: ২ / ৪ / ৬ হারাকাত।</p>
+      <div class="table">
+        <div class="pair"><div class="ar">خَوْفٍ</div><div class="bn">খাওফ</div></div>
+        <div class="pair"><div class="ar">بَيْتٍ</div><div class="bn">বাইত</div></div>
+      </div>
+
+      <h3>সহজে মনে রাখুন</h3>
+      <div class="note">
+        <strong>মাদ্দের ধরন</strong> — টান<br>
+        <strong>মাদ্দে আসলী</strong> — ২ হারাকাত<br>
+        <strong>মাদ্দে মুত্তাসিল</strong> — ৪–৫ হারাকাত<br>
+        <strong>মাদ্দে মুনফাসিল</strong> — ৪–৫ হারাকাত<br>
+        <strong>মাদ্দে লাযিম</strong> — ৬ হারাকাত<br>
+        <strong>মাদ্দে আরিয</strong> — ২ / ৪ / ৬ হারাকাত<br>
+        <strong>মাদ্দে লীন</strong> — ২ / ৪ / ৬ হারাকাত
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>ধীরে ধীরে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">قَالَ</div><div class="bn">ক্বা-লা</div></div>
+        <div class="item"><div class="ar">نُورٌ</div><div class="bn">নূ-রুন</div></div>
+        <div class="item"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+        <div class="item"><div class="ar">جَاءَ</div><div class="bn">জা-আ</div></div>
+        <div class="item"><div class="ar">السَّمَاءِ</div><div class="bn">আস্-সামা-ই</div></div>
+        <div class="item"><div class="ar">الضَّالِّينَ</div><div class="bn">আদ্-দ্বা-ল্লীন</div></div>
+        <div class="item"><div class="ar">خَوْفٍ</div><div class="bn">খাওফ</div></div>
+        <div class="item"><div class="ar">بَيْتٍ</div><div class="bn">বাইত</div></div>
+      </div>
+      <div class="note"><strong>মনে রাখবেন:</strong> ২ হারাকাত = স্বাভাবিক টান। ৪–৫ হারাকাত = মাঝারি টান। ৬ হারাকাত = দীর্ঘ টান।</div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১০ বার করে পড়ুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">قَالَ</div><div class="bn">ক্বা-লা</div></div>
+        <div class="item"><div class="ar">فِي</div><div class="bn">ফী</div></div>
+        <div class="item"><div class="ar">جَاءَ</div><div class="bn">জা-আ</div></div>
+        <div class="item"><div class="ar">السَّمَاءِ</div><div class="bn">আস্-সামা-ই</div></div>
+        <div class="item"><div class="ar">الضَّالِّينَ</div><div class="bn">আদ্-দ্বা-ল্লীন</div></div>
+        <div class="item"><div class="ar">خَوْفٍ</div><div class="bn">খাওফ</div></div>
+      </div>
+    </section>
+
+    <section id="part-15">
+      <h2>পার্ট–১৫: ওয়াকফ (وقف) ও ইবতিদা (ابتداء)</h2>
+      <p>আজ আমরা শিখব কোথায় থামতে হবে (ওয়াকফ) এবং কোথা থেকে আবার শুরু করতে হবে (ইবতিদা)। শুদ্ধ কুরআন তিলাওয়াতের জন্য এটা অত্যন্ত গুরুত্বপূর্ণ।</p>
+
+      <h3>১. ওয়াকফ (وقف) কী?</h3>
+      <p>ওয়াকফ অর্থ হলো তিলাওয়াতের সময় নির্দিষ্ট স্থানে থামা। থামার সময় শেষ অক্ষরটা সাধারণত সুকূন (জযম) করে পড়া হয়।</p>
+
+      <h3>২. ইবতিদা (ابتداء) কী?</h3>
+      <p>ইবতিদা অর্থ হলো থামার পরে আবার সঠিক স্থান থেক পড়া শুরু করা। চেষ্টা করবেন এমন জায়গা থেক শুরু করতে, যাতে অর্থ ঠিক থাকে।</p>
+
+      <h3>৩. কুরআনের গুরুত্বপূর্ণ ওয়াকফ চিহ্ন</h3>
+      <ul>
+        <li><strong>(م)</strong> — ওয়াকফে লাযিম (অবশ্যই থামা উত্তম): এখানে থামা ভালো এবং অধিকাংশ ক্ষেত্রে উচিত।</li>
+        <li><strong>(لا)</strong> — এখানে থামবেন না: থামলে অর্থ নষ্ট হতে পারে। উদাহরণ: لا ريب فيه — এখানে "لا" চিহ্ন থাকলে মাঝখানে থামা ঠিক নয়।</li>
+        <li><strong>(ج)</strong> — থামা বা না থামা উভয়ই বৈধ।</li>
+        <li><strong>(قلى)</strong> — থামা উত্তম।</li>
+        <li><strong>(صلى)</strong> — না থামা উত্তম।</li>
+        <li><strong>(۝)</strong> — আয়াত শেষ হওয়ার চিহ্ন। এখানে থামা সুন্নত।</li>
+      </ul>
+
+      <h3>৪. ওয়াকফ করলে কী পরিবর্তন হয়?</h3>
+      <p>উদাহরণ:</p>
+      <div class="big-example"><div class="ar">الرَّحِيمِ</div><div class="bn">চলমান অবসথায়: আর-রাহীমি / থামলে: আর-রাহীম</div></div>
+      <div class="big-example"><div class="ar">الْعَالَمِينَ</div><div class="bn">চলমান অবসথায়: আল-আলামীন / থামলে: আল-আলামীন্</div></div>
+
+      <h3>৫. সূরা আল-ফাতিহা দিয়ে অনুশীলন</h3>
+      <div class="table">
+        <div class="pair"><div class="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ۝</div><div class="bn">এখানে থামতে পারবেন।</div></div>
+        <div class="pair"><div class="ar">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝</div><div class="bn">আয়াত শেষে থামা সুন্নত।</div></div>
+        <div class="pair"><div class="ar">الرَّحْمَٰنِ الرَّحِيمِ ۝</div><div class="bn">এখানে থামুন।</div></div>
+        <div class="pair"><div class="ar">مَالِكِ يَوْمِ الدِّينِ ۝</div><div class="bn">এখানেও থামুন।</div></div>
+      </div>
+
+      <h3>সহজে মনে রাখুন</h3>
+      <div class="note">
+        <strong>م</strong> — অবশ্যই থামা উত্তম<br>
+        <strong>لا</strong> — থামবেন না<br>
+        <strong>ج</strong> — থামা বা না থামা—দুটিই বৈধ<br>
+        <strong>قلى</strong> — থামা উত্তম<br>
+        <strong>صلى</strong> — না থামা উত্তম<br>
+        <strong>۝</strong> — আয়াত শেষ
+      </div>
+
+      <h3>অনুশীলন</h3>
+      <p>নিচের চিহ্নগুলো মুখস্থ করুন:</p>
+      <div class="practice">
+        <div class="item"><div class="ar">م</div><div class="bn">অবশ্যই থামা উত্তম</div></div>
+        <div class="item"><div class="ar">لا</div><div class="bn">থামবেন না</div></div>
+        <div class="item"><div class="ar">ج</div><div class="bn">থামা বা না থামা</div></div>
+        <div class="item"><div class="ar">قلى</div><div class="bn">থামা উত্তম</div></div>
+        <div class="item"><div class="ar">صلى</div><div class="bn">না থামা উত্তম</div></div>
+        <div class="item"><div class="ar">۝</div><div class="bn">আয়াত শেষ</div></div>
+      </div>
+
+      <h3>বাড়ির কাজ</h3>
+      <p>১. সূরা আল-ফাতিহা দেখে সব ۝ চিহ্নে থামুন।</p>
+      <p>২. ওয়াকফ করলে শেষ অক্ষর কীভাবে পরিবর্তিত হয় তা ১০ বার অনুশীলন করুন।</p>
+      <p>৩. م, لا, ج, قلى, صلى—এই পাঁচটা চিহ্নের অর্থ মুখস্থ করুন।</p>
+      <div class="note"><strong>আজকের সারাংশ:</strong> ওয়াকফ = থামা। ইবতিদা = আবার শুরু করা। সব জায়গায় থামা যায় না। ওয়াকফের চিহ্ন দেখে তিলাওয়াত করলে অর্থ ও সৌন্দর্য দুটোই বজায় থাকে।</div>
+    </section>
+  </main>
+</body>
+</html>

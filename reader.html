@@ -778,6 +778,7 @@
     <button class="surah-card menu-card" data-mode="arabic">Arabic Quran Majeed</button>
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
+    <button class="surah-card menu-card" data-mode="noorani">নূরানী কায়দা<br><span style="font-size:14px; color:#e9d9b0">Noorani Qaida</span></button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -7650,10 +7651,14 @@
       window.scrollTo({ top: 0 });
     }
 
-    // Start the selected reading mode (website/full, Arabic-only, English, or Necessary)
+    // Start the selected reading mode (website/full, Arabic-only, English, Necessary, or Noorani)
     function startMode(mode) {
       if (mode === "necessary") {
         showNecessaryMenu();
+        return;
+      }
+      if (mode === "noorani") {
+        window.location.href = "noorani_qaida.html";
         return;
       }
       readingMode = (mode === "website") ? "bangla" : mode;

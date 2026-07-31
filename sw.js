@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v104";
+const CACHE = "alquran-v105";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -13,6 +13,7 @@ const DATA_CACHE = "alquran-data";
 const APP_SHELL = [
   "./",                // Cloudflare Pages rewrites / to reader.html
   "./reader.html",     // cache the real HTML directly (redirect-free copy)
+  "./noorani_qaida.html", // Noorani Qaida reference page
   "./manifest.webmanifest",
   "./images/Sura.jpg", // surah-name banner shown on every surah page
   "./images/banner.jpg"
@@ -120,16 +121,21 @@ self.addEventListener("fetch", (event) => {
       ])
         .then((res) => {
           if (res && res.status === 200) {
-            // Cache a clean copy keyed to the reusable shell URLs.
-            const copy = res.clone();
+            // Cache a clean copy keyed to the actual requested URL.
             caches.open(CACHE).then((cache) => {
-              cache.put("./reader.html", copy.clone());
-              cache.put("./", copy);
+              const shell = res.clone();
+              cache.put(req.url, shell);
+              // Keep the root shell mapping for the main app pages.
+              const path = new URL(req.url).pathname;
+              if (path === "/" || path === "/reader.html") {
+                cache.put("./reader.html", res.clone());
+                cache.put("./", res.clone());
+              }
             });
           }
           return res;
         })
-        .catch(() => serveOfflineShell())
+        .catch(() => caches.match(req).then((cached) => cached || serveOfflineShell()))
     );
     return;
   }
