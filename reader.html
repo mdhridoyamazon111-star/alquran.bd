@@ -777,7 +777,7 @@
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
     <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
-    <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা বাংলা এবং ইংলিশ</button>
+    <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7881,8 +7881,8 @@
         );
         bismillahEl.style.display = "none";
         ayahsEl.innerHTML = "";
-        surahTitle.innerHTML = `<span class="st-inner"><span class="st-left">আল কুরআনের 21 টি ছোট সূরা<br>বাংলা এবং ইংলিশ</span><span class="st-right">سُوَر</span></span>`;
-        surahInfo.innerHTML = `<span>সূরা <strong>${toArabicNum(1)}, ${toArabicNum(95)}–${toArabicNum(114)}</strong></span><span>২১টি ছোট সূরা</span>`;
+        surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0; border-bottom:1px solid var(--gold-1); margin-bottom:6px;">আল কুরআনের 21 টি সূরা</div>';
+        surahInfo.innerHTML = "";
         navName.textContent = "২১ ছোট সূরা";
         const fragment = document.createDocumentFragment();
         for (let s = 0; s < results.length; s++) {
