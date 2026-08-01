@@ -555,6 +555,7 @@
         background-position: 2px 5px !important;
         margin-left: 2px;
         margin-right: 2px;
+        height: calc(clamp(48px, 7vw, 90px) + 5px);
       }
     }
     .info-banner {
@@ -574,6 +575,15 @@
     }
     .info-banner span { display: inline-flex; align-items: center; gap: 6px; }
     .info-banner strong { color: var(--teal); font-weight: 700; }
+    @media (max-width: 1023px) {
+      .info-banner {
+        margin: 0 10px 18px;
+        padding: 12px 16px;
+        font-size: 16px;
+        gap: 12px 20px;
+      }
+      .info-banner span { gap: 8px; }
+    }
 
     /* ---------- Bismillah ---------- */
     .bismillah {
