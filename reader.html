@@ -7926,7 +7926,7 @@
           const bnName = info.bnName || englishName;
           const heading = document.createElement("div");
           heading.className = "surah-title";
-          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}<br>${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
+          heading.innerHTML = `<span class="st-inner"><span class="st-right">${info.arName || arabic.name}</span></span>`;
           fragment.appendChild(heading);
           if (n !== 1 && n !== 9) {
             const b = document.createElement("div");
