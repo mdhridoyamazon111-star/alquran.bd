@@ -7678,6 +7678,7 @@
       mainMenu.style.display = "grid";
       document.body.classList.add("home");
       desktopBanner.style.display = "";
+      surahTitle.style.display = "";
       updateInstallBtn();
       history.replaceState({ view: "home" }, "", "/");
       window.scrollTo({ top: 0 });
@@ -7836,6 +7837,7 @@
       mainMenu.style.display = "none";
       page.style.display = "none";
       desktopBanner.style.display = "none";
+      surahTitle.style.display = "";
       updateInstallBtn();
       history.pushState({ view: "ayatulKursi" }, "", "/");
       statusEl.style.display = "block";
@@ -7912,6 +7914,7 @@
         bismillahEl.style.display = "none";
         ayahsEl.innerHTML = "";
         surahTitle.innerHTML = "";
+        surahTitle.style.display = "none";
         surahInfo.innerHTML = "";
         navName.textContent = "২১ ছোট সূরা";
         const fragment = document.createDocumentFragment();
@@ -7926,7 +7929,7 @@
           const bnName = info.bnName || englishName;
           const heading = document.createElement("div");
           heading.className = "surah-title";
-          heading.innerHTML = `<span class="st-inner"><span class="st-right">${info.arName || arabic.name}</span></span>`;
+          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}<br>${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
           fragment.appendChild(heading);
           if (n !== 1 && n !== 9) {
             const b = document.createElement("div");
@@ -8032,6 +8035,7 @@
       surahGrid.style.display = "none";
       mainMenu.style.display = "none";
       desktopBanner.style.display = "none";
+      surahTitle.style.display = "";
       updateInstallBtn();
       statusEl.style.display = "block";
       statusEl.textContent = "সূরা লোড হচ্ছে...";
