@@ -485,6 +485,14 @@
       white-space: nowrap;
       color: #000;
     }
+    .surah-title .st-middle {
+      font-family: "Noto Sans Bengali", serif;
+      font-weight: 700;
+      font-size: clamp(12px, 2.4vw, 16px);
+      line-height: 1.1;
+      white-space: nowrap;
+      color: #000;
+    }
     .surah-title .st-right {
       font-family: "Scheherazade New", "Amiri", serif;
       font-weight: 800;
@@ -545,6 +553,8 @@
       .inner .surah-title {
         background-size: calc(100% - 4px) calc(100% - 5px) !important;
         background-position: 2px 5px !important;
+        margin-left: 2px;
+        margin-right: 2px;
       }
     }
     .info-banner {
@@ -7929,7 +7939,7 @@
           const bnName = info.bnName || englishName;
           const heading = document.createElement("div");
           heading.className = "surah-title";
-          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}<br>${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
+          heading.innerHTML = `<span class="st-inner"><span class="st-left">${toArabicNum(n)}. ${englishName}</span><span class="st-middle">${bnName}</span><span class="st-right">${info.arName || arabic.name}</span></span>`;
           fragment.appendChild(heading);
           if (n !== 1 && n !== 9) {
             const b = document.createElement("div");
@@ -8143,13 +8153,17 @@
 
     // On open:
     //  1) if ?surah=N is present (e.g. after refresh) show that surah;
-    //  2) else if a bookmark exists, open that surah and jump to the marked ayah;
-    //  3) otherwise show the surah list (home) grid.
+    //  2) else if ?small21 is present show 21 small surahs;
+    //  3) else if a bookmark exists, open that surah and jump to the marked ayah;
+    //  4) otherwise show the surah list (home) grid.
     initSurahList().then(() => {
       const params = new URLSearchParams(location.search);
       const s = parseInt(params.get("surah"), 10);
+      const small21 = params.get("small21");
       if (s >= 1 && s <= 114) {
         loadSurah(s);
+      } else if (small21) {
+        showSmall21Surahs();
       } else {
         const bm = getBookmark();
         if (bm && bm.surah >= 1 && bm.surah <= 114) {
