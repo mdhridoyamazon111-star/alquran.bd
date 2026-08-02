@@ -595,6 +595,98 @@
       line-height: 1.7;
     }
 
+    /* ---------- Prayer Info ---------- */
+    .prayer-info-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+    }
+    .weather-card, .qibla-card, .prayer-times-card {
+      background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .weather-temp {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+    }
+    .weather-label {
+      font-size: 16px;
+      color: var(--gold-3);
+      margin-top: 8px;
+    }
+    .qibla-direction {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+    }
+    .qibla-label {
+      font-size: 18px;
+      color: var(--gold-3);
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    .qibla-hint {
+      font-size: 14px;
+      color: var(--gold-3);
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+    .prayer-header {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .prayer-date {
+      font-size: 16px;
+      color: var(--gold-3);
+      margin-bottom: 4px;
+    }
+    .prayer-location {
+      font-size: 14px;
+      color: var(--gold-3);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+    .prayer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gold-1);
+    }
+    .prayer-row:last-child {
+      border-bottom: none;
+    }
+    .prayer-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold-3);
+    }
+    .prayer-time {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    @media (max-width: 1023px) {
+      .weather-temp, .qibla-direction {
+        font-size: 42px;
+      }
+      .prayer-header {
+        font-size: 20px;
+      }
+      .prayer-name, .prayer-time {
+        font-size: 16px;
+      }
+    }
+
     /* ---------- Ayah blocks ---------- */
     .ayah-block {
       position: relative;
@@ -817,6 +909,7 @@
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
     <button class="surah-card menu-card" data-mode="noorani">নূরানী কায়দা<br><span class="nq-en">Noorani Qaida</span></button>
+    <button class="surah-card menu-card" data-mode="prayer-info">নামাজের সময়, কিবলা ও আবহাওয়া<br><span class="nq-en">Prayer Times, Qibla & Weather</span></button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -7714,6 +7807,10 @@
         window.location.href = "noorani_qaida.html";
         return;
       }
+      if (mode === "prayer-info") {
+        showPrayerInfo();
+        return;
+      }
       readingMode = (mode === "website") ? "bangla" : mode;
       showGrid();
     }
@@ -7847,6 +7944,127 @@
       updateInstallBtn();
       history.pushState({ view: "necessary" }, "", "/");
       window.scrollTo({ top: 0 });
+    }
+
+    // Show prayer times, Qibla compass, and weather
+    async function showPrayerInfo() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "prayerInfo" }, "", "/");
+      window.scrollTo({ top: 0 });
+
+      page.style.display = "block";
+      surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">নামাজের সময়, কিবলা ও আবহাওয়া</div>';
+      surahInfo.innerHTML = "";
+      bismillahEl.style.display = "none";
+      ayahsEl.innerHTML = "";
+
+      statusEl.style.display = "block";
+      statusEl.textContent = "অবস্থান নির্ণয় করা হচ্ছে...";
+
+      try {
+        if (!navigator.geolocation) {
+          throw new Error("আপনার ডিভাইসে জিওলোকেশন সাপোর্ট করে না");
+        }
+
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          });
+        });
+
+        const { latitude, longitude } = position.coords;
+        statusEl.textContent = "নামাজের সময় লোড হচ্ছে...";
+
+        // Fetch prayer times using Aladhan API
+        const today = new Date();
+        const dateStr = today.toISOString().split('T')[0];
+        const prayerRes = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=2`);
+        const prayerData = await prayerRes.json();
+
+        // Fetch weather using Open-Meteo API (free, no API key needed)
+        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+        const weatherData = await weatherRes.json();
+
+        // Calculate Qibla direction (simplified calculation)
+        const qiblaLat = 21.4225; // Kaaba latitude
+        const qiblaLng = 39.8262; // Kaaba longitude
+        const latRad = latitude * Math.PI / 180;
+        const lngRad = longitude * Math.PI / 180;
+        const qiblaLatRad = qiblaLat * Math.PI / 180;
+        const qiblaLngRad = qiblaLng * Math.PI / 180;
+
+        const y = Math.sin(qiblaLngRad - lngRad);
+        const x = Math.cos(latRad) * Math.tan(qiblaLatRad) - Math.sin(latRad) * Math.cos(qiblaLngRad - lngRad);
+        let qiblaDirection = Math.atan2(y, x) * 180 / Math.PI;
+        qiblaDirection = (qiblaDirection + 360) % 360;
+
+        // Display the data
+        statusEl.style.display = "none";
+        displayPrayerInfo(prayerData.data, weatherData.current_weather, qiblaDirection);
+
+      } catch (error) {
+        statusEl.textContent = "ত্রুটি: " + error.message;
+        console.error("Prayer info error:", error);
+      }
+    }
+
+    function displayPrayerInfo(prayerData, weatherData, qiblaDirection) {
+      const timings = prayerData.timings;
+      const date = prayerData.date;
+      const meta = prayerData.meta;
+
+      const prayerNames = {
+        Fajr: "ফজর",
+        Dhuhr: "যোহর",
+        Asr: "আসর",
+        Maghrib: "মাগরিব",
+        Isha: "ইশা"
+      };
+
+      let html = `
+        <div class="prayer-info-container">
+          <div class="weather-card">
+            <div class="weather-temp">${Math.round(weatherData.temperature)}°C</div>
+            <div class="weather-label">আজকের তাপমাত্রা</div>
+          </div>
+
+          <div class="qibla-card">
+            <div class="qibla-direction">${Math.round(qiblaDirection)}°</div>
+            <div class="qibla-label">কিবলার দিক</div>
+            <div class="qibla-hint">উত্তর থেকে ঘড়ির কাঁটার দিকে</div>
+          </div>
+
+          <div class="prayer-times-card">
+            <div class="prayer-header">আজকের নামাজের সময়</div>
+            <div class="prayer-date">${date.readable}</div>
+            <div class="prayer-location">${meta.timezone}</div>
+      `;
+
+      for (const [key, name] of Object.entries(prayerNames)) {
+        const time = timings[key];
+        html += `
+          <div class="prayer-row">
+            <span class="prayer-name">${name}</span>
+            <span class="prayer-time">${time}</span>
+          </div>
+        `;
+      }
+
+      html += `
+          </div>
+        </div>
+      `;
+
+      ayahsEl.innerHTML = html;
     }
 
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
@@ -8005,6 +8223,8 @@
         showSmall21Surahs();
       } else if (state && state.view === "ayatulKursi") {
         showAyatulKursi();
+      } else if (state && state.view === "prayerInfo") {
+        showPrayerInfo();
       } else if (state && state.view === "home") {
         showMainMenu();
       } else {
