@@ -620,11 +620,44 @@
       color: var(--gold-3);
       margin-top: 8px;
     }
-    .qibla-direction {
-      font-size: 48px;
+    .compass-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px 0;
+    }
+    .compass-dial {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      position: relative;
+      border: 3px solid var(--gold-3);
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .compass-mark {
+      position: absolute;
+      font-size: 16px;
       font-weight: 700;
-      color: var(--teal);
+      color: var(--gold-3);
+    }
+    .compass-mark.n { top: 8px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.e { right: 8px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.w { left: 8px; top: 50%; transform: translateY(-50%); }
+    .kaaba-pointer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      height: 60px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease-out;
+    }
+    .kaaba-icon {
+      font-size: 40px;
       line-height: 1;
+      text-align: center;
     }
     .qibla-label {
       font-size: 18px;
@@ -676,8 +709,15 @@
       color: var(--teal);
     }
     @media (max-width: 1023px) {
-      .weather-temp, .qibla-direction {
+      .weather-temp {
         font-size: 42px;
+      }
+      .compass-dial {
+        width: 140px;
+        height: 140px;
+      }
+      .kaaba-icon {
+        font-size: 36px;
       }
       .prayer-header {
         font-size: 20px;
@@ -7942,7 +7982,7 @@
       document.body.classList.remove("home");
       desktopBanner.style.display = "none";
       updateInstallBtn();
-      history.pushState({ view: "necessary" }, "", "/");
+      history.pushState({ view: "necessary" }, "", "?view=necessary");
       window.scrollTo({ top: 0 });
     }
 
@@ -7956,7 +7996,7 @@
       necessaryMenu.style.display = "none";
       desktopBanner.style.display = "none";
       updateInstallBtn();
-      history.pushState({ view: "prayerInfo" }, "", "/");
+      history.pushState({ view: "prayerInfo" }, "", "?view=prayerInfo");
       window.scrollTo({ top: 0 });
 
       page.style.display = "block";
@@ -8012,8 +8052,9 @@
         displayPrayerInfo(prayerData.data, weatherData.current_weather, qiblaDirection);
 
       } catch (error) {
-        statusEl.textContent = "ত্রুটি: " + error.message;
         console.error("Prayer info error:", error);
+        statusEl.textContent = "ত্রুটি: " + error.message + ". অনুগ্রহ করে ইন্টারনেট সংযোগ এবং লোকেশন পারমিশন চেক করুন।";
+        page.style.display = "block";
       }
     }
 
@@ -8038,9 +8079,19 @@
           </div>
 
           <div class="qibla-card">
-            <div class="qibla-direction">${Math.round(qiblaDirection)}°</div>
+            <div class="compass-container">
+              <div class="compass-dial">
+                <div class="compass-mark n">N</div>
+                <div class="compass-mark e">E</div>
+                <div class="compass-mark s">S</div>
+                <div class="compass-mark w">W</div>
+                <div class="kaaba-pointer" id="kaabaPointer">
+                  <div class="kaaba-icon">🕋</div>
+                </div>
+              </div>
+            </div>
             <div class="qibla-label">কিবলার দিক</div>
-            <div class="qibla-hint">উত্তর থেকে ঘড়ির কাঁটার দিকে</div>
+            <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
           </div>
 
           <div class="prayer-times-card">
@@ -8065,6 +8116,53 @@
       `;
 
       ayahsEl.innerHTML = html;
+
+      // Start compass
+      startCompass(qiblaDirection);
+    }
+
+    let orientationHandler = null;
+
+    function startCompass(qiblaDirection) {
+      const kaabaPointer = document.getElementById('kaabaPointer');
+      if (!kaabaPointer) return;
+
+      if (orientationHandler) {
+        window.removeEventListener('deviceorientation', orientationHandler);
+        orientationHandler = null;
+      }
+
+      kaabaPointer.style.transform = `rotate(${qiblaDirection}deg)`;
+
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const compassDial = document.querySelector('.compass-dial');
+        if (compassDial) {
+          compassDial.addEventListener('click', function requestPermission() {
+            DeviceOrientationEvent.requestPermission()
+              .then(response => {
+                if (response === 'granted') {
+                  orientationHandler = (e) => handleOrientation(e, qiblaDirection, kaabaPointer);
+                  window.addEventListener('deviceorientation', orientationHandler);
+                }
+              })
+              .catch(console.error);
+            compassDial.removeEventListener('click', requestPermission);
+          });
+        }
+      } else {
+        orientationHandler = (e) => handleOrientation(e, qiblaDirection, kaabaPointer);
+        window.addEventListener('deviceorientation', orientationHandler);
+      }
+    }
+
+    function handleOrientation(event, qiblaDirection, kaabaPointer) {
+      if (event.alpha === null) {
+        kaabaPointer.style.transform = `rotate(${qiblaDirection}deg)`;
+        return;
+      }
+      const heading = event.alpha || 0;
+      const rotation = qiblaDirection - heading;
+      kaabaPointer.style.transform = `rotate(${rotation}deg)`;
     }
 
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
