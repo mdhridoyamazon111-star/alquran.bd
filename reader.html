@@ -8070,6 +8070,18 @@
         // Add debugging info
         console.log('Location:', latitude, longitude);
         console.log('Qibla Direction (raw):', qiblaDirection);
+        
+        // Update debug display
+        setTimeout(() => {
+          const debugInfo = document.getElementById('debugInfo');
+          const debugLocation = document.getElementById('debugLocation');
+          const debugQibla = document.getElementById('debugQibla');
+          if (debugInfo && debugLocation && debugQibla) {
+            debugInfo.style.display = 'block';
+            debugLocation.textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+            debugQibla.textContent = Math.round(qiblaDirection);
+          }
+        }, 100);
 
         // Display the data
         statusEl.style.display = "none";
@@ -8134,6 +8146,12 @@
             </div>
             <div class="qibla-label">Qibla Direction: ${Math.round(qiblaDirection)}°</div>
             <div class="qibla-hint">Rotate phone to find Qibla</div>
+            <div id="debugInfo" style="font-size: 11px; color: #666; margin-top: 10px; padding: 8px; background: #f5f5f5; border-radius: 4px; display: none;">
+              <div>Location: <span id="debugLocation"></span></div>
+              <div>Qibla Direction: <span id="debugQibla"></span>°</div>
+              <div>Heading: <span id="debugHeading"></span>°</div>
+              <div>Qibla Rotation: <span id="debugRotation"></span>°</div>
+            </div>
           </div>
 
           <div class="prayer-times-card">
@@ -8201,6 +8219,10 @@
       // Get heading (use webkitCompassHeading for iOS, alpha for Android)
       let heading = 0;
       
+      console.log('Orientation event:', event);
+      console.log('webkitCompassHeading:', event.webkitCompassHeading);
+      console.log('alpha:', event.alpha);
+      
       if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
         // iOS: webkitCompassHeading gives heading from north (0-360)
         heading = event.webkitCompassHeading;
@@ -8226,6 +8248,14 @@
       const qiblaRotation = qiblaDirection - heading;
       console.log('Qibla Rotation:', qiblaRotation);
       kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
+      
+      // Update debug display
+      const debugHeading = document.getElementById('debugHeading');
+      const debugRotation = document.getElementById('debugRotation');
+      if (debugHeading && debugRotation) {
+        debugHeading.textContent = Math.round(heading);
+        debugRotation.textContent = Math.round(qiblaRotation);
+      }
     }
 
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
