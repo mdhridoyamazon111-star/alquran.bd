@@ -8058,10 +8058,18 @@
         const qiblaLatRad = qiblaLat * Math.PI / 180;
         const qiblaLngRad = qiblaLng * Math.PI / 180;
 
-        const y = Math.sin(qiblaLngRad - lngRad);
-        const x = Math.cos(latRad) * Math.tan(qiblaLatRad) - Math.sin(latRad) * Math.cos(qiblaLngRad - lngRad);
+        // Calculate Qibla direction using the standard formula
+        const deltaLng = qiblaLngRad - lngRad;
+        const y = Math.sin(deltaLng);
+        const x = Math.cos(latRad) * Math.tan(qiblaLatRad) - Math.sin(latRad) * Math.cos(deltaLng);
         let qiblaDirection = Math.atan2(y, x) * 180 / Math.PI;
+        
+        // Normalize to 0-360 degrees
         qiblaDirection = (qiblaDirection + 360) % 360;
+        
+        // Add debugging info
+        console.log('Location:', latitude, longitude);
+        console.log('Qibla Direction (raw):', qiblaDirection);
 
         // Display the data
         statusEl.style.display = "none";
@@ -8205,6 +8213,10 @@
       // Get Qibla direction from dataset
       const qiblaDirection = parseFloat(compassDial.dataset.qiblaDirection) || 0;
       
+      // Debug logging
+      console.log('Heading:', heading);
+      console.log('Qibla Direction:', qiblaDirection);
+      
       // Keep compass dial static (N at top)
       compassDial.style.transform = 'rotate(0deg)';
       
@@ -8212,6 +8224,7 @@
       // The pointer should point to Qibla direction relative to north
       // When phone rotates, we adjust by the heading
       const qiblaRotation = qiblaDirection - heading;
+      console.log('Qibla Rotation:', qiblaRotation);
       kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
     }
 
