@@ -8035,10 +8035,10 @@
         const { latitude, longitude } = position.coords;
         statusEl.textContent = "নামাজের সময় লোড হচ্ছে...";
 
-        // Fetch prayer times using Aladhan API
+        // Fetch prayer times using Aladhan API with Dubai method (method=16) for UAE region
         const today = new Date();
         const dateStr = today.toISOString().split('T')[0];
-        const prayerRes = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=2`);
+        const prayerRes = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=16`);
         const prayerData = await prayerRes.json();
 
         // Fetch weather using Open-Meteo API (free, no API key needed)
