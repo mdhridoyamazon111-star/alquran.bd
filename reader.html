@@ -8245,7 +8245,7 @@
       // Rotate Kaaba pointer to point to Qibla
       // The pointer should point to Qibla direction relative to north
       // When phone rotates, we adjust by the heading
-      const qiblaRotation = qiblaDirection - heading;
+      const qiblaRotation = heading - qiblaDirection;
       console.log('Qibla Rotation:', qiblaRotation);
       kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
       
