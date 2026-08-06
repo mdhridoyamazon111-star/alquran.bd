@@ -519,7 +519,7 @@
       background: rgba(255,255,255,.65);
       color: #000;
       font-family: "Noto Sans Bengali", sans-serif;
-      font-size: clamp(12px, 3.5vw, 16px);
+      font-size: clamp(14px, 4.5vw, 20px);
       font-weight: 800;
       white-space: nowrap;
     }
@@ -627,37 +627,44 @@
       margin: 16px 0;
     }
     .compass-dial {
-      width: 160px;
-      height: 160px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       position: relative;
-      border: 3px solid var(--gold-3);
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-out;
     }
     .compass-mark {
       position: absolute;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      color: var(--gold-3);
+      color: #333;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
     }
-    .compass-mark.n { top: 8px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.e { right: 8px; top: 50%; transform: translateY(-50%); }
-    .compass-mark.w { left: 8px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.n { top: 12px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.s { bottom: 12px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.e { right: 12px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.w { left: 12px; top: 50%; transform: translateY(-50%); }
     .kaaba-pointer {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       transform: translate(-50%, -50%);
-      transition: transform 0.3s ease-out;
     }
     .kaaba-icon {
-      font-size: 40px;
-      line-height: 1;
-      text-align: center;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
     }
     .qibla-label {
       font-size: 18px;
@@ -961,6 +968,8 @@
   <div class="surah-grid" id="necessaryMenu" style="display:none">
     <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
     <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা</button>
+    <button class="surah-card menu-card" data-action="dua-qunoot">দোয়া কুনুত</button>
+    <button class="surah-card menu-card" data-action="dua-masura">তাশাহহুদ, দরুদে ইব্রাহিম, দোয়া মাসুরা</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7786,7 +7795,7 @@
         SURAH_LIST.map(s => {
           const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
           return `
-          <button class="surah-card" data-n="${s.number}">
+          <button class="surah-card" data-n="${s.number}" style="background-image: url('images/Sura.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
             <span class="no">${toArabicNum(s.number)}</span>
             <span class="en">${s.number}. ${s.englishName}</span>
             ${bn}
@@ -7969,6 +7978,8 @@
       const action = card.dataset.action;
       if (action === "ayatul-kursi") showAyatulKursi();
       else if (action === "small-21") showSmall21Surahs();
+      else if (action === "dua-qunoot") showDuaQunoot();
+      else if (action === "dua-masura") showDuaMasura();
     });
 
     // Show the necessary-surahs submenu
@@ -8053,7 +8064,11 @@
 
       } catch (error) {
         console.error("Prayer info error:", error);
-        statusEl.textContent = "ত্রুটি: " + error.message + ". অনুগ্রহ করে ইন্টারনেট সংযোগ এবং লোকেশন পারমিশন চেক করুন।";
+        let errorMessage = error.message;
+        if (error.code === 1 || error.message.includes('denied')) {
+          errorMessage = "লোকেশন পারমিশন দিন। সেটিংসে গিয়ে লোকেশন পারমিশন অন করুন এবং আবার চেষ্টা করুন।";
+        }
+        statusEl.textContent = "ত্রুটি: " + errorMessage;
         page.style.display = "block";
       }
     }
@@ -8086,7 +8101,7 @@
                 <div class="compass-mark s">S</div>
                 <div class="compass-mark w">W</div>
                 <div class="kaaba-pointer" id="kaabaPointer">
-                  <div class="kaaba-icon">🕋</div>
+                  <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
                 </div>
               </div>
             </div>
@@ -8124,45 +8139,43 @@
     let orientationHandler = null;
 
     function startCompass(qiblaDirection) {
+      const compassDial = document.querySelector('.compass-dial');
       const kaabaPointer = document.getElementById('kaabaPointer');
-      if (!kaabaPointer) return;
+      if (!compassDial || !kaabaPointer) return;
 
       if (orientationHandler) {
         window.removeEventListener('deviceorientation', orientationHandler);
         orientationHandler = null;
       }
 
-      kaabaPointer.style.transform = `rotate(${qiblaDirection}deg)`;
+      // Set Kaaba pointer to fixed Qibla direction
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
 
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const compassDial = document.querySelector('.compass-dial');
-        if (compassDial) {
-          compassDial.addEventListener('click', function requestPermission() {
-            DeviceOrientationEvent.requestPermission()
-              .then(response => {
-                if (response === 'granted') {
-                  orientationHandler = (e) => handleOrientation(e, qiblaDirection, kaabaPointer);
-                  window.addEventListener('deviceorientation', orientationHandler);
-                }
-              })
-              .catch(console.error);
-            compassDial.removeEventListener('click', requestPermission);
-          });
-        }
+        compassDial.addEventListener('click', function requestPermission() {
+          DeviceOrientationEvent.requestPermission()
+            .then(response => {
+              if (response === 'granted') {
+                orientationHandler = (e) => handleOrientation(e, compassDial);
+                window.addEventListener('deviceorientation', orientationHandler);
+              }
+            })
+            .catch(console.error);
+          compassDial.removeEventListener('click', requestPermission);
+        });
       } else {
-        orientationHandler = (e) => handleOrientation(e, qiblaDirection, kaabaPointer);
+        orientationHandler = (e) => handleOrientation(e, compassDial);
         window.addEventListener('deviceorientation', orientationHandler);
       }
     }
 
-    function handleOrientation(event, qiblaDirection, kaabaPointer) {
+    function handleOrientation(event, compassDial) {
       if (event.alpha === null) {
-        kaabaPointer.style.transform = `rotate(${qiblaDirection}deg)`;
+        compassDial.style.transform = 'rotate(0deg)';
         return;
       }
       const heading = event.alpha || 0;
-      const rotation = qiblaDirection - heading;
-      kaabaPointer.style.transform = `rotate(${rotation}deg)`;
+      compassDial.style.transform = `rotate(${-heading}deg)`;
     }
 
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
@@ -8223,6 +8236,147 @@
       } catch (e) {
         console.error(e);
         statusEl.textContent = "আয়াতুল কুরসি লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।";
+        page.style.display = "none";
+      }
+    }
+
+    async function showDuaQunoot() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "duaQunoot" }, "", "?view=duaQunoot");
+      window.scrollTo({ top: 0 });
+
+      page.style.display = "block";
+      surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">দোয়া কুনুত</div>';
+      surahInfo.innerHTML = "";
+      navName.textContent = "দোয়া কুনুত";
+      bismillahEl.style.display = "none";
+      ayahsEl.innerHTML = "";
+
+      statusEl.style.display = "block";
+      statusEl.textContent = "দোয়া কুনুত লোড হচ্ছে...";
+
+      const duaQunootArabic = `اللَّهُمَّ إِنَّا نَسْتَعِينُكَ وَنَسْتَغْفِرُكَ وَنَثْنِي عَلَيْكَ الْخَيْرَ وَلَا نَكْفُرُكَ وَنَخْلَعُ وَنَتْرُكُ مَنْ يَفْجُرُكَ اللَّهُمَّ إِيَّاكَ نَعْبُدُ وَلَكَ نُصَلِّي وَنَسْجُدُ وَإِلَيْكَ نَسْعَى وَنَحْفِدُ وَنَرْجُو رَحْمَتَكَ وَنَخْشَى عَذَابَكَ إِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحِقٌ`;
+
+      const duaQunootPronunciation = `আল্লাহুম্মা ইন্না নাসতাঈনুকা ওয়া নাসতাগফিরুকা ওয়া নাসনী আলাইকাল খাইরা ওয়া লা নাকফুরুকা ওয়া নাখলাউ ওয়া নাতারুকা মাইয়ান ইয়াফজুরুকা। আল্লাহুম্মা ইয়্যাকা নাবুদু ওয়া লাকা নুসাল্লি ওয়া নাসজুদু ওয়া ইলাইকা নাসআ ওয়া নাহফিদু ওয়া নারজু রাহমাতাকা ওয়া নাখশা আযাবাকা ইন্না আযাবাকা বিল কুফফারি মুলহিক।`;
+
+      const duaQunootMeaning = `হে আল্লাহ! আমরা তোমার সাহায্য চাই, তোমার কাছে ক্ষমা চাই, তোমার প্রতি কল্যাণের বর্ণনা করি, তোমার কৃতজ্ঞতা স্বীকার করি এবং তোমার অকৃতজ্ঞ হই না। আমরা তোমার অবাধ্যতাকারীদের পরিত্যাগ করি এবং তাদের ছেড়ে দিই। হে আল্লাহ! আমরা শুধু তোমারই ইবাদত করি, তোমার জন্যই নামায পড়ি এবং সিজদা করি। আমরা তোমারই দিকে ধাবিত হই এবং তোমারই সেবা করি। আমরা তোমার রহমতের আশা করি এবং তোমার আযাব থেকে ভয় পাই। নিশ্চয়ই তোমার আযাব কাফেরদের সাথে মিশে যাবে।`;
+
+      try {
+        ayahsEl.innerHTML = `
+          <div class="ayah-block">
+            <div class="ayah-arabic" style="font-size: 28px; line-height: 2.2; text-align: center; margin: 20px 0;">${duaQunootArabic}</div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+              ${duaQunootPronunciation}
+            </div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">অর্থ:</span><br>
+              ${duaQunootMeaning}
+            </div>
+          </div>
+        `;
+
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "দোয়া কুনুত লোড করতে সমস্যা হয়েছে।";
+        page.style.display = "none";
+      }
+    }
+
+    async function showDuaMasura() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "duaMasura" }, "", "?view=duaMasura");
+      window.scrollTo({ top: 0 });
+
+      page.style.display = "block";
+      surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">তাশাহহুদ (আত্তাহিয়্যাতু)</div>';
+      surahInfo.innerHTML = "";
+      navName.textContent = "দোয়া মাসুরা";
+      bismillahEl.style.display = "none";
+      ayahsEl.innerHTML = "";
+
+      statusEl.style.display = "block";
+      statusEl.textContent = "দোয়া মাসুরা লোড হচ্ছে...";
+
+      const tashahhudArabic = `التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لا إِلَهَ إِلا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ`;
+
+      const tashahhudPronunciation = `আত্তাহিয়্যাতু লিল্লাহি ওয়াস-সালাওয়াতু ওয়াত-তাইয়্যিবাত। আসসালামু আলাইকা আইয়ুহান-নাবিইয়ু ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু। আসসালামু আলাইনা ওয়া আলা ইবাদিল্লাহিস-সালিহিন। আশহাদু আল্লা ইলাহা ইল্লাল্লাহু ওয়া আশহাদু আন্না মুহাম্মাদান আবদুহু ওয়া রাসুলুহ।`;
+
+      const tashahhudMeaning = `যাবতীয় সম্মান, সমস্ত সালাত (উপাসনা) এবং সমস্ত পবিত্র ইবাদত একমাত্র আল্লাহর জন্য। হে নবি! আপনার ওপর শান্তি এবং আল্লাহর রহমত ও বরকত বর্ষিত হোক। আমাদের ওপর এবং আল্লাহর সৎকর্মশীল বান্দাদের ওপরও শান্তি বর্ষিত হোক। আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া আর কোনো উপাস্য নেই এবং আমি আরও সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ (সা.) আল্লাহর বান্দা ও রাসুল।`;
+
+      const duroodArabic = `اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ`;
+
+      const duroodPronunciation = `আল্লাহুম্মা সাল্লি আলা মুহাম্মাদিও ওয়া আলা আলি মুহাম্মাদ, কামা সাল্লাইতা আলা ইব্রাহিমা ওয়া আলা আলি ইব্রাহিম, ইন্নাকা হামিদুম মাজিদ। আল্লাহুম্মা বারিক আলা মুহাম্মাদিও ওয়া আলা আলি মুহাম্মাদ, কামা বারাকতা আলা ইব্রাহিমা ওয়া আলা আলি ইব্রাহিম, ইন্নাকা হামিদুম মাজিদ।`;
+
+      const duroodMeaning = `হে আল্লাহ! আপনি মুহাম্মদ (সা.) ও তাঁর বংশধরের উপর রহমত বর্ষণ করুন, যেভাবে রহমত বর্ষণ করেছিলেন ইব্রাহিম (আ.) ও তাঁর বংশধরের উপর। নিশ্চয়ই আপনি প্রশংসিত ও মর্যাদাবান। হে আল্লাহ! আপনি মুহাম্মদ (সা.) ও তাঁর বংশধরের উপর বরকত নাজিল করুন, যেভাবে বরকত নাজিল করেছিলেন ইব্রাহিম (আ.) ও তাঁর বংশধরের উপর। নিশ্চয়ই আপনি প্রশংসিত ও মর্যাদাবান।`;
+
+      const duaMasuraArabic = `اللهم إني ظلمت نفسي ظلما كثيرا ولا يغفر الذنوب إلا أنت فاغفرلي مغفرة من عندك وارحمني إنك أنت الغفور الرحيم`;
+
+      const duaMasuraPronunciation = `আল্লাহুম্মা ইন্নি জালামতু নাফসি জুলমান কাসিরা । ওয়ালা ইয়াগ ফিরুজ জুনুবা ইল্লা আনতা। ফাগফির লি, মাগফিরাতাম মিন ইনদিকা; ওয়ার হামনি, ইন্নাকা আনতাল গাফুরুর রাহিম।`;
+
+      const duaMasuraMeaning = `হে আল্লাহ! আমি আমার নিজের ওপর অনেক জুলুম করেছি। তোমা ছাড়া গোনাহ মাফ করার কেউ নেই। তাই তুমি আমাকে ক্ষমা করে দাও, তোমার পক্ষ থেকে ক্ষমা দাও এবং আমার প্রতি রহমত করো। নিশ্চয়ই তুমি অতি ক্ষমাশীল, অতি দয়ালু।`;
+
+      try {
+        ayahsEl.innerHTML = `
+          <div class="ayah-block">
+            <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">তাশাহহুদ (আত্তাহিয়্যাতু)</h3>
+            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${tashahhudArabic}</div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+              ${tashahhudPronunciation}
+            </div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">অর্থ:</span><br>
+              ${tashahhudMeaning}
+            </div>
+          </div>
+          <div class="ayah-block" style="margin-top:30px; padding: 30px; border-top:1px solid rgba(212,175,55,0.3); background-image: url('images/Sura.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 200px;">
+            <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">দরুদে ইব্রাহিম</h3>
+            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${duroodArabic}</div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+              ${duroodPronunciation}
+            </div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">অর্থ:</span><br>
+              ${duroodMeaning}
+            </div>
+          </div>
+          <div class="ayah-block" style="margin-top:30px; padding: 30px; border-top:1px solid rgba(212,175,55,0.3); background-image: url('images/Sura.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 200px;">
+            <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">দোয়া মাসুরা</h3>
+            <div class="ayah-arabic" style="font-size: 28px; line-height: 2.2; text-align: center; margin: 20px 0;">${duaMasuraArabic}</div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+              ${duaMasuraPronunciation}
+            </div>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              <span class="meaning" style="font-weight: 600; color: var(--gold-3);">অর্থ:</span><br>
+              ${duaMasuraMeaning}
+            </div>
+          </div>
+        `;
+
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "দোয়া মাসুরা লোড করতে সমস্যা হয়েছে।";
         page.style.display = "none";
       }
     }
@@ -8321,6 +8475,10 @@
         showSmall21Surahs();
       } else if (state && state.view === "ayatulKursi") {
         showAyatulKursi();
+      } else if (state && state.view === "duaQunoot") {
+        showDuaQunoot();
+      } else if (state && state.view === "duaMasura") {
+        showDuaMasura();
       } else if (state && state.view === "prayerInfo") {
         showPrayerInfo();
       } else if (state && state.view === "home") {
@@ -8488,10 +8646,17 @@
       const params = new URLSearchParams(location.search);
       const s = parseInt(params.get("surah"), 10);
       const small21 = params.get("small21");
+      const view = params.get("view");
       if (s >= 1 && s <= 114) {
         loadSurah(s);
       } else if (small21) {
         showSmall21Surahs();
+      } else if (view === "prayerInfo") {
+        showPrayerInfo();
+      } else if (view === "necessary") {
+        showNecessaryMenu();
+      } else if (view === "ayatulKursi") {
+        showAyatulKursi();
       } else {
         const bm = getBookmark();
         if (bm && bm.surah >= 1 && bm.surah <= 114) {

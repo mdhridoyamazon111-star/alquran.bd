@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v135";
+const CACHE = "alquran-v140";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -16,7 +16,8 @@ const APP_SHELL = [
   "./noorani_qaida.html", // Noorani Qaida reference page
   "./manifest.webmanifest",
   "./images/Sura.jpg", // surah-name banner shown on every surah page
-  "./images/banner.jpg"
+  "./images/banner.jpg",
+  "./images/Qibla.png" // Qibla compass icon
 ];
 const API_LIST = "https://api.alquran.cloud/v1/surah";
 
