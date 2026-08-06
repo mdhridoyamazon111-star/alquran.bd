@@ -8124,7 +8124,7 @@
                 </div>
               </div>
             </div>
-            <div class="qibla-label">Qibla Direction</div>
+            <div class="qibla-label">Qibla Direction: ${Math.round(qiblaDirection)}°</div>
             <div class="qibla-hint">Rotate phone to find Qibla</div>
           </div>
 
@@ -8190,22 +8190,27 @@
     }
 
     function handleOrientation(event, compassDial, kaabaPointer) {
-      if (event.alpha === null || event.webkitCompassHeading === null) {
-        compassDial.style.transform = 'rotate(0deg)';
-        kaabaPointer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-        return;
-      }
-      
       // Get heading (use webkitCompassHeading for iOS, alpha for Android)
-      let heading = event.webkitCompassHeading || (360 - event.alpha) || 0;
+      let heading = 0;
+      
+      if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
+        // iOS: webkitCompassHeading gives heading from north (0-360)
+        heading = event.webkitCompassHeading;
+      } else if (event.alpha !== null && event.alpha !== undefined) {
+        // Android: alpha gives rotation around z-axis (0-360)
+        // Need to calibrate for Android
+        heading = 360 - event.alpha;
+      }
       
       // Get Qibla direction from dataset
       const qiblaDirection = parseFloat(compassDial.dataset.qiblaDirection) || 0;
       
-      // Rotate compass dial to show current heading (N points north)
-      compassDial.style.transform = `rotate(${-heading}deg)`;
+      // Keep compass dial static (N at top)
+      compassDial.style.transform = 'rotate(0deg)';
       
-      // Rotate Kaaba pointer to point to Qibla relative to current heading
+      // Rotate Kaaba pointer to point to Qibla
+      // The pointer should point to Qibla direction relative to north
+      // When phone rotates, we adjust by the heading
       const qiblaRotation = qiblaDirection - heading;
       kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
     }
