@@ -8240,22 +8240,20 @@
       console.log('Heading:', heading);
       console.log('Qibla Direction:', qiblaDirection);
       
-      // Keep compass dial static (N at top)
-      compassDial.style.transform = 'rotate(0deg)';
+      // Rotate compass dial based on phone heading
+      // When phone rotates, the dial rotates to show correct orientation
+      compassDial.style.transform = `rotate(${-heading}deg)`;
       
-      // Rotate Kaaba pointer to point to Qibla
-      // The pointer should point to Qibla direction relative to north
-      // When phone rotates, we adjust by the heading
-      const qiblaRotation = heading - qiblaDirection;
-      console.log('Qibla Rotation:', qiblaRotation);
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
+      // Keep Kaaba pointer static at Qibla direction
+      // The pointer stays at the Qibla direction relative to north
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
       
       // Update debug display
       const debugHeading = document.getElementById('debugHeading');
       const debugRotation = document.getElementById('debugRotation');
       if (debugHeading && debugRotation) {
         debugHeading.textContent = Math.round(heading);
-        debugRotation.textContent = Math.round(qiblaRotation);
+        debugRotation.textContent = Math.round(qiblaDirection);
       }
     }
 
