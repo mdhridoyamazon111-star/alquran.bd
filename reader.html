@@ -8088,6 +8088,15 @@
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = today.toLocaleDateString('en-US', options);
 
+      // Function to convert 24-hour time to 12-hour format with AM/PM
+      function convertTo12Hour(time24) {
+        const [hours, minutes] = time24.split(':');
+        const hour = parseInt(hours, 10);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12; // Convert 0 to 12
+        return `${hour12}:${minutes} ${ampm}`;
+      }
+
       const prayerNames = {
         Fajr: "Fajr",
         Dhuhr: "Dhuhr",
@@ -8127,10 +8136,11 @@
 
       for (const [key, name] of Object.entries(prayerNames)) {
         const time = timings[key];
+        const time12Hour = convertTo12Hour(time);
         html += `
           <div class="prayer-row">
             <span class="prayer-name">${name}</span>
-            <span class="prayer-time">${time}</span>
+            <span class="prayer-time">${time12Hour}</span>
           </div>
         `;
       }
