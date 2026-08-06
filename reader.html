@@ -8045,6 +8045,11 @@
         const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
         const weatherData = await weatherRes.json();
 
+        // Fetch city/area name using reverse geocoding (Nominatim API - free, no API key needed)
+        const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`);
+        const geoData = await geoRes.json();
+        const locationName = geoData.address.city || geoData.address.town || geoData.address.village || geoData.address.district || geoData.address.state || geoData.address.country || 'Unknown Location';
+
         // Calculate Qibla direction (simplified calculation)
         const qiblaLat = 21.4225; // Kaaba latitude
         const qiblaLng = 39.8262; // Kaaba longitude
@@ -8060,7 +8065,7 @@
 
         // Display the data
         statusEl.style.display = "none";
-        displayPrayerInfo(prayerData.data, weatherData.current_weather, qiblaDirection);
+        displayPrayerInfo(prayerData.data, weatherData.current_weather, qiblaDirection, locationName);
 
       } catch (error) {
         console.error("Prayer info error:", error);
@@ -8073,7 +8078,7 @@
       }
     }
 
-    function displayPrayerInfo(prayerData, weatherData, qiblaDirection) {
+    function displayPrayerInfo(prayerData, weatherData, qiblaDirection, locationName) {
       const timings = prayerData.timings;
       const date = prayerData.date;
       const meta = prayerData.meta;
@@ -8117,7 +8122,7 @@
           <div class="prayer-times-card">
             <div class="prayer-header">Today's Prayer Times</div>
             <div class="prayer-date">${formattedDate}</div>
-            <div class="prayer-location">${meta.timezone}</div>
+            <div class="prayer-location">${locationName}</div>
       `;
 
       for (const [key, name] of Object.entries(prayerNames)) {
