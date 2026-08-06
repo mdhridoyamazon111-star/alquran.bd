@@ -610,13 +610,13 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     .weather-temp {
-      font-size: 48px;
+      font-size: clamp(40px, 8vw, 56px);
       font-weight: 700;
       color: var(--teal);
       line-height: 1;
     }
     .weather-label {
-      font-size: 16px;
+      font-size: clamp(16px, 3.5vw, 20px);
       color: var(--gold-3);
       margin-top: 8px;
     }
@@ -667,30 +667,30 @@
       filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
     }
     .qibla-label {
-      font-size: 18px;
+      font-size: clamp(18px, 4vw, 22px);
       color: var(--gold-3);
       margin-top: 8px;
       font-weight: 600;
     }
     .qibla-hint {
-      font-size: 14px;
+      font-size: clamp(14px, 3vw, 16px);
       color: var(--gold-3);
       margin-top: 4px;
       opacity: 0.8;
     }
     .prayer-header {
-      font-size: 22px;
+      font-size: clamp(20px, 4.5vw, 26px);
       font-weight: 700;
       color: var(--teal);
       margin-bottom: 12px;
     }
     .prayer-date {
-      font-size: 16px;
+      font-size: clamp(16px, 3.5vw, 20px);
       color: var(--gold-3);
       margin-bottom: 4px;
     }
     .prayer-location {
-      font-size: 14px;
+      font-size: clamp(14px, 3vw, 16px);
       color: var(--gold-3);
       margin-bottom: 16px;
       opacity: 0.8;
@@ -706,12 +706,12 @@
       border-bottom: none;
     }
     .prayer-name {
-      font-size: 18px;
+      font-size: clamp(16px, 3.5vw, 20px);
       font-weight: 600;
       color: var(--gold-3);
     }
     .prayer-time {
-      font-size: 18px;
+      font-size: clamp(16px, 3.5vw, 20px);
       font-weight: 700;
       color: var(--teal);
     }
@@ -8077,20 +8077,25 @@
       const timings = prayerData.timings;
       const date = prayerData.date;
       const meta = prayerData.meta;
+      
+      // Format date in English based on user's timezone
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = today.toLocaleDateString('en-US', options);
 
       const prayerNames = {
-        Fajr: "ফজর",
-        Dhuhr: "যোহর",
-        Asr: "আসর",
-        Maghrib: "মাগরিব",
-        Isha: "ইশা"
+        Fajr: "Fajr",
+        Dhuhr: "Dhuhr",
+        Asr: "Asr",
+        Maghrib: "Maghrib",
+        Isha: "Isha"
       };
 
       let html = `
         <div class="prayer-info-container">
           <div class="weather-card">
             <div class="weather-temp">${Math.round(weatherData.temperature)}°C</div>
-            <div class="weather-label">আজকের তাপমাত্রা</div>
+            <div class="weather-label">Today's Temperature</div>
           </div>
 
           <div class="qibla-card">
@@ -8105,13 +8110,13 @@
                 </div>
               </div>
             </div>
-            <div class="qibla-label">কিবলার দিক</div>
-            <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
+            <div class="qibla-label">Qibla Direction</div>
+            <div class="qibla-hint">Rotate phone to find Qibla</div>
           </div>
 
           <div class="prayer-times-card">
-            <div class="prayer-header">আজকের নামাজের সময়</div>
-            <div class="prayer-date">${date.readable}</div>
+            <div class="prayer-header">Today's Prayer Times</div>
+            <div class="prayer-date">${formattedDate}</div>
             <div class="prayer-location">${meta.timezone}</div>
       `;
 
@@ -8148,15 +8153,15 @@
         orientationHandler = null;
       }
 
-      // Set Kaaba pointer to fixed Qibla direction
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
+      // Store Qibla direction for use in orientation handler
+      compassDial.dataset.qiblaDirection = qiblaDirection;
 
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         compassDial.addEventListener('click', function requestPermission() {
           DeviceOrientationEvent.requestPermission()
             .then(response => {
               if (response === 'granted') {
-                orientationHandler = (e) => handleOrientation(e, compassDial);
+                orientationHandler = (e) => handleOrientation(e, compassDial, kaabaPointer);
                 window.addEventListener('deviceorientation', orientationHandler);
               }
             })
@@ -8164,18 +8169,30 @@
           compassDial.removeEventListener('click', requestPermission);
         });
       } else {
-        orientationHandler = (e) => handleOrientation(e, compassDial);
+        orientationHandler = (e) => handleOrientation(e, compassDial, kaabaPointer);
         window.addEventListener('deviceorientation', orientationHandler);
       }
     }
 
-    function handleOrientation(event, compassDial) {
-      if (event.alpha === null) {
+    function handleOrientation(event, compassDial, kaabaPointer) {
+      if (event.alpha === null || event.webkitCompassHeading === null) {
         compassDial.style.transform = 'rotate(0deg)';
+        kaabaPointer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
         return;
       }
-      const heading = event.alpha || 0;
+      
+      // Get heading (use webkitCompassHeading for iOS, alpha for Android)
+      let heading = event.webkitCompassHeading || (360 - event.alpha) || 0;
+      
+      // Get Qibla direction from dataset
+      const qiblaDirection = parseFloat(compassDial.dataset.qiblaDirection) || 0;
+      
+      // Rotate compass dial to show current heading (N points north)
       compassDial.style.transform = `rotate(${-heading}deg)`;
+      
+      // Rotate Kaaba pointer to point to Qibla relative to current heading
+      const qiblaRotation = qiblaDirection - heading;
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaRotation}deg)`;
     }
 
     // Load and display Ayatul Kursi with Arabic, Bengali transliteration, and meaning
