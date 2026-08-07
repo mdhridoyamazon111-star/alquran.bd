@@ -8296,7 +8296,7 @@
         const bm = getBookmark();
         const isBookmarked = (bm && bm.surah === 2 && bm.ayah === num);
 
-        surahTitle.textContent = "আয়াতুল কুরসি";
+        surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">আয়াতুল কুরসি</div>';
         surahInfo.innerHTML = "";
         navName.textContent = "আয়াতুল কুরসি";
         bismillahEl.style.display = "none";
