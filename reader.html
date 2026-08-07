@@ -972,6 +972,7 @@
     <button class="surah-card menu-card" data-action="dua-qunoot">দোয়া কুনুত</button>
     <button class="surah-card menu-card" data-action="dua-masura">তাশাহহুদ, দরুদে ইব্রাহিম, দোয়া মাসুরা</button>
     <button class="surah-card menu-card" data-action="sayyidul-istighfar">সাইয়েদুল ইস্তেগফার</button>
+    <button class="surah-card menu-card" data-action="azan-response">আযানের জবাব এবং দোয়া</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7983,6 +7984,7 @@
       else if (action === "dua-qunoot") showDuaQunoot();
       else if (action === "dua-masura") showDuaMasura();
       else if (action === "sayyidul-istighfar") showSayyidulIstighfar();
+      else if (action === "azan-response") showAzanResponse();
     });
 
     // Show the necessary-surahs submenu
@@ -8517,6 +8519,110 @@
       }
     }
 
+    async function showAzanResponse() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "azanResponse" }, "", "?view=azanResponse");
+      window.scrollTo({ top: 0 });
+
+      page.style.display = "block";
+      surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">আযানের জবাব এবং দোয়া</div>';
+      surahInfo.innerHTML = "";
+      navName.textContent = "আযানের জবাব এবং দোয়া";
+      bismillahEl.style.display = "none";
+      ayahsEl.innerHTML = "";
+
+      statusEl.style.display = "block";
+      statusEl.textContent = "আযানের জবাব এবং দোয়া লোড হচ্ছে...";
+
+      try {
+        ayahsEl.innerHTML = `
+          <div class="ayah-block">
+            <h3 style="text-align:center; font-size:22px; font-weight:700; color:#1a1a1a; margin:25px 0 15px;">আযানের জবাব দেওয়া ও আযানের পরের দোয়া</h3>
+            <p style="text-align:center; font-size:16px; line-height:1.6; color:#666; margin:15px 0;">আযানের জবাব দেওয়া ও আযানের পরের দোয়া পাঠ করা অত্যন্ত সওয়াবের কাজ। আযানের জবাব মুয়াজ্জিনের বাক্যের অনুকরণে দিতে হয় এবং আযান শেষে দরুদ শরীফ পড়ে নির্দিষ্ট দোয়াটি পড়তে হয়।</p>
+            
+            <h4 style="text-align:center; font-size:18px; font-weight:600; color:#1a1a1a; margin:25px 0 10px;">আযানের জবাবের নিয়ম</h4>
+            <p style="text-align:center; font-size:16px; line-height:1.6; color:#666; margin:15px 0;">মুয়াজ্জিন যা বলবেন, শ্রোতাও হুবহু তাই বলবেন। তবে নিচের বাক্যগুলোর ক্ষেত্রে উত্তর ভিন্ন হয়:</p>
+            
+            <div class="ayah-block" style="margin-top:20px; padding:15px; background:rgba(212,175,55,0.1); border-radius:8px;">
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:15px 0 10px;">হাইয়্যা আলাস সালাহ (حي على الصلاة)</h5>
+              <p style="text-align:center; font-size:14px; color:#666; margin:10px 0;">এর জবাবে বলতে হয়:</p>
+              <div class="ayah-arabic" style="font-size: 22px; line-height: 2; text-align: center; margin: 15px 0;">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
+              <div class="ayah-bn" style="font-size: 16px; line-height: 1.6; margin: 10px 0; color: #666;">
+                <span style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+                লা হাওলা ওয়ালা কুয়্যাতা ইল্লা বিল্লাহ।
+              </div>
+              <div class="ayah-bn" style="font-size: 16px; line-height: 1.6; margin: 10px 0; color: #666;">
+                <span style="font-weight: 600; color: var(--gold-3);">অর্থ:</span><br>
+                আল্লাহর সাহায্য ছাড়া পাপ থেকে দূরে থাকার এবং নেক কাজ করার কোনো শক্তি আমাদের নেই।
+              </div>
+            </div>
+
+            <div class="ayah-block" style="margin-top:20px; padding:15px; background:rgba(212,175,55,0.1); border-radius:8px;">
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:15px 0 10px;">হাইয়্যা আলাল ফালাহ (حي على الفلاح)</h5>
+              <p style="text-align:center; font-size:14px; color:#666; margin:10px 0;">এর জবাবেও বলতে হয়:</p>
+              <div class="ayah-arabic" style="font-size: 22px; line-height: 2; text-align: center; margin: 15px 0;">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
+              <div class="ayah-bn" style="font-size: 16px; line-height: 1.6; margin: 10px 0; color: #666;">
+                <span style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+                লা হাওলা ওয়ালা কুয়্যাতা ইল্লা বিল্লাহ।
+              </div>
+            </div>
+
+            <div class="ayah-block" style="margin-top:20px; padding:15px; background:rgba(212,175,55,0.1); border-radius:8px;">
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:15px 0 10px;">ফজরের আযানে 'আসসালাতু খাইরুম মিনান নাউম' (الصلاة خير من النوم)</h5>
+              <p style="text-align:center; font-size:14px; color:#666; margin:10px 0;">এর জবাবে বলতে হয়:</p>
+              <div class="ayah-arabic" style="font-size: 22px; line-height: 2; text-align: center; margin: 15px 0;">صَدَقْتَ وَبَرَرْتَ</div>
+              <div class="ayah-bn" style="font-size: 16px; line-height: 1.6; margin: 10px 0; color: #666;">
+                <span style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+                স্বাদাংতা ওয়া বারারতা (সঠিক ও সত্য বলেছেন)।
+              </div>
+            </div>
+
+            <div class="ayah-block" style="margin-top:20px; padding:15px; background:rgba(212,175,55,0.1); border-radius:8px;">
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:15px 0 10px;">হায়কাল্লাহ বা ইকামতের 'কাদ কামাতিস সালাহ' এর জবাব</h5>
+              <p style="text-align:center; font-size:14px; color:#666; margin:10px 0;">এর জবাবে বলতে হয়:</p>
+              <div class="ayah-arabic" style="font-size: 22px; line-height: 2; text-align: center; margin: 15px 0;">أَقَامَهَا اللَّهُ وَأَدَامَهَا مَا دَامَتِ السَّمَوَاتُ وَالْأَرْضُ</div>
+              <div class="ayah-bn" style="font-size: 16px; line-height: 1.6; margin: 10px 0; color: #666;">
+                <span style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
+                অক্বমাঝাল্লাহু ওয়া দামহা আদা মা দামাত (আল্লাহ তাআলা এটি চিরকাল কায়েম রাখুন)।
+              </div>
+            </div>
+
+            <h4 style="text-align:center; font-size:18px; font-weight:600; color:#1a1a1a; margin:30px 0 10px;">আযানের পরের দোয়া</h4>
+            <p style="text-align:center; font-size:16px; line-height:1.6; color:#666; margin:15px 0;">আযান শেষ হওয়ার পর দরুদ পড়ে এই দোয়াটি পড়তে হয়:</p>
+
+            <div class="ayah-block" style="margin-top:20px; padding:15px; background:rgba(212,175,55,0.1); border-radius:8px;">
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:15px 0 10px;">আরবি</h5>
+              <div class="ayah-arabic" style="font-size: 24px; line-height: 2.2; text-align: center; margin: 20px 0;">اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَبَعْثَهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ، إِنَّكَ لَا تُخْلِﻒُ الْمِيعَادَ</div>
+              
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:20px 0 10px;">বাংলা উচ্চারণ</h5>
+              <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+                আল্লা-হুম্মা রববা হা-যিহিদ্ দা'ওয়াতিত্ তা-ম্মাতি ওয়াস সালা-তিল ক্বা-ইমাতি, আ-তি মুহাম্মাদানিল ওয়াসীলাতা ওয়াল ফাদীলাতা, ওয়াব্'আছহু মাক্বা-মাম মাহমূদানিল্লাযী ওয়া'আদতাহ, ইন্নাকা লা তুখলিফুল মী'আদ।
+              </div>
+              
+              <h5 style="text-align:center; font-size:16px; font-weight:600; color:#1a1a1a; margin:20px 0 10px;">বাংলা অর্থ</h5>
+              <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+                হে আল্লাহ! এই পরিপূর্ণ আহ্বান এবং আসন্ন সালাতের আপনিই প্রভু। হযরত মুহাম্মদ সাল্লাল্লাহু আলাইহি ওয়া সাল্লামকে ওয়াসিলা (জান্নাতের বিশেষ স্থান) ও সর্বোচ্চ মর্যাদা দান করুন। তাঁকে 'মাকামে মাহমুদ' বা প্রশংসিত স্থানে উন্নীত করুন, যার ওয়াদা আপনি তাঁকে দিয়েছেন। নিশ্চয়ই আপনি প্রতিশ্রুতির ব্যতিক্রম করেন না।
+              </div>
+            </div>
+          </div>
+        `;
+
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "আযানের জবাব এবং দোয়া লোড করতে সমস্যা হয়েছে।";
+        page.style.display = "none";
+      }
+    }
+
     // Load and display 21 small surahs (starting from Al-Fatiha, serially)
     async function showSmall21Surahs() {
       stopScroll();
@@ -8617,6 +8723,8 @@
         showDuaMasura();
       } else if (state && state.view === "sayyidulIstighfar") {
         showSayyidulIstighfar();
+      } else if (state && state.view === "azanResponse") {
+        showAzanResponse();
       } else if (state && state.view === "prayerInfo") {
         showPrayerInfo();
       } else if (state && state.view === "home") {
@@ -8799,6 +8907,8 @@
         showDuaMasura();
       } else if (view === "sayyidulIstighfar") {
         showSayyidulIstighfar();
+      } else if (view === "azanResponse") {
+        showAzanResponse();
       } else {
         const bm = getBookmark();
         if (bm && bm.surah >= 1 && bm.surah <= 114) {
