@@ -971,6 +971,7 @@
     <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা</button>
     <button class="surah-card menu-card" data-action="dua-qunoot">দোয়া কুনুত</button>
     <button class="surah-card menu-card" data-action="dua-masura">তাশাহহুদ, দরুদে ইব্রাহিম, দোয়া মাসুরা</button>
+    <button class="surah-card menu-card" data-action="sayyidul-istighfar">সাইয়েদুল ইস্তেগফার</button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
@@ -7981,6 +7982,7 @@
       else if (action === "small-21") showSmall21Surahs();
       else if (action === "dua-qunoot") showDuaQunoot();
       else if (action === "dua-masura") showDuaMasura();
+      else if (action === "sayyidul-istighfar") showSayyidulIstighfar();
     });
 
     // Show the necessary-surahs submenu
@@ -8460,6 +8462,61 @@
       }
     }
 
+    async function showSayyidulIstighfar() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "sayyidulIstighfar" }, "", "?view=sayyidulIstighfar");
+      window.scrollTo({ top: 0 });
+
+      page.style.display = "block";
+      surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">সাইয়েদুল ইস্তেগফার</div>';
+      surahInfo.innerHTML = "";
+      navName.textContent = "সাইয়েদুল ইস্তেগফার";
+      bismillahEl.style.display = "none";
+      ayahsEl.innerHTML = "";
+
+      statusEl.style.display = "block";
+      statusEl.textContent = "সাইয়েদুল ইস্তেগফার লোড হচ্ছে...";
+
+      const sayyidulIstighfarArabic = `اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ من شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لي، فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ`;
+
+      const sayyidulIstighfarPronunciation = `আল্লা-হুম্মা আনতা রব্বী লা ইলা-হা ইল্লা আনতা খালাক্বতানী, ওয়া আনা 'আবদুকা ওয়া আনা 'আলা 'আহদিকা ওয়া ওয়াদািকা মা ইস্তাতা'তু। আ'ঊযু বিকা মিন শার্রি মা সানা'তু, আবূ লাকা বিনি'মাতিকা 'আলায়্যা, ওয়া আবূ লাকা বিযাম্বী ফাগ্ফিরলী, ফাইন্নাহু লা ইয়াগফিরুয যুনূবা ইল্লা আনতা।`;
+
+      const sayyidulIstighfarMeaning = `হে আল্লাহ! তুমি আমার পালনকর্তা। তুমি ছাড়া আর কোনো সত্য উপাস্য নেই। তুমি আমাকে সৃষ্টি করেছ, আমি তোমার বান্দা। আমি আমার সাধ্যমতো তোমার সাথে করা ওয়াদা ও প্রতিশ্রুতির ওপর অবিচল আছি। আমি আমার সব কর্মের অনিষ্ট থেকে তোমার আশ্রয় চাই। তুমি আমার ওপর তোমার যে নিয়ামত দিয়েছ তা স্বীকার করছি এবং আমার গোনাহ বা অপরাধও স্বীকার করছি। অতএব, তুমি আমাকে ক্ষমা করে দাও। কেননা, তুমি ছাড়া কেউ গোনাহ ক্ষমা করতে পারবে না।`;
+
+      try {
+        ayahsEl.innerHTML = `
+          <div class="ayah-block">
+            <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">সাইয়েদুল ইস্তেগফার</h3>
+            <p style="text-align:center; font-size:16px; line-height:1.6; color:#666; margin:15px 0;">সাইয়েদুল ইস্তেগফার হলো ক্ষমা প্রার্থনার শ্রেষ্ঠ দোয়া, যার আরবি লিপি, বাংলা উচ্চারণ এবং সংক্ষিপ্ত অর্থ নিচে দেওয়া হলো।</p>
+            <h4 style="text-align:center; font-size:18px; font-weight:600; color:var(--gold-3); margin:20px 0 10px;">আরবি (Arabic)</h4>
+            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${sayyidulIstighfarArabic}</div>
+            <h4 style="text-align:center; font-size:18px; font-weight:600; color:var(--gold-3); margin:20px 0 10px;">বাংলা উচ্চারণ (Bengali Pronunciation)</h4>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              ${sayyidulIstighfarPronunciation}
+            </div>
+            <h4 style="text-align:center; font-size:18px; font-weight:600; color:var(--gold-3); margin:20px 0 10px;">বাংলা অর্থ (Meaning)</h4>
+            <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
+              ${sayyidulIstighfarMeaning}
+            </div>
+          </div>
+        `;
+
+        page.style.display = "block";
+        requestAnimationFrame(() => { statusEl.style.display = "none"; });
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = "সাইয়েদুল ইস্তেগফার লোড করতে সমস্যা হয়েছে।";
+        page.style.display = "none";
+      }
+    }
+
     // Load and display 21 small surahs (starting from Al-Fatiha, serially)
     async function showSmall21Surahs() {
       stopScroll();
@@ -8558,6 +8615,8 @@
         showDuaQunoot();
       } else if (state && state.view === "duaMasura") {
         showDuaMasura();
+      } else if (state && state.view === "sayyidulIstighfar") {
+        showSayyidulIstighfar();
       } else if (state && state.view === "prayerInfo") {
         showPrayerInfo();
       } else if (state && state.view === "home") {
@@ -8738,6 +8797,8 @@
         showAyatulKursi();
       } else if (view === "duaMasura") {
         showDuaMasura();
+      } else if (view === "sayyidulIstighfar") {
+        showSayyidulIstighfar();
       } else {
         const bm = getBookmark();
         if (bm && bm.surah >= 1 && bm.surah <= 114) {
