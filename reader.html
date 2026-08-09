@@ -7979,12 +7979,21 @@
       const card = e.target.closest(".surah-card");
       if (!card) return;
       const action = card.dataset.action;
-      if (action === "ayatul-kursi") showAyatulKursi();
-      else if (action === "small-21") showSmall21Surahs();
-      else if (action === "dua-qunoot") showDuaQunoot();
-      else if (action === "dua-masura") showDuaMasura();
-      else if (action === "sayyidul-istighfar") showSayyidulIstighfar();
-      else if (action === "azan-response") showAzanResponse();
+      
+      console.log("Button clicked, action:", action);
+      
+      try {
+        if (action === "ayatul-kursi") showAyatulKursi();
+        else if (action === "small-21") showSmall21Surahs();
+        else if (action === "dua-qunoot") showDuaQunoot();
+        else if (action === "dua-masura") showDuaMasura();
+        else if (action === "sayyidul-istighfar") showSayyidulIstighfar();
+        else if (action === "azan-response") showAzanResponse();
+        else console.log("Unknown action:", action);
+      } catch (error) {
+        console.error("Error handling button click:", error);
+        alert("সমস্যা হয়েছে: " + error.message);
+      }
     });
 
     // Show the necessary-surahs submenu
