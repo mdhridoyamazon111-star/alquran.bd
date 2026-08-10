@@ -155,15 +155,16 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.1);
       overflow: hidden;
       position: relative;
+      z-index: 0;
     }
     .desktop-banner::before {
       display: none;
     }
     @media (min-width: 768px) {
-      .desktop-banner { display: block; height: 250px; }
+      .desktop-banner { display: block; height: 260px; }
     }
     @media (min-width: 1024px) {
-      .desktop-banner { height: 300px; }
+      .desktop-banner { height: 310px; }
     }
 
     /* Collapsible advanced tools (Font, Speed, Screen color) */
@@ -216,6 +217,8 @@
       border-radius: 14px;
       box-shadow: 0 4px 10px rgba(0,0,0,.25);
       transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      z-index: 10;
+      position: relative;
     }
     #mainMenu .surah-card:hover {
       transform: translateY(-4px) scale(1.02);
@@ -941,6 +944,8 @@
   </nav>
 
   <div class="desktop-banner" id="desktopBanner"></div>
+
+  <p id="status" style="display:none">সূরা লোড হচ্ছে...</p>
 
   <div class="surah-grid" id="mainMenu" style="display:grid">
     <button class="surah-card menu-card" data-mode="website">বাংলা কোরআন মাজীদ</button>
