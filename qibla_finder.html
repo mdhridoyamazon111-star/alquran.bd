@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Qibla Finder | কিবলা ফাইন্ডার</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#0b211f">
+  <meta name="google" content="notranslate">
+  <style>
+    :root {
+      --green-1: #0b211f;
+      --green-2: #142b28;
+      --green-3: #1e3c38;
+      --cream: #f5ecd0;
+      --gold-1: #c9a24b;
+      --gold-2: #e9d9b0;
+      --gold-3: #d4af37;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--green-1);
+      color: var(--cream);
+      font-family: "Noto Sans Bengali", "Noto Sans Arabic", sans-serif;
+      line-height: 1.8;
+      font-size: 16px;
+      padding-bottom: 40px;
+    }
+    header {
+      background: linear-gradient(135deg, var(--green-3), var(--green-2));
+      border-bottom: 2px solid var(--gold-1);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .home {
+      color: var(--gold-2);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      border: 1px solid var(--gold-1);
+      border-radius: 8px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+    .home:hover {
+      background: var(--gold-1);
+      color: var(--green-1);
+    }
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--gold-2);
+      flex: 1;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+    .qibla-card {
+      background: linear-gradient(135deg, var(--green-3), var(--green-2));
+      border: 2px solid var(--gold-1);
+      border-radius: 16px;
+      padding: 30px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .compass-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 20px;
+    }
+    .compass-dial {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-2), var(--green-1));
+      border: 3px solid var(--gold-1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 2px 8px rgba(201,162,75,0.2);
+    }
+    .compass-mark {
+      position: absolute;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--gold-2);
+    }
+    .compass-mark.n { top: 10px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.e { right: 10px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.s { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.w { left: 10px; top: 50%; transform: translateY(-50%); }
+    .kaaba-pointer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease;
+    }
+    .kaaba-icon {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+    .qibla-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold-2);
+      margin-bottom: 8px;
+    }
+    .qibla-hint {
+      font-size: 14px;
+      color: var(--cream);
+      opacity: 0.8;
+    }
+    .location-info {
+      background: linear-gradient(135deg, var(--green-3), var(--green-2));
+      border: 2px solid var(--gold-1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .location-info h3 {
+      margin: 0 0 10px 0;
+      color: var(--gold-2);
+      font-size: 16px;
+    }
+    .location-info p {
+      margin: 5px 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: var(--gold-2);
+    }
+    .error {
+      background: rgba(255,0,0,0.1);
+      border: 2px solid #ff4444;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      color: #ff6b6b;
+    }
+    #debugInfo {
+      font-size: 11px;
+      color: #666;
+      margin-top: 10px;
+      padding: 8px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="reader.html" class="home">← হোম</a>
+    <h1>Qibla Finder | কিবলা ফাইন্ডার</h1>
+  </header>
+
+  <div class="container">
+    <div id="loading" class="loading">অবস্থান নির্ণয় করা হচ্ছে...</div>
+    <div id="error" class="error" style="display:none"></div>
+    
+    <div id="qiblaContent" style="display:none">
+      <div class="location-info">
+        <h3>আপনার অবস্থান</h3>
+        <p id="locationName">-</p>
+        <p id="coordinates">-</p>
+      </div>
+
+      <div class="qibla-card">
+        <div class="compass-container">
+          <div class="compass-dial">
+            <div class="compass-mark n">N</div>
+            <div class="compass-mark e">E</div>
+            <div class="compass-mark s">S</div>
+            <div class="compass-mark w">W</div>
+            <div class="kaaba-pointer" id="kaabaPointer">
+              <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
+            </div>
+          </div>
+        </div>
+        <div class="qibla-label">Qibla Direction: <span id="qiblaDirection">-</span>°</div>
+        <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
+        <div id="debugInfo">
+          <div>Location: <span id="debugLocation"></span></div>
+          <div>Qibla Direction: <span id="debugQibla"></span>°</div>
+          <div>Heading: <span id="debugHeading"></span>°</div>
+          <div>Qibla Rotation: <span id="debugRotation"></span>°</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MECCA_LAT = 21.422487;
+    const MECCA_LNG = 39.826206;
+
+    function toRadians(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+
+    function calculateQibla(lat, lng) {
+      const latRad = toRadians(lat);
+      const lngRad = toRadians(lng);
+      const meccaLatRad = toRadians(MECCA_LAT);
+      const meccaLngRad = toRadians(MECCA_LNG);
+
+      const y = Math.sin(meccaLngRad - lngRad);
+      const x = Math.cos(latRad) * Math.tan(meccaLatRad) - 
+                Math.sin(latRad) * Math.cos(meccaLngRad - lngRad);
+
+      let qibla = Math.atan2(y, x) * (180 / Math.PI);
+      qibla = (qibla + 360) % 360;
+      return qibla;
+    }
+
+    function getLocationName(lat, lng) {
+      return `অক্ষাংশ: ${lat.toFixed(4)}°, দ্রাঘিমাংশ: ${lng.toFixed(4)}°`;
+    }
+
+    async function initQiblaFinder() {
+      const loading = document.getElementById('loading');
+      const error = document.getElementById('error');
+      const qiblaContent = document.getElementById('qiblaContent');
+
+      if (!navigator.geolocation) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = 'আপনার ব্রাউজার জিওলোকেশন সাপোর্ট করে না।';
+        return;
+      }
+
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          });
+        });
+
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        const qiblaDirection = calculateQibla(lat, lng);
+        const locationName = getLocationName(lat, lng);
+
+        document.getElementById('locationName').textContent = locationName;
+        document.getElementById('coordinates').textContent = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+        document.getElementById('qiblaDirection').textContent = Math.round(qiblaDirection);
+        document.getElementById('debugLocation').textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+        document.getElementById('debugQibla').textContent = qiblaDirection.toFixed(2);
+
+        loading.style.display = 'none';
+        qiblaContent.style.display = 'block';
+
+        if (window.DeviceOrientationEvent) {
+          window.addEventListener('deviceorientation', handleOrientation);
+        } else {
+          document.querySelector('.qibla-hint').textContent = 'আপনার ডিভাইস কম্পাস সাপোর্ট করে না';
+        }
+
+      } catch (err) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = 'অবস্থান পাওয়া যায়নি। অনুগ্রহ করে লোকেশন অনুমতি দিন।';
+        console.error(err);
+      }
+    }
+
+    function handleOrientation(event) {
+      const heading = event.webkitCompassHeading || event.alpha;
+      const qiblaDirection = parseFloat(document.getElementById('qiblaDirection').textContent);
+      
+      if (heading !== null && !isNaN(qiblaDirection)) {
+        const rotation = qiblaDirection - heading;
+        const kaabaPointer = document.getElementById('kaabaPointer');
+        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+        
+        document.getElementById('debugHeading').textContent = heading.toFixed(2);
+        document.getElementById('debugRotation').textContent = rotation.toFixed(2);
+      }
+    }
+
+    initQiblaFinder();
+  </script>
+</body>
+</html>

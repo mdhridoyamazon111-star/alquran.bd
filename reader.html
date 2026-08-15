@@ -967,7 +967,8 @@
     <button class="surah-card menu-card" data-mode="english">Arabic to English Translate Quran</button>
     <button class="surah-card menu-card" data-mode="necessary">প্রয়োজনীয় সূরাসমূহ</button>
     <button class="surah-card menu-card" data-mode="noorani">নূরানী কায়দা<br><span class="nq-en">Noorani Qaida</span></button>
-    <button class="surah-card menu-card" data-mode="prayer-info">নামাজের সময়, কিবলা ও আবহাওয়া<br><span class="nq-en">Prayer Times, Qibla & Weather</span></button>
+    <button class="surah-card menu-card" data-mode="prayer-info">নামাজের সময় ও আবহাওয়া<br><span class="nq-en">Prayer Times & Weather</span></button>
+    <button class="surah-card menu-card" data-mode="qibla-finder">Qibla Finder<br><span class="nq-en">কিবলা ফাইন্ডার</span></button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -7873,6 +7874,10 @@
         showPrayerInfo();
         return;
       }
+      if (mode === "qibla-finder") {
+        window.location.href = "qibla_finder.html";
+        return;
+      }
       readingMode = (mode === "website") ? "bangla" : mode;
       showGrid();
     }
@@ -8154,28 +8159,6 @@
           <div class="weather-card">
             <div class="weather-temp">${Math.round(weatherData.temperature)}°C</div>
             <div class="weather-label">Today's Temperature</div>
-          </div>
-
-          <div class="qibla-card">
-            <div class="compass-container">
-              <div class="compass-dial">
-                <div class="compass-mark n">N</div>
-                <div class="compass-mark e">E</div>
-                <div class="compass-mark s">S</div>
-                <div class="compass-mark w">W</div>
-                <div class="kaaba-pointer" id="kaabaPointer">
-                  <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
-                </div>
-              </div>
-            </div>
-            <div class="qibla-label">Qibla Direction: ${Math.round(qiblaDirection)}°</div>
-            <div class="qibla-hint">Rotate phone to find Qibla</div>
-            <div id="debugInfo" style="font-size: 11px; color: #666; margin-top: 10px; padding: 8px; background: #f5f5f5; border-radius: 4px; display: none;">
-              <div>Location: <span id="debugLocation"></span></div>
-              <div>Qibla Direction: <span id="debugQibla"></span>°</div>
-              <div>Heading: <span id="debugHeading"></span>°</div>
-              <div>Qibla Rotation: <span id="debugRotation"></span>°</div>
-            </div>
           </div>
 
           <div class="prayer-times-card">
