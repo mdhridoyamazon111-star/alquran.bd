@@ -1046,7 +1046,7 @@
     }
 
     .footer-sub {
-      font-size: 13px;
+      font-size: 18px;
       font-weight: 500;
       color: rgba(242, 234, 210, 0.8);
     }
@@ -8208,11 +8208,11 @@
       // Update date and time
       const now = new Date();
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const bengaliDate = now.toLocaleDateString('bn-BD', options);
-      const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-      const currentTime = now.toLocaleTimeString('bn-BD', timeOptions);
+      const englishDate = now.toLocaleDateString('en-US', options);
+      const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const currentTime = now.toLocaleTimeString('en-US', timeOptions);
       
-      document.getElementById('currentDate').textContent = bengaliDate;
+      document.getElementById('currentDate').textContent = englishDate;
       document.getElementById('currentTime').textContent = currentTime;
 
       // Get prayer times (Dhaka, Bangladesh)
@@ -8243,19 +8243,19 @@
         isha: { hour: 19, minute: 45 }
       };
 
-      // Convert to Bengali numerals
-      const toBengaliTime = (h, m) => {
-        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-        const toBengaliNum = (num) => String(num).split('').map(d => bengaliDigits[parseInt(d)]).join('');
-        return `${toBengaliNum(h)}:${toBengaliNum(m)}`;
+      // Format time in 12-hour format
+      const formatTime = (h, m) => {
+        const period = h >= 12 ? 'PM' : 'AM';
+        const hour12 = h % 12 || 12;
+        return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
       };
 
       return {
-        fajr: toBengaliTime(baseTimes.fajr.hour, baseTimes.fajr.minute),
-        dhuhr: toBengaliTime(baseTimes.dhuhr.hour, baseTimes.dhuhr.minute),
-        asr: toBengaliTime(baseTimes.asr.hour, baseTimes.asr.minute),
-        maghrib: toBengaliTime(baseTimes.maghrib.hour, baseTimes.maghrib.minute),
-        isha: toBengaliTime(baseTimes.isha.hour, baseTimes.isha.minute)
+        fajr: formatTime(baseTimes.fajr.hour, baseTimes.fajr.minute),
+        dhuhr: formatTime(baseTimes.dhuhr.hour, baseTimes.dhuhr.minute),
+        asr: formatTime(baseTimes.asr.hour, baseTimes.asr.minute),
+        maghrib: formatTime(baseTimes.maghrib.hour, baseTimes.maghrib.minute),
+        isha: formatTime(baseTimes.isha.hour, baseTimes.isha.minute)
       };
     }
 
@@ -8269,38 +8269,34 @@
           const temp = Math.round(data.current_weather.temperature);
           const weatherCode = data.current_weather.weathercode;
           
-          // Convert temperature to Bengali
-          const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-          const toBengaliNum = (num) => String(num).split('').map(d => bengaliDigits[parseInt(d)]).join('');
-          
-          document.getElementById('weatherTemp').textContent = `${toBengaliNum(temp)}°C`;
+          document.getElementById('weatherTemp').textContent = `${temp}°C`;
           
           // Weather description based on WMO code
           const weatherDescriptions = {
-            0: 'পরিষ্কার',
-            1: 'মেঘলা',
-            2: 'আংশিক মেঘলা',
-            3: 'মেঘলা',
-            45: 'কুয়াশা',
-            48: 'কুয়াশা',
-            51: 'হালকা বৃষ্টি',
-            53: 'মাঝারি বৃষ্টি',
-            55: 'ভারী বৃষ্টি',
-            61: 'হালকা বৃষ্টি',
-            63: 'মাঝারি বৃষ্টি',
-            65: 'ভারী বৃষ্টি',
-            80: 'বৃষ্টি',
-            81: 'মাঝারি বৃষ্টি',
-            82: 'ভারী বৃষ্টি',
-            95: 'ঝড়'
+            0: 'Clear',
+            1: 'Cloudy',
+            2: 'Partly Cloudy',
+            3: 'Cloudy',
+            45: 'Foggy',
+            48: 'Foggy',
+            51: 'Light Rain',
+            53: 'Moderate Rain',
+            55: 'Heavy Rain',
+            61: 'Light Rain',
+            63: 'Moderate Rain',
+            65: 'Heavy Rain',
+            80: 'Rain',
+            81: 'Moderate Rain',
+            82: 'Heavy Rain',
+            95: 'Storm'
           };
           
-          document.getElementById('weatherDesc').textContent = weatherDescriptions[weatherCode] || 'মেঘলা';
+          document.getElementById('weatherDesc').textContent = weatherDescriptions[weatherCode] || 'Cloudy';
         }
       } catch (error) {
         console.error('Weather fetch error:', error);
         document.getElementById('weatherTemp').textContent = '--°C';
-        document.getElementById('weatherDesc').textContent = 'অনুপলব্ধ';
+        document.getElementById('weatherDesc').textContent = 'Unavailable';
       }
     }
 
