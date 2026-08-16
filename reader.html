@@ -197,7 +197,7 @@
     }
     #mainMenu {
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 15px;
       max-width: 520px;
       margin: 0 auto;
       padding: 0 12px;
@@ -265,6 +265,15 @@
     }
     #mainMenu .surah-card:hover {
       transform: translateY(-4px) scale(1.02);
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      0% {
+        filter: brightness(1);
+      }
+      100% {
+        filter: brightness(1.15) drop-shadow(0 0 8px rgba(201,162,75,0.5));
+      }
     }
     #mainMenu .surah-card[data-mode="website"]:hover,
     #mainMenu .surah-card[data-mode="arabic"]:hover,
