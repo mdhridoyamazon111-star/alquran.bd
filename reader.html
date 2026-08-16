@@ -489,6 +489,28 @@
       .surah-card {
         width: 100%;
       }
+      #mainMenu {
+        max-width: 100%;
+        padding: 0 10px;
+      }
+      #mainMenu .surah-card[data-mode="website"],
+      #mainMenu .surah-card[data-mode="arabic"],
+      #mainMenu .surah-card[data-mode="english"],
+      #mainMenu .surah-card[data-mode="necessary"],
+      #mainMenu .surah-card[data-mode="noorani"],
+      #mainMenu .surah-card[data-mode="prayer-info"],
+      #mainMenu .surah-card[data-mode="qibla-finder"] {
+        background-size: calc(100% + 45px) 210px;
+      }
+      #mainMenu .surah-card[data-mode="website"]:hover,
+      #mainMenu .surah-card[data-mode="arabic"]:hover,
+      #mainMenu .surah-card[data-mode="english"]:hover,
+      #mainMenu .surah-card[data-mode="necessary"]:hover,
+      #mainMenu .surah-card[data-mode="noorani"]:hover,
+      #mainMenu .surah-card[data-mode="prayer-info"]:hover,
+      #mainMenu .surah-card[data-mode="qibla-finder"]:hover {
+        background-size: calc(100% + 45px) 210px;
+      }
       .top-nav {
         flex-wrap: nowrap;
         gap: 5px;
