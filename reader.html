@@ -128,7 +128,7 @@
     .top-nav select option { background: #0c2321; color: #e9f2ef; }
     .top-nav input[type="number"] { width: 56px; cursor: text; }
     @media (max-width: 767px) {
-      body.home { padding-top: 0; padding-bottom: 200px; }
+      body.home { padding-top: 0; }
       body.home .top-nav { display: none; }
     }
     .top-nav .nav-name {
@@ -971,10 +971,7 @@
 
     /* ---------- Home Footer with 3D Design ---------- */
     .home-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position: relative;
       z-index: 9999;
       background: linear-gradient(135deg, rgba(12, 35, 33, 0.95), rgba(14, 35, 33, 0.98));
       border-top: 2px solid var(--gold-1);
@@ -1105,7 +1102,7 @@
       }
 
       .footer-sub {
-        font-size: 12px;
+        font-size: 18px;
       }
 
       .prayer-times {
