@@ -517,6 +517,22 @@
       }
     }
 
+    /* On desktop (>= 768px): ensure menu buttons have fixed dimensions */
+    @media (min-width: 768px) {
+      #mainMenu .surah-card[data-mode="website"],
+      #mainMenu .surah-card[data-mode="arabic"],
+      #mainMenu .surah-card[data-mode="english"],
+      #mainMenu .surah-card[data-mode="necessary"],
+      #mainMenu .surah-card[data-mode="noorani"],
+      #mainMenu .surah-card[data-mode="prayer-info"],
+      #mainMenu .surah-card[data-mode="qibla-finder"] {
+        height: 50px !important;
+        min-height: 50px !important;
+        width: 600px !important;
+        background-size: 600px 50px !important;
+      }
+    }
+
     /* ---------- Surah title & info ---------- */
     .surah-title {
       position: relative;
