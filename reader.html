@@ -203,10 +203,10 @@
       padding: 0 12px;
     }
     #mainMenu .surah-card {
+      display: block;
       justify-content: center;
       align-items: center;
       text-align: center;
-      min-height: 30px;
       padding: 0;
       font-size: 0;
       font-weight: 700;
@@ -223,17 +223,19 @@
     }
     #mainMenu .surah-card[data-mode="website"] {
       background-image: url('./images/বাংলা কোরআন মাজীদ.png');
-      background-size: calc(100% + 50px) 60px;
+      background-size: 100% 60px;
       background-position: center;
       background-repeat: no-repeat;
       height: 60px;
+      min-height: 60px;
     }
     #mainMenu .surah-card[data-mode="arabic"] {
       background-image: url('./images/Arabic Quran Majeed.png');
-      background-size: calc(100% + 50px) 60px;
+      background-size: 100% 60px;
       background-position: center;
       background-repeat: no-repeat;
       height: 60px;
+      min-height: 60px;
     }
     #necessaryMenu .surah-card {
       justify-content: center;
@@ -441,9 +443,6 @@
       #mainMenu {
         max-width: 100%;
         padding: 0 10px;
-      }
-      #mainMenu .surah-card {
-        min-height: 20px;
       }
       .top-nav {
         flex-wrap: nowrap;
