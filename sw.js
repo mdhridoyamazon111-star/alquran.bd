@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v141";
+const CACHE = "alquran-v142";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -18,7 +18,20 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./images/Sura.jpg", // surah-name banner shown on every surah page
   "./images/banner.jpg",
-  "./images/Qibla.png" // Qibla compass icon
+  "./images/Qibla.png", // Qibla compass icon
+  "./images/বাংলা কোরআন মাজীদ.png",
+  "./images/Arabic Quran Majeed.png",
+  "./images/Arabic to English Translate Quran.png",
+  "./images/প্রয়োজনীয় সূরা সমূহ.png",
+  "./images/নূরানী কায়দা.png",
+  "./images/নামাজের সময় এবং আবহাওয়া.png",
+  "./images/Qibla Finder.png",
+  "./images/আয়াতুল কুরসি.png",
+  "./images/আল কুরআনের 21 টি ছোট সূরা.png",
+  "./images/দোয়া কুনুত.png",
+  "./images/তাশাহহুদ-দরুদে ইব্রাহিম-দোয়া মাসুরা.png",
+  "./images/সাইয়েদুল ইস্তেগফার.png",
+  "./images/আযানের জবাব এবং দোয়া.png"
 ];
 const API_LIST = "https://api.alquran.cloud/v1/surah";
 
