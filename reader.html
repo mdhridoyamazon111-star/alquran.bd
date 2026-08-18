@@ -308,6 +308,7 @@
       font-weight: 800;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #f7edf2;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
       background: linear-gradient(145deg, rgba(201,162,75,.35), rgba(14,35,33,.55));
       border: 3px solid rgba(201,162,75,.75);
       border-radius: 18px;
@@ -327,6 +328,42 @@
         min-height: 100px;
         padding: 22px 24px;
       }
+    }
+    #necessaryMenu .surah-card[data-action="ayatul-kursi"] {
+      background-image: url('images/আয়াতুল কুরসি.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #necessaryMenu .surah-card[data-action="small-21"] {
+      background-image: url('images/আল কুরআনের 21 টি ছোট সূরা.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #necessaryMenu .surah-card[data-action="dua-qunoot"] {
+      background-image: url('images/দোয়া কুনুত.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #necessaryMenu .surah-card[data-action="dua-masura"] {
+      background-image: url('images/তাশাহহুদ-দরুদে ইব্রাহিম-দোয়া মাসুরা.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #necessaryMenu .surah-card[data-action="sayyidul-istighfar"] {
+      background-image: url('images/সাইয়েদুল ইস্তেগফার.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #necessaryMenu .surah-card[data-action="azan-response"] {
+      background-image: url('images/আযানের জবাব এবং দোয়া.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .nq-en { display: none; }
     @media (max-width: 600px) {
@@ -523,6 +560,17 @@
         background-size: 100% 80px !important;
         margin: 12px 0 !important;
       }
+      /* Fix necessary menu button dimensions on mobile to match home buttons */
+      #necessaryMenu .surah-card {
+        height: 80px !important;
+        min-height: 80px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-size: 100% 80px !important;
+        margin: 12px 0 !important;
+        padding: 16px 20px !important;
+        font-size: 22px !important;
+      }
       .top-nav {
         flex-wrap: nowrap;
         gap: 5px;
@@ -551,6 +599,13 @@
       #mainMenu .surah-card[data-mode="noorani"],
       #mainMenu .surah-card[data-mode="prayer-info"],
       #mainMenu .surah-card[data-mode="qibla-finder"] {
+        height: 70px !important;
+        min-height: 70px !important;
+        width: 600px !important;
+        background-size: 600px 70px !important;
+      }
+      /* Fix necessary menu button dimensions on desktop to match home buttons */
+      #necessaryMenu .surah-card {
         height: 70px !important;
         min-height: 70px !important;
         width: 600px !important;
@@ -1465,9 +1520,9 @@
 
     const SURAH_UCHARON = {
       1: [
-        'বিছমিল্লাহির রাহমানির রাহিম।',
+        'বিসমিল্লাহির রহমানির রহিম।',
         'আল হামদুলিল্লা-হি রাব্বিল ‘আ-লামীন।',
-        'আররাহমা-নির রাহীম।',
+        'আররাহমা-নির রহিম।',
         'মা-লিকি ইয়াওমিদ্দীন।',
         'ইয়্যা-কা না‘বুদুওয়া ইয়্যা-কা নাছতা‘ঈন।',
         'ইহদিনাসসিরা-তাল মুছতাকীম।',
@@ -1505,17 +1560,6 @@
         'হুওয়াল্লাযী খালাকালাকুম মা-ফিল আরদিজামী‘আন ছু ম্মাছ তাওয়াইলাছছামাই ফাছাওওয়া-হুন্না ছাব‘আ ছামা-ওয়া-তিওঁ ওয়া হুওয়া বিকুল্লি শাইয়িন ‘আলীম।',
         'ওয়া ইযকা-লা রাব্বুকা লিলমালইকাতি ইন্নী জা-‘ইলুন ফিল আরদিখালীফাতান কালূআতাজ‘আলুফীহা- মাইঁ ইউফছিদুফীহা- ওয়া ইয়াছফিকু দ দিমাআ ওয়ানাহনু নুছাব্বিহুবিহামদিকা ওয়া নুকাদ্দিছুলাকা কা-লা ইন্নী আ‘লামুমা-লা- তা‘লামূন।',
         'ওয়া‘আল্লামা আ-দামাল আছমাআ কুল্লাহা- ছু ম্মা ‘আরাদাহুম ‘আলাল মালাইকাতি ফাকা-লা আম্বিঊনী বিআছমাই হাউলাই ইন কুনতুম সা-দিকীন।',
-        'কা-লূছুবহা-নাকা লা- ‘ইলমা লানা ইল্লা-মা ‘আল্লামতানা-ইন্নাকা আনতাল ‘আলীমুল হাকীম।',
-        'কা-লা ইয়াআ-দামূআম্বি’হুম বিআছমাইহিম ফালাম্মাআম্বাআহুম বিআছমাইহিম কা-লা আলাম আকুল্লাকুম ইন্নী আ‘লামুগাইবাছছামা-ওয়া-তি ওয়ল আরদি, ওয়া আ‘লামুমা- তুবদূ না ওয়ামা- কুনতুম তাকতুমূন।',
-        'ওয়া ইযকুলনা- লিলমালাইকাতিছজু দূলিআ-দামা ফাছাজাদূ ইল্লা ইবলীছা আবা-ওয়াছতাকবারা ওয়া কা-না মিনাল কা-ফিরীন।',
-        'ওয়াকু লনা-ইয়া আ-দামুছকুন আনতা ওয়াঝাওজুকাল জান্নাতা ওয়াকুলা-মিনহা-রাগাদান হাইছুশি’তুমা- ওয়ালা-তাকরাবা- হা-যিহিশশাজারাতা ফাতাকূনা- মিনাজ্জা-লিমীন।',
-        'ফাআঝাল্লাহুমাশশাইতা-নু‘আনহা- ফাআখরাজাহুমা- মিম্মা-কা-না ফীহি ওয়া কুলনাহ বিতূবা‘দুকুম লিবা‘দিন ‘আদুওউওঁ ওয়া লাকুম ফিল আরদিমুছতাকাররুওঁ ওয়ামাতা-‘উন ইলা-হীন ।',
-        'ফাতালাক্কা আ-দামুমির রাব্বিহী কালিমা-তিন ফাতা-বা ‘আলাইহি ইন্নাহূ হুওয়াত্তাওওয়া-বুর রাহীম।',
-        'কুলনাহ বিতূমিনহা-জামী‘আন ফাইম্মা- ইয়া’তিইয়ান্নাকুম মিন্নী হুদান ফামান তাবি‘আ হুদা-ইয়া ফালা-খাওফুন ‘আলাইহিম ওয়ালা-হুম ইয়াহঝানূন।',
-        'ওয়াল্লাযীনা কাফারূ ওয়াকাযযাবূবিআ-য়া-তিনাউলাইকা আসহা-বুন্না-রি হুম ফীহা-খা-লিদূ ন।',
-        'ইয়া-বানী ইছরাঈলাযকুরূনি‘মাতিয়াল্লাতী আন‘আমতু‘আলাইকুম ওয়াআওফূ বি‘আহদি ঊফি বি‘আহদিকুম ওয়াইয়্যা-ইয়া ফারহাবূন।',
-        'ওয়াআ-মিনূবিমা আনঝালতুমুসাদ্দিকালিল মা- মা‘আকুম ওয়ালা-তাকূনূ আওওয়ালা কা-ফিরিম বিহী ওয়ালা-তাশতারূবিআ-য়া-তী ছামানান কালীলাওঁ ওয়াইয়্যা-ইয়া ফাত্তাকূন।',
-        'ওয়ালা-তালবিছুল হাক্কা বিলবা-তিলি ওয়া তাকতুমুল হাক্কা ওয়া আনতুম তা‘লামূন।',
         'ওয়া আকীমুস সালা-তা ওয়া আ-তুঝঝাকা-তা ওয়ারকা‘ঊ মা‘আর রা-কি‘ঈন।',
         'আতা’মুরূনান্না-ছা বিলবিরবিওয়া তানছাওনা আনফুছাকুম ওয়া আনতুম তাতলূনাল কিতা-বা আফালা-তা‘কিলূন।',
         'ওয়াছতা‘ঈনূ বিসসাবরি ওয়াসসালা-তি ওয়া ইন্নাহা-লাকাবীরাতুন ইল্লা-‘আলাল খা-শি‘ঈন।',
