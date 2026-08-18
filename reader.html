@@ -207,7 +207,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 0;
+      padding: 0 !important;
       font-size: 0;
       font-weight: 700;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -220,6 +220,9 @@
       z-index: 10;
       position: relative;
       overflow: hidden;
+      max-height: 70px !important;
+      height: 70px !important;
+      min-height: 70px !important;
     }
     #mainMenu .surah-card[data-mode="website"] {
       background-image: url('./images/বাংলা কোরআন মাজীদ.png');
@@ -227,10 +230,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #mainMenu .surah-card[data-mode="arabic"] {
       background-image: url('./images/Arabic Quran Majeed.png');
@@ -238,10 +244,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #mainMenu .surah-card[data-mode="english"] {
       background-image: url('./images/Arabic to English Translate Quran.png');
@@ -249,10 +258,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #mainMenu .surah-card[data-mode="necessary"] {
       background-image: url('./images/প্রয়োজনীয় সূরা সমূহ.png');
@@ -260,10 +272,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #mainMenu .surah-card[data-mode="noorani"] {
       background-image: url('./images/নূরানী কায়দা.png');
@@ -271,10 +286,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #mainMenu .surah-card[data-mode="prayer-info"] {
       background-image: url('./images/নামাজের সময় এবং আবহাওয়া.png');
@@ -293,10 +311,13 @@
       background-position: center;
       background-repeat: no-repeat;
       height: 70px !important;
+      max-height: 70px !important;
       min-height: 70px !important;
       width: 600px !important;
+      max-width: 600px !important;
       font-size: 40px !important;
       margin: 0 auto;
+      line-height: 0 !important;
     }
     #necessaryMenu .surah-card {
       justify-content: center;
@@ -545,21 +566,25 @@
       #mainMenu .surah-card[data-mode="prayer-info"],
       #mainMenu .surah-card[data-mode="qibla-finder"] {
         height: 80px !important;
+        max-height: 80px !important;
         min-height: 80px !important;
         width: 100% !important;
         max-width: 100% !important;
         background-size: 100% 80px !important;
         margin: 12px 0 !important;
+        line-height: 0 !important;
       }
       /* Fix necessary menu button dimensions on mobile to match home buttons */
       #necessaryMenu .surah-card {
         height: 80px !important;
+        max-height: 80px !important;
         min-height: 80px !important;
         width: 100% !important;
         max-width: 100% !important;
         background-size: 100% 80px !important;
         margin: 12px 0 !important;
         padding: 0 !important;
+        line-height: 0 !important;
       }
       .top-nav {
         flex-wrap: nowrap;
