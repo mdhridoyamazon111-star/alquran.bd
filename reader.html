@@ -303,30 +303,21 @@
       align-items: center;
       text-align: center;
       min-height: 110px;
-      padding: 24px 28px;
-      font-size: 28px;
-      font-weight: 800;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #f7edf2;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
-      background: linear-gradient(145deg, rgba(201,162,75,.35), rgba(14,35,33,.55));
+      padding: 0;
       border: 3px solid rgba(201,162,75,.75);
       border-radius: 18px;
       box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
-      letter-spacing: 0.5px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
     #necessaryMenu .surah-card:hover {
       transform: translateY(-6px) scale(1.04);
-      background: linear-gradient(145deg, rgba(201,162,75,.50), rgba(14,35,33,.62));
       border-color: var(--gold-2);
       box-shadow: 0 14px 30px rgba(201,162,75,.45), inset 0 1px 0 rgba(255,255,255,.15);
     }
     @media (max-width: 600px) {
       #necessaryMenu .surah-card {
-        font-size: 26px;
         min-height: 100px;
-        padding: 22px 24px;
+        padding: 0;
       }
     }
     #necessaryMenu .surah-card[data-action="ayatul-kursi"] {
@@ -568,8 +559,7 @@
         max-width: 100% !important;
         background-size: 100% 80px !important;
         margin: 12px 0 !important;
-        padding: 16px 20px !important;
-        font-size: 22px !important;
+        padding: 0 !important;
       }
       .top-nav {
         flex-wrap: nowrap;
@@ -1337,12 +1327,12 @@
   </div>
 
   <div class="surah-grid" id="necessaryMenu" style="display:none">
-    <button class="surah-card menu-card" data-action="ayatul-kursi">আয়তুলকুসরী</button>
-    <button class="surah-card menu-card" data-action="small-21">আল কুরআনের 21 টি ছোট সূরা</button>
-    <button class="surah-card menu-card" data-action="dua-qunoot">দোয়া কুনুত</button>
-    <button class="surah-card menu-card" data-action="dua-masura">তাশাহহুদ, দরুদে ইব্রাহিম, দোয়া মাসুরা</button>
-    <button class="surah-card menu-card" data-action="sayyidul-istighfar">সাইয়েদুল ইস্তেগফার</button>
-    <button class="surah-card menu-card" data-action="azan-response">আযানের জবাব এবং দোয়া</button>
+    <button class="surah-card menu-card" data-action="ayatul-kursi"></button>
+    <button class="surah-card menu-card" data-action="small-21"></button>
+    <button class="surah-card menu-card" data-action="dua-qunoot"></button>
+    <button class="surah-card menu-card" data-action="dua-masura"></button>
+    <button class="surah-card menu-card" data-action="sayyidul-istighfar"></button>
+    <button class="surah-card menu-card" data-action="azan-response"></button>
   </div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
