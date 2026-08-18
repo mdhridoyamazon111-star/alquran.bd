@@ -339,6 +339,27 @@
       #necessaryMenu .surah-card {
         min-height: 100px;
         padding: 0;
+        height: 100px !important;
+        max-height: 100px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-size: 100% 100px !important;
+        margin: 12px 0 !important;
+        line-height: 0 !important;
+      }
+    }
+    @media (max-width: 480px) {
+      #necessaryMenu .surah-card {
+        height: 90px !important;
+        max-height: 90px !important;
+        background-size: 100% 90px !important;
+      }
+    }
+    @media (max-width: 360px) {
+      #necessaryMenu .surah-card {
+        height: 80px !important;
+        max-height: 80px !important;
+        background-size: 100% 80px !important;
       }
     }
     #necessaryMenu .surah-card[data-action="ayatul-kursi"] {
