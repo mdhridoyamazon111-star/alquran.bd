@@ -89,17 +89,13 @@
     .compass-mark {
       position: absolute;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 16px;
       color: var(--gold-2);
     }
     .compass-mark.n { top: 10px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.ne { top: 10px; right: 25%; transform: translateX(50%); }
     .compass-mark.e { right: 10px; top: 50%; transform: translateY(-50%); }
-    .compass-mark.se { bottom: 10px; right: 25%; transform: translateX(50%); }
     .compass-mark.s { bottom: 10px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.sw { bottom: 10px; left: 25%; transform: translateX(-50%); }
     .compass-mark.w { left: 10px; top: 50%; transform: translateY(-50%); }
-    .compass-mark.nw { top: 10px; left: 25%; transform: translateX(-50%); }
     .kaaba-pointer {
       position: absolute;
       top: 50%;
@@ -185,14 +181,10 @@
       <div class="qibla-card">
         <div class="compass-container">
           <div class="compass-dial">
-            <div class="compass-mark n">N</div>
-            <div class="compass-mark ne">NE</div>
-            <div class="compass-mark e">E</div>
-            <div class="compass-mark se">SE</div>
-            <div class="compass-mark s">S</div>
-            <div class="compass-mark sw">SW</div>
-            <div class="compass-mark w">W</div>
-            <div class="compass-mark nw">NW</div>
+            <div class="compass-mark n">North</div>
+            <div class="compass-mark e">East</div>
+            <div class="compass-mark s">South</div>
+            <div class="compass-mark w">West</div>
             <div class="kaaba-pointer" id="kaabaPointer">
               <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
             </div>
@@ -304,14 +296,15 @@
         const compassDial = document.querySelector('.compass-dial');
         const kaabaPointer = document.getElementById('kaabaPointer');
         
-        // Rotate compass dial opposite to phone heading so N always points north
-        compassDial.style.transform = `rotate(${-heading}deg)`;
+        // Rotate compass dial with phone heading
+        compassDial.style.transform = `rotate(${heading}deg)`;
         
-        // Keep kaaba pointer static at Qibla direction relative to north
-        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
+        // Kaaba pointer should point to Qibla direction relative to phone's current orientation
+        const kaabaRotation = qiblaDirection - heading;
+        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${kaabaRotation}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = qiblaDirection.toFixed(2);
+        document.getElementById('debugRotation').textContent = kaabaRotation.toFixed(2);
       }
     }
 
