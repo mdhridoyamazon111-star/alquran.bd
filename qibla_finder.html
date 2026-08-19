@@ -299,12 +299,14 @@
         // Rotate compass dial with phone heading (full body rotation)
         compassDial.style.transform = `rotate(${heading}deg)`;
         
-        // Kaaba pointer stays at Qibla direction relative to compass dial
-        // Since dial rotates with phone, pointer should point to Qibla direction
-        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
+        // Kaaba pointer should point to real-world Qibla direction
+        // Since compass dial rotates with phone, pointer needs to compensate
+        // Pointer rotation = Qibla direction - phone heading
+        const kaabaRotation = qiblaDirection - heading;
+        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${kaabaRotation}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = qiblaDirection.toFixed(2);
+        document.getElementById('debugRotation').textContent = kaabaRotation.toFixed(2);
       }
     }
 
