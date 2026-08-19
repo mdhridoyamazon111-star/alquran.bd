@@ -81,32 +81,15 @@
       position: relative;
       width: 100%;
       height: 100%;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--green-2), var(--green-1));
-      border: 3px solid var(--gold-1);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 2px 8px rgba(201,162,75,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .compass-mark {
-      position: absolute;
-      font-weight: 800;
-      font-size: 16px;
-      color: var(--gold-2);
-    }
-    .compass-mark.n { top: 10px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.e { right: 10px; top: 50%; transform: translateY(-50%); }
-    .compass-mark.s { bottom: 10px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.w { left: 10px; top: 50%; transform: translateY(-50%); }
-    .kaaba-pointer {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.3s ease;
-    }
-    .kaaba-icon {
-      width: 50px;
-      height: 50px;
+    .qibla-image {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
+      transition: transform 0.3s ease;
     }
     .qibla-label {
       font-size: 22px;
@@ -180,14 +163,8 @@
 
       <div class="qibla-card">
         <div class="compass-container">
-          <div class="compass-dial">
-            <div class="compass-mark n">North</div>
-            <div class="compass-mark e">East</div>
-            <div class="compass-mark s">South</div>
-            <div class="compass-mark w">West</div>
-            <div class="kaaba-pointer" id="kaabaPointer">
-              <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
-            </div>
+          <div class="compass-dial" id="compassDial">
+            <img src="images/Qibla-1.png" class="qibla-image" alt="Qibla Compass">
           </div>
         </div>
         <div class="qibla-label">Qibla Direction: <span id="qiblaDirection">-</span>°</div>
@@ -293,20 +270,13 @@
       const qiblaDirection = parseFloat(document.getElementById('qiblaDirection').textContent);
       
       if (heading !== null && !isNaN(qiblaDirection)) {
-        const compassDial = document.querySelector('.compass-dial');
-        const kaabaPointer = document.getElementById('kaabaPointer');
+        const qiblaImage = document.querySelector('.qibla-image');
         
-        // Rotate compass dial with phone heading (full body rotation)
-        compassDial.style.transform = `rotate(${heading}deg)`;
-        
-        // Kaaba pointer should point to real-world Qibla direction
-        // Since compass dial rotates with phone, pointer needs to compensate
-        // Pointer rotation = Qibla direction - phone heading
-        const kaabaRotation = qiblaDirection - heading;
-        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${kaabaRotation}deg)`;
+        // Rotate the Qibla image with phone heading (full body rotation)
+        qiblaImage.style.transform = `rotate(${heading}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = kaabaRotation.toFixed(2);
+        document.getElementById('debugRotation').textContent = heading.toFixed(2);
       }
     }
 
