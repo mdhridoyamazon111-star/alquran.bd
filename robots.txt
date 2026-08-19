@@ -1,3 +1,15 @@
 User-agent: *
 Allow: /
+
+# Disallow sensitive directories
+Disallow: /icons/
+Disallow: /sw.js
+
+# Allow important files
+Allow: /images/
+Allow: /reader.html
+Allow: /qibla_finder.html
+Allow: /noorani_qaida.html
+Allow: /manifest.webmanifest
+
 Sitemap: https://alquran-bd.pages.dev/sitemap.xml
