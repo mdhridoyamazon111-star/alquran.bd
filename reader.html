@@ -796,26 +796,29 @@
     .prayer-info-container {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding: 16px;
+      gap: 20px;
+      padding: 20px;
     }
     .weather-card, .qibla-card, .prayer-times-card {
-      background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
-      border-radius: 12px;
-      padding: 20px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      border-radius: 16px;
+      padding: 24px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border: 2px solid rgba(255,255,255,0.2);
     }
     .weather-temp {
-      font-size: clamp(40px, 8vw, 56px);
-      font-weight: 700;
-      color: var(--teal);
+      font-size: clamp(52px, 10vw, 72px);
+      font-weight: 800;
+      color: #ffffff;
       line-height: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .weather-label {
-      font-size: clamp(16px, 3.5vw, 20px);
-      color: var(--gold-3);
-      margin-top: 8px;
+      font-size: clamp(20px, 4vw, 26px);
+      color: #e0e7ff;
+      margin-top: 12px;
+      font-weight: 600;
     }
     .compass-container {
       display: flex;
@@ -840,16 +843,20 @@
     }
     .compass-mark {
       position: absolute;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 700;
       color: #333;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       z-index: 1;
     }
     .compass-mark.n { top: 12px; left: 50%; transform: translateX(-50%); }
-    .compass-mark.s { bottom: 12px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.ne { top: 12px; right: 25%; transform: translateX(50%); }
     .compass-mark.e { right: 12px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.se { bottom: 12px; right: 25%; transform: translateX(50%); }
+    .compass-mark.s { bottom: 12px; left: 50%; transform: translateX(-50%); }
+    .compass-mark.sw { bottom: 12px; left: 25%; transform: translateX(-50%); }
     .compass-mark.w { left: 12px; top: 50%; transform: translateY(-50%); }
+    .compass-mark.nw { top: 12px; left: 25%; transform: translateX(-50%); }
     .kaaba-pointer {
       position: absolute;
       top: 50%;
@@ -877,41 +884,45 @@
       opacity: 0.8;
     }
     .prayer-header {
-      font-size: clamp(20px, 4.5vw, 26px);
-      font-weight: 700;
-      color: var(--teal);
-      margin-bottom: 12px;
+      font-size: clamp(26px, 5vw, 32px);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .prayer-date {
-      font-size: clamp(16px, 3.5vw, 20px);
-      color: var(--gold-3);
-      margin-bottom: 4px;
+      font-size: clamp(18px, 4vw, 24px);
+      color: #e0e7ff;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
     .prayer-location {
-      font-size: clamp(14px, 3vw, 16px);
-      color: var(--gold-3);
-      margin-bottom: 16px;
-      opacity: 0.8;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #e0e7ff;
+      margin-bottom: 20px;
+      opacity: 0.9;
+      font-weight: 500;
     }
     .prayer-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--gold-1);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
     }
     .prayer-row:last-child {
       border-bottom: none;
     }
     .prayer-name {
-      font-size: clamp(16px, 3.5vw, 20px);
-      font-weight: 600;
-      color: var(--gold-3);
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 700;
+      color: #ffffff;
     }
     .prayer-time {
-      font-size: clamp(16px, 3.5vw, 20px);
-      font-weight: 700;
-      color: var(--teal);
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 800;
+      color: #60a5fa;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
     @media (max-width: 1023px) {
       .weather-temp {
@@ -8700,6 +8711,26 @@
           <div class="weather-card">
             <div class="weather-temp">${Math.round(weatherData.temperature)}°C</div>
             <div class="weather-label">Today's Temperature</div>
+          </div>
+
+          <div class="qibla-card">
+            <div class="compass-container">
+              <div class="compass-dial">
+                <div class="compass-mark n">N</div>
+                <div class="compass-mark ne">NE</div>
+                <div class="compass-mark e">E</div>
+                <div class="compass-mark se">SE</div>
+                <div class="compass-mark s">S</div>
+                <div class="compass-mark sw">SW</div>
+                <div class="compass-mark w">W</div>
+                <div class="compass-mark nw">NW</div>
+                <div class="kaaba-pointer" id="kaabaPointer">
+                  <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
+                </div>
+              </div>
+            </div>
+            <div class="qibla-label">Qibla Direction: <span id="qiblaDirection">${Math.round(qiblaDirection)}</span>°</div>
+            <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
           </div>
 
           <div class="prayer-times-card">
