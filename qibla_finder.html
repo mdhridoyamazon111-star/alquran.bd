@@ -296,16 +296,15 @@
         const compassDial = document.querySelector('.compass-dial');
         const kaabaPointer = document.getElementById('kaabaPointer');
         
-        // Keep compass dial static - North always at top
-        compassDial.style.transform = 'rotate(0deg)';
+        // Rotate compass dial with phone heading (full body rotation)
+        compassDial.style.transform = `rotate(${heading}deg)`;
         
-        // Kaaba pointer rotates to point to Qibla direction relative to phone's heading
-        // When phone points to Qibla, pointer should point straight up (0deg)
-        const kaabaRotation = qiblaDirection - heading;
-        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${kaabaRotation}deg)`;
+        // Kaaba pointer stays at Qibla direction relative to compass dial
+        // Since dial rotates with phone, pointer should point to Qibla direction
+        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = kaabaRotation.toFixed(2);
+        document.getElementById('debugRotation').textContent = qiblaDirection.toFixed(2);
       }
     }
 
