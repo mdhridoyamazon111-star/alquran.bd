@@ -272,11 +272,14 @@
       if (heading !== null && !isNaN(qiblaDirection)) {
         const qiblaImage = document.querySelector('.qibla-image');
         
-        // Rotate the Qibla image with phone heading (full body rotation)
-        qiblaImage.style.transform = `rotate(${heading}deg)`;
+        // Keep compass static - North always at top
+        // Rotate pointer to point to Qibla direction
+        // When phone points to Qibla, pointer should point up (0deg)
+        const pointerRotation = qiblaDirection - heading;
+        qiblaImage.style.transform = `rotate(${pointerRotation}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = heading.toFixed(2);
+        document.getElementById('debugRotation').textContent = pointerRotation.toFixed(2);
       }
     }
 
