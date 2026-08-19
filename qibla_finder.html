@@ -288,16 +288,30 @@
     }
 
     function handleOrientation(event) {
-      const heading = event.webkitCompassHeading || event.alpha;
+      let heading = 0;
+      
+      if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
+        // iOS: webkitCompassHeading gives heading from north (0-360)
+        heading = event.webkitCompassHeading;
+      } else if (event.alpha !== null && event.alpha !== undefined) {
+        // Android: alpha gives rotation around z-axis (0-360)
+        heading = 360 - event.alpha;
+      }
+      
       const qiblaDirection = parseFloat(document.getElementById('qiblaDirection').textContent);
       
       if (heading !== null && !isNaN(qiblaDirection)) {
-        const rotation = qiblaDirection - heading;
+        const compassDial = document.querySelector('.compass-dial');
         const kaabaPointer = document.getElementById('kaabaPointer');
-        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+        
+        // Rotate compass dial opposite to phone heading so N always points north
+        compassDial.style.transform = `rotate(${-heading}deg)`;
+        
+        // Keep kaaba pointer static at Qibla direction relative to north
+        kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
         
         document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = rotation.toFixed(2);
+        document.getElementById('debugRotation').textContent = qiblaDirection.toFixed(2);
       }
     }
 

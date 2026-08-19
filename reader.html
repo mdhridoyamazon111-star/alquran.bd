@@ -8713,26 +8713,6 @@
             <div class="weather-label">Today's Temperature</div>
           </div>
 
-          <div class="qibla-card">
-            <div class="compass-container">
-              <div class="compass-dial">
-                <div class="compass-mark n">N</div>
-                <div class="compass-mark ne">NE</div>
-                <div class="compass-mark e">E</div>
-                <div class="compass-mark se">SE</div>
-                <div class="compass-mark s">S</div>
-                <div class="compass-mark sw">SW</div>
-                <div class="compass-mark w">W</div>
-                <div class="compass-mark nw">NW</div>
-                <div class="kaaba-pointer" id="kaabaPointer">
-                  <img src="images/Qibla.png" class="kaaba-icon" alt="Qibla">
-                </div>
-              </div>
-            </div>
-            <div class="qibla-label">Qibla Direction: <span id="qiblaDirection">${Math.round(qiblaDirection)}</span>°</div>
-            <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
-          </div>
-
           <div class="prayer-times-card">
             <div class="prayer-header">Today's Prayer Times</div>
             <div class="prayer-date">${formattedDate}</div>
@@ -8756,9 +8736,6 @@
       `;
 
       ayahsEl.innerHTML = html;
-
-      // Start compass
-      startCompass(qiblaDirection);
     }
 
     let orientationHandler = null;
