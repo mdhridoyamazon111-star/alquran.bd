@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v144";
+const CACHE = "alquran-v145";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -19,6 +19,7 @@ const APP_SHELL = [
   "./images/Sura.jpg", // surah-name banner shown on every surah page
   "./images/banner.jpg",
   "./images/Qibla.png", // Qibla compass icon
+  "./images/Qibla-1.png", // Qibla compass design image
   "./images/বাংলা কোরআন মাজীদ.png",
   "./images/Arabic Quran Majeed.png",
   "./images/Arabic to English Translate Quran.png",
@@ -33,6 +34,12 @@ const APP_SHELL = [
   "./images/সাইয়েদুল ইস্তেগফার.png",
   "./images/আযানের জবাব এবং দোয়া.png"
 ];
+
+// Pre-cache some surah pages for faster SEO
+const SURAH_PAGES = [];
+for (let i = 1; i <= 10; i++) {
+  SURAH_PAGES.push(`./surahs/surah-${i}.html`);
+}
 const API_LIST = "https://api.alquran.cloud/v1/surah";
 
 // Install: pre-cache each app shell file individually so a single 404
@@ -44,6 +51,7 @@ self.addEventListener("install", (event) => {
       .then((cache) =>
         Promise.allSettled([
           ...APP_SHELL.map((url) => cache.add(url)),
+          ...SURAH_PAGES.map((url) => cache.add(url).catch(() => {})), // Cache first 10 surah pages
           // Prime the surah list into the persistent data cache.
           fetch(API_LIST)
             .then((res) => {
