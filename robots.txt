@@ -10,6 +10,7 @@ Allow: /images/
 Allow: /reader.html
 Allow: /qibla_finder.html
 Allow: /noorani_qaida.html
+Allow: /surahs/
 Allow: /manifest.webmanifest
 
 Sitemap: https://alquran-bd.pages.dev/sitemap.xml
