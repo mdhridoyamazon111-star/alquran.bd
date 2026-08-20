@@ -358,6 +358,25 @@
       margin: 0 auto;
       line-height: 0 !important;
     }
+    @media (min-width: 768px) {
+      #mainMenu .surah-card {
+        height: 90px !important;
+        max-height: 90px !important;
+        min-height: 90px !important;
+      }
+      #mainMenu .surah-card[data-mode="website"],
+      #mainMenu .surah-card[data-mode="arabic"],
+      #mainMenu .surah-card[data-mode="english"],
+      #mainMenu .surah-card[data-mode="necessary"],
+      #mainMenu .surah-card[data-mode="noorani"],
+      #mainMenu .surah-card[data-mode="prayer-info"],
+      #mainMenu .surah-card[data-mode="qibla-finder"] {
+        background-size: 600px 90px;
+        height: 90px !important;
+        max-height: 90px !important;
+        min-height: 90px !important;
+      }
+    }
     #necessaryMenu .surah-card {
       justify-content: center;
       align-items: center;
