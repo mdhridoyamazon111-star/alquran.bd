@@ -8906,7 +8906,8 @@
       // Keep Kaaba pointer pointing to Qibla direction
       // The pointer should point to Qibla direction relative to the compass dial
       // Since the dial rotates by -heading, the pointer needs to rotate by qiblaDirection - heading
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection - heading}deg)`;
+      // Add 180 degrees to reverse the direction (pointer was showing opposite direction)
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection - heading + 180}deg)`;
       
       // Update debug display
       const debugHeading = document.getElementById('debugHeading');
