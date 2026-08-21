@@ -8318,7 +8318,15 @@
     ];
     async function initSurahList() {
       try {
-        const res = await fetch("https://api.alquran.cloud/v1/surah");
+        const url = "https://api.alquran.cloud/v1/surah";
+        // Offline-first: try cache first, then network
+        let res;
+        const cachedRes = await caches.match(url);
+        if (cachedRes) {
+          res = cachedRes;
+        } else {
+          res = await fetch(url);
+        }
         const json = await res.json();
         if (json.code === 200) {
           SURAH_LIST = json.data.map(s => ({ number: s.number, englishName: s.englishName, arName: s.name, bnName: BENGALI_NAMES[s.number - 1] || "" }));
@@ -8913,7 +8921,15 @@
       statusEl.textContent = "আয়াতুল কুরসি লোড হচ্ছে...";
 
       try {
-        const res = await fetch("https://api.alquran.cloud/v1/surah/2/editions/quran-uthmani,bn.bengali");
+        const url = "https://api.alquran.cloud/v1/surah/2/editions/quran-uthmani,bn.bengali";
+        // Offline-first: try cache first, then network
+        let res;
+        const cachedRes = await caches.match(url);
+        if (cachedRes) {
+          res = cachedRes;
+        } else {
+          res = await fetch(url);
+        }
         const json = await res.json();
         if (json.code !== 200) throw new Error("API error");
 
@@ -9280,10 +9296,18 @@
       try {
         const editions = "quran-uthmani,bn.bengali";
         const results = await Promise.all(
-          surahNumbers.map(n =>
-            fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`)
-              .then(r => r.json())
-          )
+          surahNumbers.map(async n => {
+            const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
+            // Offline-first: try cache first, then network
+            let res;
+            const cachedRes = await caches.match(url);
+            if (cachedRes) {
+              res = cachedRes;
+            } else {
+              res = await fetch(url);
+            }
+            return res.json();
+          })
         );
         bismillahEl.style.display = "none";
         ayahsEl.innerHTML = "";
@@ -9428,7 +9452,17 @@
         let editions = "quran-uthmani,bn.bengali";
         if (readingMode === "arabic") editions = "quran-uthmani";
         if (readingMode === "english") editions = "quran-uthmani,en.sahih";
-        const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`);
+        const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
+        
+        // Offline-first: try cache first, then network
+        let res;
+        const cachedRes = await caches.match(url);
+        if (cachedRes) {
+          res = cachedRes;
+        } else {
+          res = await fetch(url);
+        }
+        
         const json = await res.json();
         if (json.code !== 200) throw new Error("API error");
 
