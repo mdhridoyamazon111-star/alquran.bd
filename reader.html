@@ -8846,21 +8846,76 @@
       // Store Qibla direction for use in orientation handler
       compassDial.dataset.qiblaDirection = qiblaDirection;
 
-      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // Check if device orientation is available
+      const hasDeviceOrientation = typeof DeviceOrientationEvent !== 'undefined';
+      
+      if (!hasDeviceOrientation) {
+        // Device doesn't support orientation - show static compass
+        showStaticCompass(qiblaDirection, compassDial, kaabaPointer);
+        return;
+      }
+
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         compassDial.addEventListener('click', function requestPermission() {
           DeviceOrientationEvent.requestPermission()
             .then(response => {
               if (response === 'granted') {
                 orientationHandler = (e) => handleOrientation(e, compassDial, kaabaPointer);
                 window.addEventListener('deviceorientation', orientationHandler);
+              } else {
+                // Permission denied - show static compass
+                showStaticCompass(qiblaDirection, compassDial, kaabaPointer);
               }
             })
-            .catch(console.error);
+            .catch(() => {
+              // Error requesting permission - show static compass
+              showStaticCompass(qiblaDirection, compassDial, kaabaPointer);
+            });
           compassDial.removeEventListener('click', requestPermission);
         });
       } else {
+        // Try to use device orientation
         orientationHandler = (e) => handleOrientation(e, compassDial, kaabaPointer);
         window.addEventListener('deviceorientation', orientationHandler);
+        
+        // If no orientation events after 2 seconds, show static compass
+        setTimeout(() => {
+          let orientationReceived = false;
+          const testHandler = () => {
+            orientationReceived = true;
+            window.removeEventListener('deviceorientation', testHandler);
+          };
+          window.addEventListener('deviceorientation', testHandler);
+          
+          setTimeout(() => {
+            if (!orientationReceived) {
+              window.removeEventListener('deviceorientation', orientationHandler);
+              showStaticCompass(qiblaDirection, compassDial, kaabaPointer);
+            }
+          }, 2000);
+        }, 100);
+      }
+    }
+
+    function showStaticCompass(qiblaDirection, compassDial, kaabaPointer) {
+      // Show static compass for devices without compass sensor
+      compassDial.style.transform = 'rotate(0deg)';
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection + 180}deg)`;
+      
+      // Add message indicating static mode
+      const compassContainer = compassDial.closest('.compass-container');
+      if (compassContainer) {
+        let staticMessage = compassContainer.querySelector('.static-message');
+        if (!staticMessage) {
+          staticMessage = document.createElement('div');
+          staticMessage.className = 'static-message';
+          staticMessage.style.cssText = 'text-align: center; margin-top: 10px; color: var(--gold-3); font-size: 14px;';
+          compassContainer.appendChild(staticMessage);
+        }
+        staticMessage.innerHTML = `
+          <div style="font-weight: bold; margin-bottom: 5px;">Qibla Direction: ${Math.round(qiblaDirection)}° from North</div>
+          <div style="font-size: 12px;">This device doesn't have a compass sensor. The pointer shows the Qibla direction relative to North.</div>
+        `;
       }
     }
 
