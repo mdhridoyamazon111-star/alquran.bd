@@ -8900,8 +8900,8 @@
     function showStaticCompass(qiblaDirection, compassDial, kaabaPointer) {
       // Show static compass for devices without compass sensor
       compassDial.style.transform = 'rotate(0deg)';
-      // Adjust rotation to move pointer slightly to the right
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection + 180 - 15}deg)`;
+      // Adjust rotation to move pointer further to the right
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection + 180 - 30}deg)`;
       
       // Add message indicating static mode
       const compassContainer = compassDial.closest('.compass-container');
@@ -8963,8 +8963,8 @@
       // The pointer should point to Qibla direction relative to the compass dial
       // Since the dial rotates by -heading, the pointer needs to rotate by qiblaDirection - heading
       // Add 180 degrees to reverse the direction (pointer was showing opposite direction)
-      // Subtract 15 degrees to adjust position slightly to the right
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection - heading + 180 - 15}deg)`;
+      // Subtract 30 degrees to adjust position further to the right
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection - heading + 180 - 30}deg)`;
       
       // Update debug display
       const debugHeading = document.getElementById('debugHeading');
