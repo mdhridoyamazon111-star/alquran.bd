@@ -8871,14 +8871,25 @@
       console.log('Orientation event:', event);
       console.log('webkitCompassHeading:', event.webkitCompassHeading);
       console.log('alpha:', event.alpha);
+      console.log('beta:', event.beta);
+      console.log('gamma:', event.gamma);
       
       if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
         // iOS: webkitCompassHeading gives heading from north (0-360)
         heading = event.webkitCompassHeading;
       } else if (event.alpha !== null && event.alpha !== undefined) {
-        // Android: alpha gives rotation around z-axis (0-360)
-        // Need to calibrate for Android
-        heading = 360 - event.alpha;
+        // Android: Use absolute orientation if available, otherwise use alpha with calibration
+        if (event.absolute === true) {
+          // Android with absolute orientation
+          heading = 360 - event.alpha;
+        } else {
+          // Android without absolute orientation - need to use alpha, beta, gamma
+          // This is less accurate but better than nothing
+          heading = 360 - event.alpha;
+        }
+        
+        // Normalize heading to 0-360
+        heading = (heading + 360) % 360;
       }
       
       // Get Qibla direction from dataset
@@ -8892,9 +8903,10 @@
       // When phone rotates, the dial rotates to show correct orientation
       compassDial.style.transform = `rotate(${-heading}deg)`;
       
-      // Keep Kaaba pointer static at Qibla direction
-      // The pointer stays at the Qibla direction relative to north
-      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection}deg)`;
+      // Keep Kaaba pointer pointing to Qibla direction
+      // The pointer should point to Qibla direction relative to the compass dial
+      // Since the dial rotates by -heading, the pointer needs to rotate by qiblaDirection - heading
+      kaabaPointer.style.transform = `translate(-50%, -50%) rotate(${qiblaDirection - heading}deg)`;
       
       // Update debug display
       const debugHeading = document.getElementById('debugHeading');
