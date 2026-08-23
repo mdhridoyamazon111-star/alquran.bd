@@ -358,6 +358,20 @@
       margin: 0 auto;
       line-height: 0 !important;
     }
+    #mainMenu .surah-card[data-mode="favorites"] {
+      background-image: url('./images/Favorites Sura, প্রিয় সুরা.png');
+      background-size: 600px 70px;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 70px !important;
+      max-height: 70px !important;
+      min-height: 70px !important;
+      width: 600px !important;
+      max-width: 600px !important;
+      font-size: 40px !important;
+      margin: 0 auto;
+      line-height: 0 !important;
+    }
 
     /* Favorite button styling */
     .fav-btn {
@@ -421,6 +435,12 @@
         background-size: 600px 90px;
       }
       #mainMenu .surah-card[data-mode="qibla-finder"] {
+        height: 90px !important;
+        max-height: 90px !important;
+        min-height: 90px !important;
+        background-size: 600px 90px;
+      }
+      #mainMenu .surah-card[data-mode="favorites"] {
         height: 90px !important;
         max-height: 90px !important;
         min-height: 90px !important;
@@ -1484,6 +1504,7 @@
     <button class="surah-card menu-card" data-mode="noorani">নূরানী কায়দা<br><span class="nq-en">Noorani Qaida</span></button>
     <button class="surah-card menu-card" data-mode="prayer-info">নামাজের সময় ও আবহাওয়া<br><span class="nq-en">Prayer Times & Weather</span></button>
     <button class="surah-card menu-card" data-mode="qibla-finder">Qibla Finder<br><span class="nq-en">কিবলা ফাইন্ডার</span></button>
+    <button class="surah-card menu-card" data-mode="favorites">Favorites Sura<br><span class="nq-en">প্রিয় সুরা</span></button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -8534,6 +8555,10 @@
       }
       if (mode === "qibla-finder") {
         window.location.href = "qibla_finder.html";
+        return;
+      }
+      if (mode === "favorites") {
+        showFavorites();
         return;
       }
       readingMode = (mode === "website") ? "bangla" : mode;
