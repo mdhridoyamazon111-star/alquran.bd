@@ -376,8 +376,9 @@
     /* Favorite button styling */
     .fav-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
       font-size: 24px;
       cursor: pointer;
       color: #ffd700;
@@ -393,7 +394,13 @@
     }
     .fav-btn:hover {
       background: rgba(0,0,0,0.5);
-      transform: scale(1.1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    #surahFavBtn {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
     }
 
     /* Desktop: Increase home button height by 20px */
