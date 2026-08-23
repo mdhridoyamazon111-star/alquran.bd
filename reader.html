@@ -359,6 +359,29 @@
       line-height: 0 !important;
     }
 
+    /* Favorite button styling */
+    .fav-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #ffd700;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .fav-btn:hover {
+      background: rgba(0,0,0,0.5);
+      transform: scale(1.1);
+    }
+
     /* Desktop: Increase home button height by 20px */
     @media (min-width: 768px) {
       #mainMenu .surah-card[data-mode="website"] {
@@ -1420,6 +1443,7 @@
   <nav class="top-nav">
     <div class="logo" id="logo" title="Home">Al Quran.BD</div>
     <button class="btn" id="btnHome" title="Sura list">☰ Sura</button>
+    <button class="btn" id="btnFavorites" title="প্রিয় সূরাসমূহ">★ Favorites</button>
     <button class="btn" id="prev" title="Previous">&larr;</button>
     <select id="surahSelect" title="Select Surah"></select>
     <button class="btn" id="next" title="Next">&rarr;</button>
@@ -1476,6 +1500,8 @@
     <button class="surah-card menu-card" data-action="sayyidul-istighfar"></button>
     <button class="surah-card menu-card" data-action="azan-response"></button>
   </div>
+
+  <div class="surah-grid" id="favoritesGrid" style="display:none"></div>
 
   <div class="surah-grid" id="surahGrid" style="display:none"></div>
 
@@ -8316,6 +8342,45 @@
       "আল-ফালাক",
       "আন-নাস"
     ];
+
+    // --- Favorites Management (localStorage) ---
+    const FAVORITES_KEY = 'alquran_favorites';
+
+    function getFavorites() {
+      try {
+        const stored = localStorage.getItem(FAVORITES_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error('Error reading favorites:', e);
+        return [];
+      }
+    }
+
+    function addFavorite(surahNum) {
+      const favorites = getFavorites();
+      if (!favorites.includes(surahNum)) {
+        favorites.push(surahNum);
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        return true;
+      }
+      return false;
+    }
+
+    function removeFavorite(surahNum) {
+      const favorites = getFavorites();
+      const index = favorites.indexOf(surahNum);
+      if (index > -1) {
+        favorites.splice(index, 1);
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        return true;
+      }
+      return false;
+    }
+
+    function isFavorite(surahNum) {
+      return getFavorites().includes(surahNum);
+    }
+
     async function initSurahList() {
       try {
         const url = "https://api.alquran.cloud/v1/surah";
@@ -8348,16 +8413,27 @@
         `<div class="grid-heading">${heading}</div>` +
         SURAH_LIST.map(s => {
           const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
+          const isFav = isFavorite(s.number);
+          const favIcon = isFav ? "★" : "☆";
           return `
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
             <span class="en">${s.number}. ${s.englishName}</span>
             ${bn}
             <span class="ar">${s.arName}</span>
+            <span class="fav-btn" data-action="toggle-fav" data-surah="${s.number}">${favIcon}</span>
           </button>`;
         }).join("");
     }
     surahGrid.addEventListener("click", (e) => {
+      const favBtn = e.target.closest(".fav-btn");
+      if (favBtn) {
+        e.stopPropagation();
+        const surahNum = parseInt(favBtn.dataset.surah, 10);
+        toggleFavorite(surahNum);
+        buildGrid();
+        return;
+      }
       const card = e.target.closest(".surah-card");
       if (card) loadSurah(parseInt(card.dataset.n, 10), undefined, true);
     });
@@ -8383,6 +8459,45 @@
       renderGrid();
       document.getElementById("homeFooter").style.display = "none";
       history.pushState({ view: "grid", mode: readingMode }, "", "/");
+    }
+
+    // Show the favorites grid
+    function showFavorites() {
+      stopScroll();
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      surahGrid.style.display = "none";
+      document.body.classList.remove("home");
+      
+      const favorites = getFavorites();
+      const favoritesGrid = document.getElementById("favoritesGrid");
+      
+      if (favorites.length === 0) {
+        favoritesGrid.innerHTML = `<div class="grid-heading">কোন প্রিয় সূরা নেই</div><div style="text-align:center;padding:20px;color:#f2ead2;">সূরা পড়ার সময় তারকা (★) বাটনে ক্লিক করে প্রিয় সূরাসমূহে যোগ করুন</div>`;
+      } else {
+        const favoriteSurahs = SURAH_LIST.filter(s => favorites.includes(s.number));
+        favoritesGrid.classList.toggle("english-mode", readingMode === "english");
+        favoritesGrid.innerHTML =
+          `<div class="grid-heading">প্রিয় সূরাসমূহ (${favorites.length})</div>` +
+          favoriteSurahs.map(s => {
+            const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
+            return `
+            <button class="surah-card" data-n="${s.number}">
+              <span class="no">${toArabicNum(s.number)}</span>
+              <span class="en">${s.number}. ${s.englishName}</span>
+              ${bn}
+              <span class="ar">${s.arName}</span>
+            </button>`;
+          }).join("");
+      }
+      
+      favoritesGrid.style.display = "grid";
+      desktopBanner.style.display = "none";
+      updateInstallBtn();
+      window.scrollTo({ top: 0 });
+      history.pushState({ view: "favorites" }, "", "/");
     }
 
     // Show the main menu (four reading mode buttons)
@@ -9449,6 +9564,8 @@
         renderGrid();
       } else if (state && state.view === "necessary") {
         showNecessaryMenu();
+      } else if (state && state.view === "favorites") {
+        showFavorites();
       } else if (state && state.view === "small21") {
         showSmall21Surahs();
       } else if (state && state.view === "ayatulKursi") {
@@ -9477,6 +9594,33 @@
     });
     document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1, undefined, true); });
     document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1, undefined, true); });
+    document.getElementById("btnFavorites").addEventListener("click", showFavorites);
+
+    // Favorites grid click handler
+    document.getElementById("favoritesGrid").addEventListener("click", (e) => {
+      const card = e.target.closest(".surah-card");
+      if (card) {
+        const favBtn = e.target.closest(".fav-btn");
+        if (favBtn) {
+          e.stopPropagation();
+          const surahNum = parseInt(favBtn.dataset.surah, 10);
+          toggleFavorite(surahNum);
+          showFavorites();
+        } else {
+          loadSurah(parseInt(card.dataset.n, 10), undefined, true);
+        }
+      }
+    });
+
+    // Surah favorite button click handler (delegated)
+    document.addEventListener("click", (e) => {
+      const favBtn = e.target.closest("#surahFavBtn");
+      if (favBtn) {
+        const surahNum = parseInt(favBtn.dataset.surah, 10);
+        toggleFavorite(surahNum);
+        loadSurah(surahNum, undefined, false);
+      }
+    });
 
     function prefetchSurah(n) {
       if (n < 1 || n > 114) return;
@@ -9485,6 +9629,86 @@
       if (readingMode === "english") editions = "quran-uthmani,en.sahih";
       const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
       fetch(url).catch(() => {});
+    }
+
+    // Favorites functions using localStorage
+    function getFavorites() {
+      try {
+        const favs = localStorage.getItem("alquran_favorites");
+        return favs ? JSON.parse(favs) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function isFavorite(surahNum) {
+      const favs = getFavorites();
+      return favs.includes(surahNum);
+    }
+
+    function toggleFavorite(surahNum) {
+      let favs = getFavorites();
+      if (favs.includes(surahNum)) {
+        favs = favs.filter(n => n !== surahNum);
+        showToast("প্রিয় সূরা থেকে সরানো হয়েছে");
+      } else {
+        favs.push(surahNum);
+        showToast("প্রিয় সূরায় যোগ করা হয়েছে");
+      }
+      try {
+        localStorage.setItem("alquran_favorites", JSON.stringify(favs));
+      } catch (e) {
+        console.error("Failed to save favorites:", e);
+      }
+    }
+
+    function showFavorites() {
+      stopScroll();
+      document.body.classList.remove("home");
+      surahGrid.style.display = "none";
+      mainMenu.style.display = "none";
+      necessaryMenu.style.display = "none";
+      desktopBanner.style.display = "none";
+      document.getElementById("homeFooter").style.display = "none";
+      updateInstallBtn();
+      history.pushState({ view: "favorites" }, "", "?view=favorites");
+      window.scrollTo({ top: 0 });
+
+      const favs = getFavorites();
+      const favoritesGrid = document.getElementById("favoritesGrid");
+      
+      if (favs.length === 0) {
+        favoritesGrid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #666;">
+            <div style="font-size: 48px; margin-bottom: 16px;">☆</div>
+            <div style="font-size: 18px; font-weight: 600;">কোন প্রিয় সূরা নেই</div>
+            <div style="font-size: 14px; margin-top: 8px;">সূরা তালিকা থেকে তারকা (★) চিহ্নে ক্লিক করে প্রিয় সূরা যোগ করুন</div>
+          </div>
+        `;
+      } else {
+        const favSurahs = SURAH_LIST.filter(s => favs.includes(s.number));
+        favoritesGrid.classList.toggle("english-mode", readingMode === "english");
+        favoritesGrid.innerHTML =
+          `<div class="grid-heading">প্রিয় সূরাসমূহ (${favs.length})</div>` +
+          favSurahs.map(s => {
+            const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
+            const isFav = isFavorite(s.number);
+            const favIcon = isFav ? "★" : "☆";
+            return `
+            <button class="surah-card" data-n="${s.number}">
+              <span class="no">${toArabicNum(s.number)}</span>
+              <span class="en">${s.number}. ${s.englishName}</span>
+              ${bn}
+              <span class="ar">${s.arName}</span>
+              <span class="fav-btn" data-action="toggle-fav" data-surah="${s.number}">${favIcon}</span>
+            </button>`;
+          }).join("");
+      }
+
+      favoritesGrid.style.display = "grid";
+      page.style.display = "none";
+      statusEl.style.display = "none";
+      navName.textContent = "প্রিয় সূরাসমূহ";
     }
 
     function setInputs(n, push = false) {
@@ -9545,8 +9769,11 @@
           const leftName = readingMode === "english"
             ? (info.englishName || surah.englishName)
             : (info.bnName || surah.englishName);
+          const isFav = isFavorite(n);
+          const favIcon = isFav ? "★" : "☆";
           surahTitle.innerHTML =
-            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>`;
+            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>
+             <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
         }
         navName.textContent = `${surah.number}. ${surah.englishName}`;
 
