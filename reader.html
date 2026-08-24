@@ -358,20 +358,6 @@
       margin: 0 auto;
       line-height: 0 !important;
     }
-    #mainMenu .surah-card[data-mode="favorites"] {
-      background-image: url('./images/Favorites Sura, প্রিয় সুরা.png');
-      background-size: 600px 70px;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 70px !important;
-      max-height: 70px !important;
-      min-height: 70px !important;
-      width: 600px !important;
-      max-width: 600px !important;
-      font-size: 40px !important;
-      margin: 0 auto;
-      line-height: 0 !important;
-    }
 
     /* Favorite button styling */
     .fav-btn {
@@ -449,12 +435,6 @@
         background-size: 600px 90px;
       }
       #mainMenu .surah-card[data-mode="qibla-finder"] {
-        height: 90px !important;
-        max-height: 90px !important;
-        min-height: 90px !important;
-        background-size: 600px 90px;
-      }
-      #mainMenu .surah-card[data-mode="favorites"] {
         height: 90px !important;
         max-height: 90px !important;
         min-height: 90px !important;
@@ -895,12 +875,6 @@
         margin-left: 2px;
         margin-right: 2px;
         height: calc(clamp(48px, 7vw, 90px) + 5px);
-      }
-      #mainMenu .surah-card[data-mode="favorites"] {
-        background-size: 100% 70px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        font-size: 16px !important;
       }
     }
     .info-banner {
@@ -1526,7 +1500,6 @@
     <button class="surah-card menu-card" data-mode="noorani">নূরানী কায়দা<br><span class="nq-en">Noorani Qaida</span></button>
     <button class="surah-card menu-card" data-mode="prayer-info">নামাজের সময় ও আবহাওয়া<br><span class="nq-en">Prayer Times & Weather</span></button>
     <button class="surah-card menu-card" data-mode="qibla-finder">Qibla Finder<br><span class="nq-en">কিবলা ফাইন্ডার</span></button>
-    <button class="surah-card menu-card" data-mode="favorites">Favorites Sura<br><span class="nq-en">প্রিয় সুরা</span></button>
   </div>
 
   <div id="offlineProgress" style="display:none">
@@ -8518,7 +8491,7 @@
       const favoritesGrid = document.getElementById("favoritesGrid");
       
       if (favorites.length === 0) {
-        favoritesGrid.innerHTML = `<div class="grid-heading">কোন প্রিয় সূরা নেই</div><div style="text-align:center;padding:20px;color:#f2ead2;">সূরা পড়ার সময় তারকা (★) বাটনে ক্লিক করে প্রিয় সূরাসমূহে যোগ করুন</div>`;
+        favoritesGrid.innerHTML = ``;
       } else {
         const favoriteSurahs = SURAH_LIST.filter(s => favorites.includes(s.number));
         favoritesGrid.classList.toggle("english-mode", readingMode === "english");
@@ -9725,13 +9698,7 @@
       const favoritesGrid = document.getElementById("favoritesGrid");
       
       if (favs.length === 0) {
-        favoritesGrid.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #666;">
-            <div style="font-size: 48px; margin-bottom: 16px;">☆</div>
-            <div style="font-size: 18px; font-weight: 600;">কোন প্রিয় সূরা নেই</div>
-            <div style="font-size: 14px; margin-top: 8px;">সূরা তালিকা থেকে তারকা (★) চিহ্নে ক্লিক করে প্রিয় সূরা যোগ করুন</div>
-          </div>
-        `;
+        favoritesGrid.innerHTML = ``;
       } else {
         const favSurahs = SURAH_LIST.filter(s => favs.includes(s.number));
         favoritesGrid.classList.toggle("english-mode", readingMode === "english");
