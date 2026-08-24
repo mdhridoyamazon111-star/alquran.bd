@@ -1147,6 +1147,14 @@
       color: var(--ink);
       margin-bottom: 6px;
     }
+    /* Arabic mode: justified layout for ayahs */
+    .arabic-mode .ayah-arabic {
+      text-align: justify;
+      text-align-last: center;
+      direction: rtl;
+      white-space: pre-wrap;
+      word-spacing: 0.1em;
+    }
     .ayah-num {
       display: inline-flex;
       align-items: center;
@@ -9890,6 +9898,8 @@
           fragment.appendChild(div);
         }
         ayahsEl.appendChild(fragment);
+        // Add Arabic mode class for justified layout
+        ayahsEl.classList.toggle("arabic-mode", readingMode === "arabic");
         surahInfo.innerHTML =
           `<span>সূরা <strong>${toArabicNum(n)}</strong></span>` +
           `<span>আয়াত <strong>${toArabicNum(surah.numberOfAyahs)}</strong></span>` +
