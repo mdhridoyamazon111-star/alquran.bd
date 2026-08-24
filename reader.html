@@ -8499,12 +8499,15 @@
           `<div class="grid-heading">প্রিয় সূরাসমূহ (${favorites.length})</div>` +
           favoriteSurahs.map(s => {
             const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
+            const isFav = isFavorite(s.number);
+            const favIcon = isFav ? "★" : "☆";
             return `
             <button class="surah-card" data-n="${s.number}">
               <span class="no">${toArabicNum(s.number)}</span>
               <span class="en">${s.number}. ${s.englishName}</span>
               ${bn}
               <span class="ar">${s.arName}</span>
+              <span class="fav-btn" data-action="toggle-fav" data-surah="${s.number}">${favIcon}</span>
             </button>`;
           }).join("");
       }
@@ -8514,6 +8517,7 @@
       updateInstallBtn();
       window.scrollTo({ top: 0 });
       history.pushState({ view: "favorites" }, "", "/");
+      navName.textContent = "প্রিয় সূরাসমূহ";
     }
 
     // Show the main menu (four reading mode buttons)
@@ -9627,7 +9631,8 @@
           toggleFavorite(surahNum);
           showFavorites();
         } else {
-          loadSurah(parseInt(card.dataset.n, 10), undefined, true);
+          const surahNum = parseInt(card.dataset.n, 10);
+          window.open(`?surah=${surahNum}`, '_blank');
         }
       }
     });
