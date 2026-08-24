@@ -396,7 +396,7 @@
       background: rgba(0,0,0,0.5);
       transform: translateY(-50%) scale(1.1);
     }
-    #surahFavBtn {
+    .bismillah .fav-btn {
       position: absolute;
       top: 50%;
       right: 10px;
@@ -925,12 +925,14 @@
 
     /* ---------- Bismillah ---------- */
     .bismillah {
+      position: relative;
       text-align: center;
       font-family: "Scheherazade New", "Amiri", serif;
       font-size: var(--arabic-size);
       color: var(--teal);
       margin: 4px 0 12px;
       line-height: 1.7;
+      padding-right: 50px;
     }
 
     /* ---------- Prayer Info ---------- */
@@ -9810,8 +9812,7 @@
           const isFav = isFavorite(n);
           const favIcon = isFav ? "★" : "☆";
           surahTitle.innerHTML =
-            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>
-             <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>`;
         }
         navName.textContent = `${surah.number}. ${surah.englishName}`;
 
@@ -9820,6 +9821,21 @@
         // Bismillah header: shown above ayah 1 for every surah except Al-Faatiha (1),
         // where Bismillah is itself ayah 1, and At-Tawbah (9), which has no Bismillah.
         bismillahEl.style.display = (n === 1 || n === 9) ? "none" : "block";
+        
+        // Add star button to bismillah (only when bismillah is visible)
+        if (n !== 1 && n !== 9) {
+          const isFav = isFavorite(n);
+          const favIcon = isFav ? "★" : "☆";
+          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+        } else {
+          // For surah 1 and 9, add star button to surah title instead
+          const isFav = isFavorite(n);
+          const favIcon = isFav ? "★" : "☆";
+          surahTitle.innerHTML = surahTitle.innerHTML.replace(
+            `<span class="st-inner">`,
+            `<span class="st-inner"><button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`
+          );
+        }
 
         ayahsEl.innerHTML = "";
         const fragment = document.createDocumentFragment();
