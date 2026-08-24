@@ -8592,7 +8592,12 @@
         return;
       }
       readingMode = (mode === "website") ? "bangla" : mode;
-      showGrid();
+      // If a surah is currently open, reload it in the new mode
+      if (currentSurah >= 1 && currentSurah <= 114 && page.style.display === "block") {
+        loadSurah(currentSurah);
+      } else {
+        showGrid();
+      }
     }
 
     // ---- Full offline download: cache all 114 surahs in every edition ----
