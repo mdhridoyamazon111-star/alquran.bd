@@ -1154,6 +1154,10 @@
       direction: rtl;
       white-space: pre-wrap;
       word-spacing: 0.1em;
+      text-justify: distribute;
+      hyphens: auto;
+      line-height: 2.5;
+      padding: 0 10px;
     }
     .ayah-num {
       display: inline-flex;
@@ -8505,7 +8509,7 @@
     function showGrid() {
       renderGrid();
       document.getElementById("homeFooter").style.display = "none";
-      history.replaceState({ view: "grid", mode: readingMode }, "", "/");
+      history.pushState({ view: "grid", mode: readingMode }, "", "/");
     }
 
     // Show the favorites grid
@@ -8592,7 +8596,12 @@
         return;
       }
       readingMode = (mode === "website") ? "bangla" : mode;
-      showGrid();
+      // If a surah is currently open, reload it in the new mode
+      if (currentSurah >= 1 && currentSurah <= 114 && page.style.display === "block") {
+        loadSurah(currentSurah);
+      } else {
+        showGrid();
+      }
     }
 
     // ---- Full offline download: cache all 114 surahs in every edition ----
