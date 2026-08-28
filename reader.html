@@ -10001,58 +10001,96 @@
         let prevRuku = null;
         let rukuCount = 0;
         let sajdaCount = 0;
-        for (let i = 0; i < arabic.ayahs.length; i++) {
-          const ay = arabic.ayahs[i];
-          let a = ay.text.trim();
-          // For surahs 2-114 (except 9) the Bismillah is prepended inside ayah 1's
-          // Arabic text; remove it since it is shown separately as the header above.
-          if (i === 0 && n !== 1 && n !== 9) {
-            a = stripLeadingBismillah(a);
+        
+        // For Arabic mode, create a single container for all ayahs
+        if (readingMode === "arabic") {
+          const arabicContainer = document.createElement("div");
+          arabicContainer.className = "ayah-arabic-wrapper";
+          arabicContainer.style.cssText = "display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 2.5; padding: 0 20px; word-wrap: break-word; overflow-wrap: break-word;";
+          
+          let arabicText = "";
+          let ayahNumbers = [];
+          
+          for (let i = 0; i < arabic.ayahs.length; i++) {
+            const ay = arabic.ayahs[i];
+            let a = ay.text.trim();
+            // For surahs 2-114 (except 9) the Bismillah is prepended inside ayah 1's
+            // Arabic text; remove it since it is shown separately as the header above.
+            if (i === 0 && n !== 1 && n !== 9) {
+              a = stripLeadingBismillah(a);
+            }
+            if (!a) continue;
+            const num = ay.numberInSurah;
+            arabicText += a + " ";
+            ayahNumbers.push(num);
           }
-          if (!a) continue;
-          const num = ay.numberInSurah;
-          const t = trans && trans.ayahs[i] ? trans.ayahs[i].text : "";
-          const uc = (readingMode === "bangla" && SURAH_UCHARON[n] && i < SURAH_UCHARON[n].length) ? SURAH_UCHARON[n][i] : "";
-          const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : "";
-          let translationHtml = "";
-          if (readingMode === "bangla") {
-            translationHtml = `<div class='ayah-bn'><span class='meaning'>${t}</span></div>`;
-          } else if (readingMode === "english") {
-            translationHtml = `<div class='ayah-en'>${t}</div>`;
-          }
-          const ruku = ay.ruku;
-          const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
-          if (isNewRuku) rukuCount++;
-          prevRuku = ruku;
-
-          const key = `${n}:${num}`;
-          const isSajda = SAJDAS.has(key);
-          if (isSajda) sajdaCount++;
-
-          const marks = [];
-          if (isNewRuku) marks.push(`<span class="ayah-mark ruku">রুকু ${rukuCount}</span>`);
-          if (isSajda) marks.push(`<span class="ayah-mark sajda"><span class="sym">۩</span> সেজদা (${SAJDA_INFO[key]})</span>`);
-          const marksHtml = marks.length ? `<div class="ayah-marks">${marks.join("")}</div>` : "";
-
-          const div = document.createElement("div");
-          div.className = "ayah-block";
-          div.dataset.ayah = num;
-          const arabicHtml = readingMode === "arabic"
-            ? `<div class="ayah-arabic-wrapper" style="display: flex; flex-direction: column; width: 100%; direction: rtl;">
-                <div class="ayah-arabic" style="text-align: justify; text-align-last: center; direction: rtl; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; width: 100%; margin-bottom: 5px;">${a}</div>
-                <div class="ayah-num" style="text-align: left; direction: ltr; font-size: 0.9em; color: var(--gold-1); margin-top: 5px;">${toArabicNum(num)}</div>
-              </div>`
-            : `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
-          div.innerHTML = `
-            <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-            ${arabicHtml}
-            ${ucHtml}
-            ${marksHtml}
-            ${translationHtml}
+          
+          arabicContainer.innerHTML = arabicText;
+          
+          // Add ayah numbers at the end
+          const numContainer = document.createElement("div");
+          numContainer.style.cssText = "text-align: center; direction: ltr; font-size: 0.9em; color: var(--gold-1); margin-top: 10px;";
+          numContainer.textContent = ayahNumbers.map(toArabicNum).join(" - ");
+          
+          const mainDiv = document.createElement("div");
+          mainDiv.className = "ayah-block";
+          mainDiv.innerHTML = `
+            <button class="bm-btn" data-ayah="1" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
+            ${arabicContainer.outerHTML}
+            ${numContainer.outerHTML}
           `;
-          fragment.appendChild(div);
+          fragment.appendChild(mainDiv);
+          ayahsEl.appendChild(fragment);
+        } else {
+          // Normal mode for bangla and english
+          for (let i = 0; i < arabic.ayahs.length; i++) {
+            const ay = arabic.ayahs[i];
+            let a = ay.text.trim();
+            // For surahs 2-114 (except 9) the Bismillah is prepended inside ayah 1's
+            // Arabic text; remove it since it is shown separately as the header above.
+            if (i === 0 && n !== 1 && n !== 9) {
+              a = stripLeadingBismillah(a);
+            }
+            if (!a) continue;
+            const num = ay.numberInSurah;
+            const t = trans && trans.ayahs[i] ? trans.ayahs[i].text : "";
+            const uc = (readingMode === "bangla" && SURAH_UCHARON[n] && i < SURAH_UCHARON[n].length) ? SURAH_UCHARON[n][i] : "";
+            const ucHtml = uc ? `<div class='ayah-uc'>${uc}</div>` : "";
+            let translationHtml = "";
+            if (readingMode === "bangla") {
+              translationHtml = `<div class='ayah-bn'><span class='meaning'>${t}</span></div>`;
+            } else if (readingMode === "english") {
+              translationHtml = `<div class='ayah-en'>${t}</div>`;
+            }
+            const ruku = ay.ruku;
+            const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
+            if (isNewRuku) rukuCount++;
+            prevRuku = ruku;
+
+            const key = `${n}:${num}`;
+            const isSajda = SAJDAS.has(key);
+            if (isSajda) sajdaCount++;
+
+            const marks = [];
+            if (isNewRuku) marks.push(`<span class="ayah-mark ruku">রুকু ${rukuCount}</span>`);
+            if (isSajda) marks.push(`<span class="ayah-mark sajda"><span class="sym">۩</span> সেজদা (${SAJDA_INFO[key]})</span>`);
+            const marksHtml = marks.length ? `<div class="ayah-marks">${marks.join("")}</div>` : "";
+
+            const div = document.createElement("div");
+            div.className = "ayah-block";
+            div.dataset.ayah = num;
+            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
+            div.innerHTML = `
+              <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
+              ${arabicHtml}
+              ${ucHtml}
+              ${marksHtml}
+              ${translationHtml}
+            `;
+            fragment.appendChild(div);
+          }
+          ayahsEl.appendChild(fragment);
         }
-        ayahsEl.appendChild(fragment);
         // Add Arabic mode class for justified layout
         ayahsEl.classList.toggle("arabic-mode", readingMode === "arabic");
         
