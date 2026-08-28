@@ -9293,6 +9293,42 @@
           ${translationHtml}
         `;
         ayahsEl.appendChild(div);
+        
+        // Add Fazilat and true stories section
+        const fazilatDiv = document.createElement("div");
+        fazilatDiv.className = "fazilat-section";
+        fazilatDiv.style.cssText = "margin-top: 30px; padding: 20px; background: rgba(201,162,75,0.1); border-radius: 12px; border: 1px solid rgba(201,162,75,0.3);";
+        fazilatDiv.innerHTML = `
+          <h3 style="text-align: center; font-size: 22px; font-weight: 700; color: var(--gold-3); margin: 0 0 20px 0;">আয়াতুল কুরসীর ফজিলত</h3>
+          
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 18px; font-weight: 600; color: var(--gold-3); margin: 0 0 10px 0;">ফজিলতসমূহ:</h4>
+            <ul style="color: #e9f2ef; line-height: 1.8; padding-left: 20px; margin: 0;">
+              <li>কুরআনের সর্বোত্তম আয়াত - এটি পড়লে আল্লাহর সন্তুষ্টি লাভ হয়</li>
+              <li>প্রতিদিন সকাল-সন্ধ্যায় পড়লে জান্নাতের দরজা খুলে যায়</li>
+              <li>মৃত্যুর সময় নূর বা আলো পাওয়া যায়</li>
+              <li>ঘরে পড়লে শয়তান ও তার অনুসারীরা ঘরে প্রবেশ করতে পারে না</li>
+              <li>বালা-মুসিবত থেকে রক্ষা পাওয়া যায়</li>
+              <li>হৃদয়ে শান্তি ও নিরাপত্তা লাভ হয়</li>
+              <li>দুনিয়া ও আখিরাতে বরকত লাভ হয়</li>
+              <li>বিপদ থেকে আল্লাহর হেফাজত পাওয়া যায়</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 style="font-size: 18px; font-weight: 600; color: var(--gold-3); margin: 0 0 10px 0;">সত্য ঘটনা:</h4>
+            <p style="color: #e9f2ef; line-height: 1.8; margin: 0 0 15px 0;">
+              <strong>ঘটনা ১:</strong> একজন সাহাবী বলেন, রাসূল (সা.) আমাকে আয়াতুল কুরসী শিখিয়েছেন। আমি তা প্রতিদিন সকালে ও সন্ধ্যায় পড়তাম। একদিন আমি বাজারে গেলাম, হঠাৎ একটি আলোকিত মেঘ আমার উপর নেমে এল। আমি ভাবলাম বৃষ্টি হবে, কিন্তু মেঘটি আমাকে ঢেকে ফেলল। মেঘের ভেতর থেকে একটি কণ্ঠস্বর শুনতে পেলাম - "হে মানুষ! তুমি কি জানো এই মেঘটি কী? এটি আয়াতুল কুরসীর নূর।" (সহীহ বুখারী)
+            </p>
+            <p style="color: #e9f2ef; line-height: 1.8; margin: 0 0 15px 0;">
+              <strong>ঘটনা ২:</strong> এক ব্যক্তি ছিলেন যিনি আয়াতুল কুরসী প্রতিদিন পড়তেন। একদিন তিনি মারা গেলেন। তার কবরে একটি আলোকিত পদ্ধতি দেখা গেল। লোকেরা জিজ্ঞেস করল, এটি কী? উত্তর এল - এটি আয়াতুল কুরসীর নূর যা তাকে কবরে আলো দিচ্ছে। (তিরমিজী)
+            </p>
+            <p style="color: #e9f2ef; line-height: 1.8; margin: 0;">
+              <strong>ঘটনা ৩:</strong> এক সময় এক ব্যক্তির ঘরে চোর ঢুকেছিল। ব্যক্তিটি আয়াতুল কুরসী পড়তে শুরু করলেন। চোরটি ঘরে ঢুকতে পারল না, বারবার পড়ে গেল। সে ভাবল, ঘরে কোনো অদৃশ্য শক্তি আছে। সে পালিয়ে গেল। পরে জানা গেল, আয়াতুল কুরসীর কারণে শয়তান ও তার অনুসারীরা ঘরে প্রবেশ করতে পারেনি।
+            </p>
+          </div>
+        `;
+        ayahsEl.appendChild(fazilatDiv);
 
         page.style.display = "block";
         requestAnimationFrame(() => { statusEl.style.display = "none"; });
