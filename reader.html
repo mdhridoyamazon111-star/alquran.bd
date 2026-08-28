@@ -471,6 +471,28 @@
       border-radius: 18px;
       box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    #necessaryMenu .surah-card .ayah-block {
+      display: block;
+      text-align: center;
+      line-height: 2.5;
+      padding: 10px;
+    }
+    #necessaryMenu .ayah-arabic {
+      font-family: "Scheherazade New", "Amiri", serif;
+      font-size: 34px;
+      line-height: 2.5;
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    #necessaryMenu .ayah-num {
+      font-family: "Noto Naskh Arabic", serif;
+      font-size: 0.8em;
+      color: var(--gold-1);
+      margin: 0.5em 0;
     }
     #necessaryMenu .surah-card:hover {
       transform: translateY(-6px) scale(1.04);
@@ -1153,11 +1175,35 @@
       text-align-last: center;
       direction: rtl;
       white-space: pre-wrap;
-      word-spacing: 0.1em;
-      text-justify: distribute;
-      hyphens: auto;
       line-height: 2.5;
       padding: 0 10px;
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .arabic-mode .ayah-text {
+      display: block;
+      width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .arabic-mode .ayah-num {
+      float: left;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    /* Mobile support for Arabic mode */
+    @media (max-width: 600px) {
+      .arabic-mode .ayah-arabic {
+        padding: 0 5px;
+        line-height: 2.3;
+      }
+      .arabic-mode .ayah-num {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
     }
     .ayah-num {
       display: inline-flex;
@@ -9205,12 +9251,13 @@
         currentSurah = 2;
 
         ayahsEl.innerHTML = "";
+        ayahsEl.classList.add("arabic-mode");
         const div = document.createElement("div");
         div.className = "ayah-block" + (isBookmarked ? " bookmarked" : "");
         div.dataset.ayah = num;
         div.innerHTML = `
           <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-          <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
+          <div class="ayah-arabic"><span class="ayah-text">${a}</span><span class="ayah-num">${toArabicNum(num)}</span></div>
           ${ucHtml}
           ${translationHtml}
         `;
@@ -9237,6 +9284,7 @@
       updateInstallBtn();
       history.pushState({ view: "duaQunoot" }, "", "?view=duaQunoot");
       window.scrollTo({ top: 0 });
+      ayahsEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">দোয়া কুনুত</div>';
@@ -9255,9 +9303,10 @@
       const duaQunootMeaning = `হে আল্লাহ! আমরা তোমার সাহায্য চাই, তোমার কাছে ক্ষমা চাই, তোমার প্রতি কল্যাণের বর্ণনা করি, তোমার কৃতজ্ঞতা স্বীকার করি এবং তোমার অকৃতজ্ঞ হই না। আমরা তোমার অবাধ্যতাকারীদের পরিত্যাগ করি এবং তাদের ছেড়ে দিই। হে আল্লাহ! আমরা শুধু তোমারই ইবাদত করি, তোমার জন্যই নামায পড়ি এবং সিজদা করি। আমরা তোমারই দিকে ধাবিত হই এবং তোমারই সেবা করি। আমরা তোমার রহমতের আশা করি এবং তোমার আযাব থেকে ভয় পাই। নিশ্চয়ই তোমার আযাব কাফেরদের সাথে মিশে যাবে।`;
 
       try {
+        ayahsEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
-            <div class="ayah-arabic" style="font-size: 28px; line-height: 2.2; text-align: center; margin: 20px 0;">${duaQunootArabic}</div>
+            <div class="ayah-arabic"><span class="ayah-text">${duaQunootArabic}</span></div>
             <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
               <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
               ${duaQunootPronunciation}
@@ -9290,6 +9339,7 @@
       updateInstallBtn();
       history.pushState({ view: "duaMasura" }, "", "?view=duaMasura");
       window.scrollTo({ top: 0 });
+      ayahsEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">তাশাহহুদ (আত্তাহিয়্যাতু)</div>';
@@ -9320,10 +9370,11 @@
       const duaMasuraMeaning = `হে আল্লাহ! আমি আমার নিজের ওপর অনেক জুলুম করেছি। তোমা ছাড়া গোনাহ মাফ করার কেউ নেই। তাই তুমি আমাকে ক্ষমা করে দাও, তোমার পক্ষ থেকে ক্ষমা দাও এবং আমার প্রতি রহমত করো। নিশ্চয়ই তুমি অতি ক্ষমাশীল, অতি দয়ালু।`;
 
       try {
+        ayahsEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
             <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">তাশাহহুদ (আত্তাহিয়্যাতু)</h3>
-            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${tashahhudArabic}</div>
+            <div class="ayah-arabic"><span class="ayah-text">${tashahhudArabic}</span></div>
             <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
               <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
               ${tashahhudPronunciation}
@@ -9335,7 +9386,7 @@
           </div>
           <div class="ayah-block" style="margin-top:30px; padding-top:30px; border-top:1px solid rgba(212,175,55,0.3);">
             <h3 style="position: relative; display: block; margin: 4px 10px 14px; width: auto; max-width: none; height: clamp(48px, 7vw, 90px); background: url('images/Sura.jpg') center/100% 100% no-repeat; color: #000; border: none; font-size: clamp(13px, 2.6vw, 18px); font-weight: 800; line-height: 1.1; white-space: nowrap; display: flex; align-items: center; justify-content: center;">দরুদে ইব্রাহিম</h3>
-            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${duroodArabic}</div>
+            <div class="ayah-arabic"><span class="ayah-text">${duroodArabic}</span></div>
             <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
               <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
               ${duroodPronunciation}
@@ -9347,7 +9398,7 @@
           </div>
           <div class="ayah-block" style="margin-top:30px; padding-top:30px; border-top:1px solid rgba(212,175,55,0.3);">
             <h3 style="position: relative; display: block; margin: 4px 10px 14px; width: auto; max-width: none; height: clamp(48px, 7vw, 90px); background: url('images/Sura.jpg') center/100% 100% no-repeat; color: #000; border: none; font-size: clamp(13px, 2.6vw, 18px); font-weight: 800; line-height: 1.1; white-space: nowrap; display: flex; align-items: center; justify-content: center;">দোয়া মাসুরা</h3>
-            <div class="ayah-arabic" style="font-size: 28px; line-height: 2.2; text-align: center; margin: 20px 0;">${duaMasuraArabic}</div>
+            <div class="ayah-arabic"><span class="ayah-text">${duaMasuraArabic}</span></div>
             <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
               <span class="meaning" style="font-weight: 600; color: var(--gold-3);">উচ্চারণ:</span><br>
               ${duaMasuraPronunciation}
@@ -9380,6 +9431,7 @@
       updateInstallBtn();
       history.pushState({ view: "sayyidulIstighfar" }, "", "?view=sayyidulIstighfar");
       window.scrollTo({ top: 0 });
+      ayahsEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">সাইয়েদুল ইস্তেগফার</div>';
@@ -9398,12 +9450,13 @@
       const sayyidulIstighfarMeaning = `হে আল্লাহ! তুমি আমার পালনকর্তা। তুমি ছাড়া আর কোনো সত্য উপাস্য নেই। তুমি আমাকে সৃষ্টি করেছ, আমি তোমার বান্দা। আমি আমার সাধ্যমতো তোমার সাথে করা ওয়াদা ও প্রতিশ্রুতির ওপর অবিচল আছি। আমি আমার সব কর্মের অনিষ্ট থেকে তোমার আশ্রয় চাই। তুমি আমার ওপর তোমার যে নিয়ামত দিয়েছ তা স্বীকার করছি এবং আমার গোনাহ বা অপরাধও স্বীকার করছি। অতএব, তুমি আমাকে ক্ষমা করে দাও। কেননা, তুমি ছাড়া কেউ গোনাহ ক্ষমা করতে পারবে না।`;
 
       try {
+        ayahsEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
             <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">সাইয়েদুল ইস্তেগফার</h3>
             <p style="text-align:center; font-size:16px; line-height:1.6; color:#666; margin:15px 0;">সাইয়েদুল ইস্তেগফার হলো ক্ষমা প্রার্থনার শ্রেষ্ঠ দোয়া, যার আরবি লিপি, বাংলা উচ্চারণ এবং সংক্ষিপ্ত অর্থ নিচে দেওয়া হলো।</p>
             <h4 style="text-align:center; font-size:18px; font-weight:600; color:var(--gold-3); margin:20px 0 10px;">আরবি (Arabic)</h4>
-            <div class="ayah-arabic" style="font-size: 26px; line-height: 2.2; text-align: center; margin: 20px 0;">${sayyidulIstighfarArabic}</div>
+            <div class="ayah-arabic"><span class="ayah-text">${sayyidulIstighfarArabic}</span></div>
             <h4 style="text-align:center; font-size:18px; font-weight:600; color:var(--gold-3); margin:20px 0 10px;">বাংলা উচ্চারণ (Bengali Pronunciation)</h4>
             <div class="ayah-bn" style="font-size: 18px; line-height: 1.8; margin: 15px 0; color: #666;">
               ${sayyidulIstighfarPronunciation}
@@ -9436,6 +9489,7 @@
       updateInstallBtn();
       history.pushState({ view: "azanResponse" }, "", "?view=azanResponse");
       window.scrollTo({ top: 0 });
+      ayahsEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">আযানের জবাব এবং দোয়া</div>';
@@ -9897,9 +9951,12 @@
           const div = document.createElement("div");
           div.className = "ayah-block";
           div.dataset.ayah = num;
+          const arabicHtml = readingMode === "arabic"
+            ? `<div class="ayah-arabic"><span class="ayah-text">${a}</span><span class="ayah-num">${toArabicNum(num)}</span></div>`
+            : `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
           div.innerHTML = `
             <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-            <div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>
+            ${arabicHtml}
             ${ucHtml}
             ${marksHtml}
             ${translationHtml}
