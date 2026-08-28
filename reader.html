@@ -9984,7 +9984,10 @@
           div.className = "ayah-block";
           div.dataset.ayah = num;
           const arabicHtml = readingMode === "arabic"
-            ? `<div class="ayah-arabic" style="text-align: justify; text-align-last: center; direction: rtl; white-space: normal; word-wrap: break-word; overflow-wrap: break-word;"><span class="ayah-text">${a}</span><span class="ayah-num">${toArabicNum(num)}</span></div>`
+            ? `<div class="ayah-arabic-wrapper" style="display: flex; flex-direction: column; width: 100%; direction: rtl;">
+                <div class="ayah-arabic" style="text-align: justify; text-align-last: center; direction: rtl; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; width: 100%; margin-bottom: 5px;">${a}</div>
+                <div class="ayah-num" style="text-align: left; direction: ltr; font-size: 0.9em; color: var(--gold-1); margin-top: 5px;">${toArabicNum(num)}</div>
+              </div>`
             : `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
           div.innerHTML = `
             <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
@@ -10008,6 +10011,8 @@
               el.style.textAlignLast = "center";
               el.style.direction = "rtl";
               el.style.whiteSpace = "normal";
+              el.style.width = "100%";
+              el.style.maxWidth = "100%";
             });
           });
         }
