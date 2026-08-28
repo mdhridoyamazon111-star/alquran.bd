@@ -1174,16 +1174,20 @@
       text-align: justify !important;
       text-align-last: center !important;
       direction: rtl !important;
-      white-space: pre-wrap;
+      white-space: normal;
       line-height: 2.5;
-      padding: 0 10px;
+      padding: 0 20px;
       width: 100%;
       box-sizing: border-box;
       display: block;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      text-justify: distribute;
+      text-justify: inter-word;
       hyphens: auto;
+      letter-spacing: 0.01em;
+      word-spacing: 0.05em;
+      max-width: 100%;
+      margin: 0 auto;
     }
     .arabic-mode .ayah-text {
       display: block;
@@ -1191,19 +1195,34 @@
       word-wrap: break-word;
       overflow-wrap: break-word;
       direction: rtl;
+      letter-spacing: 0.01em;
+      word-spacing: 0.05em;
+      white-space: normal;
     }
     .arabic-mode .ayah-num {
       float: left;
       margin-left: 10px;
       margin-right: 10px;
       direction: ltr;
+      font-size: 0.9em;
+      position: relative;
+      z-index: 1;
+    }
+    /* Additional justification support */
+    .arabic-mode .ayah-block {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
     }
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        padding: 0 5px;
+        padding: 0 15px;
         line-height: 2.3;
         font-size: 30px !important;
+        letter-spacing: 0;
+        word-spacing: 0.02em;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1214,6 +1233,7 @@
       .arabic-mode .ayah-arabic {
         font-size: 28px !important;
         line-height: 2.2;
+        padding: 0 12px;
       }
     }
     .ayah-num {
@@ -9964,7 +9984,7 @@
           div.className = "ayah-block";
           div.dataset.ayah = num;
           const arabicHtml = readingMode === "arabic"
-            ? `<div class="ayah-arabic"><span class="ayah-text">${a}</span><span class="ayah-num">${toArabicNum(num)}</span></div>`
+            ? `<div class="ayah-arabic" style="text-align: justify; text-align-last: center; direction: rtl; white-space: normal; word-wrap: break-word; overflow-wrap: break-word;"><span class="ayah-text">${a}</span><span class="ayah-num">${toArabicNum(num)}</span></div>`
             : `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
           div.innerHTML = `
             <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
@@ -9978,6 +9998,20 @@
         ayahsEl.appendChild(fragment);
         // Add Arabic mode class for justified layout
         ayahsEl.classList.toggle("arabic-mode", readingMode === "arabic");
+        
+        // Force justification for Arabic mode
+        if (readingMode === "arabic") {
+          requestAnimationFrame(() => {
+            const arabicTexts = document.querySelectorAll(".arabic-mode .ayah-arabic");
+            arabicTexts.forEach(el => {
+              el.style.textAlign = "justify";
+              el.style.textAlignLast = "center";
+              el.style.direction = "rtl";
+              el.style.whiteSpace = "normal";
+            });
+          });
+        }
+        
         surahInfo.innerHTML =
           `<span>সূরা <strong>${toArabicNum(n)}</strong></span>` +
           `<span>আয়াত <strong>${toArabicNum(surah.numberOfAyahs)}</strong></span>` +
