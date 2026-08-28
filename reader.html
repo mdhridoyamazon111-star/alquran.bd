@@ -9969,13 +9969,13 @@
         
         // Surah Al-Fatiha with beautiful design
         const fatihaAyahs = [
-          { num: 1, text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ" },
-          { num: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ" },
-          { num: 3, text: "الرَّحْمَٰنِ الرَّحِيمِ" },
-          { num: 4, text: "مَالِكِ يَوْمِ الدِّينِ" },
-          { num: 5, text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ" },
-          { num: 6, text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ" },
-          { num: 7, text: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ" }
+          { num: 1, arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", bangla: "শুরু আল্লাহর নামের সাথে যিনি পরম করুণাময়, অসীম দয়ালু", english: "In the name of Allah, the Most Gracious, the Most Merciful" },
+          { num: 2, arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", bangla: "সমস্ত প্রশংসা আল্লাহর জন্য যিনি সকল সৃষ্টির প্রতিপালক", english: "All praise is due to Allah, Lord of all the worlds" },
+          { num: 3, arabic: "الرَّحْمَٰنِ الرَّحِيمِ", bangla: "যিনি পরম করুণাময়, অসীম দয়ালু", english: "The Most Gracious, the Most Merciful" },
+          { num: 4, arabic: "مَالِكِ يَوْمِ الدِّينِ", bangla: "বিচার দিনের মালিক", english: "Master of the Day of Judgment" },
+          { num: 5, arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", bangla: "আমরা শুধু তোমারই ইবাদত করি এবং তোমারই কাছে সাহায্য চাই", english: "You alone we worship, and You alone we ask for help" },
+          { num: 6, arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", bangla: "আমাদেরকে সরল পথ দেখাও", english: "Guide us on the Straight Path" },
+          { num: 7, arabic: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", bangla: "তাদের পথ যাদের তুমি নিয়ামত দিয়েছ, তাদের পথ নয় যারা অভিশপ্ত এবং পথভ্রষ্ট", english: "The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray" }
         ];
         
         let fatihaHtml = `
@@ -9985,10 +9985,38 @@
         `;
         
         fatihaAyahs.forEach(ayah => {
+          let contentHtml = '';
+          
+          if (readingMode === 'arabic') {
+            contentHtml = `
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', serif; font-size: 32px; color: #000; line-height: 2; text-align: right; direction: rtl;">
+                ${ayah.arabic}
+              </div>
+            `;
+          } else if (readingMode === 'english') {
+            contentHtml = `
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', serif; font-size: 28px; color: #000; line-height: 2; text-align: right; direction: rtl; margin-bottom: 10px;">
+                ${ayah.arabic}
+              </div>
+              <div style="font-size: 18px; color: #333; Line-height: 1.6; text-align: left;">
+                ${ayah.english}
+              </div>
+            `;
+          } else {
+            contentHtml = `
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', serif; font-size: 28px; color: #000; line-height: 2; text-align: right; direction: rtl; margin-bottom: 10px;">
+                ${ayah.arabic}
+              </div>
+              <div style="font-size: 18px; color: #333; Line-height: 1.6; text-align: left;">
+                ${ayah.bangla}
+              </div>
+            `;
+          }
+          
           fatihaHtml += `
-            <div style="display: flex; align-items: center; margin-bottom: 20px; direction: rtl;">
-              <div style="flex: 1; font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', serif; font-size: 32px; color: #000; line-height: 2; text-align: right;">
-                ${ayah.text}
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="flex: 1;">
+                ${contentHtml}
               </div>
               <div style="width: 50px; height: 50px; background: #2e7d32; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 3px solid #d4af37; flex-shrink: 0;">
                 <span style="color: white; font-size: 20px; font-weight: bold;">${ayah.num}</span>
