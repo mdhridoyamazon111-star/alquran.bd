@@ -1168,11 +1168,14 @@
       text-align: center;
       color: var(--ink);
       margin-bottom: 6px;
+      word-break: normal;
+      word-wrap: break-word;
+      hyphens: none;
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       text-align: justify !important;
-      text-align-last: center !important;
+      text-align-last: auto !important;
       direction: rtl !important;
       white-space: normal;
       line-height: 2.5;
@@ -1181,6 +1184,9 @@
       box-sizing: border-box;
       display: block;
       word-wrap: break-word;
+      word-break: normal;
+      hyphens: none;
+      text-justify: distribute;
       overflow-wrap: break-word;
       text-justify: inter-word;
       hyphens: auto;
