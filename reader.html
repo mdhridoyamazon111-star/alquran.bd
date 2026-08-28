@@ -1171,9 +1171,9 @@
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      text-align: justify;
-      text-align-last: center;
-      direction: rtl;
+      text-align: justify !important;
+      text-align-last: center !important;
+      direction: rtl !important;
       white-space: pre-wrap;
       line-height: 2.5;
       padding: 0 10px;
@@ -1182,27 +1182,38 @@
       display: block;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      text-justify: distribute;
+      hyphens: auto;
     }
     .arabic-mode .ayah-text {
       display: block;
       width: 100%;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      direction: rtl;
     }
     .arabic-mode .ayah-num {
       float: left;
       margin-left: 10px;
       margin-right: 10px;
+      direction: ltr;
     }
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
         padding: 0 5px;
         line-height: 2.3;
+        font-size: 30px !important;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
         margin-right: 5px;
+      }
+    }
+    @media (max-width: 480px) {
+      .arabic-mode .ayah-arabic {
+        font-size: 28px !important;
+        line-height: 2.2;
       }
     }
     .ayah-num {
@@ -9829,11 +9840,12 @@
       surahSelect.value = n;
       document.getElementById("prev").disabled = n === 1;
       document.getElementById("next").disabled = n === 114;
-      // Keep the URL in sync so a page refresh stays on the current surah.
+      // Keep the URL in sync so a page refresh stays on the current surah and mode.
+      const modeParam = readingMode === "arabic" ? "&mode=arabic" : (readingMode === "english" ? "&mode=english" : "");
       if (push) {
-        history.pushState({ surah: n }, "", "?surah=" + n);
+        history.pushState({ surah: n, mode: readingMode }, "", "?surah=" + n + modeParam);
       } else {
-        history.replaceState({ surah: n }, "", "?surah=" + n);
+        history.replaceState({ surah: n, mode: readingMode }, "", "?surah=" + n + modeParam);
       }
       window.scrollTo(0, 0);
     }
@@ -9997,8 +10009,15 @@
     initSurahList().then(() => {
       const params = new URLSearchParams(location.search);
       const s = parseInt(params.get("surah"), 10);
+      const mode = params.get("mode");
       const small21 = params.get("small21");
       const view = params.get("view");
+      
+      // Set reading mode from URL parameter if present
+      if (mode === "arabic" || mode === "english") {
+        readingMode = mode;
+      }
+      
       if (s >= 1 && s <= 114) {
         loadSurah(s);
       } else if (small21) {
