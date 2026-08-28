@@ -9939,6 +9939,45 @@
         statusEl.textContent = "সূরা নম্বর ১ থেকে ১১৪ এর মধ্যে হতে হবে।";
         return;
       }
+      
+      // Special handling for Surah Al-Fatiha (1) - show image instead of text
+      if (n === 1) {
+        stopScroll();
+        setInputs(n, push);
+        document.body.classList.remove("home");
+        necessaryMenu.style.display = "none";
+        surahGrid.style.display = "none";
+        mainMenu.style.display = "none";
+        desktopBanner.style.display = "none";
+        surahTitle.style.display = "";
+        document.getElementById("homeFooter").style.display = "none";
+        updateInstallBtn();
+        statusEl.style.display = "none";
+        
+        const info = SURAH_LIST.find(x => x.number === 1) || {};
+        const leftName = readingMode === "english"
+          ? (info.englishName || "Al-Fatiha")
+          : (info.bnName || "সূরা ফাতেহা");
+        const isFav = isFavorite(1);
+        const favIcon = isFav ? "★" : "☆";
+        surahTitle.innerHTML =
+          `<span class="st-inner"><button class="fav-btn" id="surahFavBtn" data-surah="1" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button><span class="st-left">${leftName}</span><span class="st-right">سُورَةُ الْفَاتِحَةِ</span></span>`;
+        navName.textContent = "1. Al-Fatiha";
+        
+        bismillahEl.style.display = "none";
+        ayahsEl.innerHTML = `
+          <div style="display: flex; justify-content: center; padding-left: 10px; padding-right: 10px;">
+            <img src="images/Surah Fatiha.png" alt="সূরা ফাতেহা" style="max-width: 100%; height: auto; display: block;" />
+          </div>
+        `;
+        
+        if (push) {
+          const url = `/?surah=${n}`;
+          history.pushState({ surah: n }, "", url);
+        }
+        return;
+      }
+      
       stopScroll();
       setInputs(n, push);
       document.body.classList.remove("home");
