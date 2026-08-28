@@ -9942,6 +9942,7 @@
       
       // Special handling for Surah Al-Fatiha (1) - show image instead of text
       if (n === 1) {
+        console.log("Loading Surah Fatiha with custom design");
         stopScroll();
         setInputs(n, push);
         document.body.classList.remove("home");
@@ -10003,6 +10004,7 @@
         `;
         
         ayahsEl.innerHTML = fatihaHtml;
+        console.log("Surah Fatiha HTML set successfully");
         
         if (push) {
           const url = `/?surah=${n}`;
