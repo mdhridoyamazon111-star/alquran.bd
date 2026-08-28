@@ -9965,11 +9965,44 @@
         navName.textContent = "1. Al-Fatiha";
         
         bismillahEl.style.display = "none";
-        ayahsEl.innerHTML = `
-          <div style="display: flex; justify-content: center; padding-left: 10px; padding-right: 10px;">
-            <img src="images/SurahFatiha.jfif" alt="সূরা ফাতেহা" style="max-width: 100%; height: auto; display: block;" />
+        
+        // Surah Al-Fatiha with beautiful design
+        const fatihaAyahs = [
+          { num: 1, text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ" },
+          { num: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ" },
+          { num: 3, text: "الرَّحْمَٰنِ الرَّحِيمِ" },
+          { num: 4, text: "مَالِكِ يَوْمِ الدِّينِ" },
+          { num: 5, text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ" },
+          { num: 6, text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ" },
+          { num: 7, text: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ" }
+        ];
+        
+        let fatihaHtml = `
+          <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin: 10px;">
+            <div style="border: 4px solid #d4af37; border-radius: 10px; padding: 15px; background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);">
+              <div style="border: 3px solid #2e7d32; border-radius: 8px; padding: 20px;">
+        `;
+        
+        fatihaAyahs.forEach(ayah => {
+          fatihaHtml += `
+            <div style="display: flex; align-items: center; margin-bottom: 20px; direction: rtl;">
+              <div style="flex: 1; font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', serif; font-size: 32px; color: #000; line-height: 2; text-align: right;">
+                ${ayah.text}
+              </div>
+              <div style="width: 50px; height: 50px; background: #2e7d32; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 3px solid #d4af37; flex-shrink: 0;">
+                <span style="color: white; font-size: 20px; font-weight: bold;">${ayah.num}</span>
+              </div>
+            </div>
+          `;
+        });
+        
+        fatihaHtml += `
+              </div>
+            </div>
           </div>
         `;
+        
+        ayahsEl.innerHTML = fatihaHtml;
         
         if (push) {
           const url = `/?surah=${n}`;
