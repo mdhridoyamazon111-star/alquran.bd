@@ -10231,6 +10231,7 @@
         ayahsEl.classList.toggle("arabic-mode", readingMode === "arabic");
         innerEl.classList.toggle("arabic-mode", readingMode === "arabic");
         console.log("Arabic mode toggled:", readingMode, "innerEl classes:", innerEl.className);
+        console.log("Computed background:", window.getComputedStyle(innerEl).background);
         
         // Force justification for Arabic mode
         if (readingMode === "arabic") {
