@@ -1208,7 +1208,7 @@
       margin: 0 auto;
     }
     /* Arabic mode: same background as Bengali Quran */
-    .arabic-mode .inner {
+    .inner.arabic-mode {
       background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--cream) 45%, #f4ead0 100%);
     }
     .arabic-mode .ayah-text {
@@ -1734,6 +1734,8 @@
     const surahTitle = document.getElementById("surahTitle");
     const surahInfo = document.getElementById("surahInfo");
     const ayahsEl = document.getElementById("ayahs");
+    const innerEl = document.querySelector(".inner");
+    console.log("innerEl:", innerEl);
     const bismillahEl = document.getElementById("bismillah");
     const surahSelect = document.getElementById("surahSelect");
     const navName = document.getElementById("navName");
@@ -9309,6 +9311,7 @@
 
         ayahsEl.innerHTML = "";
         ayahsEl.classList.add("arabic-mode");
+        innerEl.classList.add("arabic-mode");
         const div = document.createElement("div");
         div.className = "ayah-block" + (isBookmarked ? " bookmarked" : "");
         div.dataset.ayah = num;
@@ -9390,6 +9393,7 @@
       history.pushState({ view: "duaQunoot" }, "", "?view=duaQunoot");
       window.scrollTo({ top: 0 });
       ayahsEl.classList.remove("arabic-mode");
+      innerEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">দোয়া কুনুত</div>';
@@ -9409,6 +9413,7 @@
 
       try {
         ayahsEl.classList.add("arabic-mode");
+        innerEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
             <div class="ayah-arabic"><span class="ayah-text">${duaQunootArabic}</span></div>
@@ -9445,6 +9450,7 @@
       history.pushState({ view: "duaMasura" }, "", "?view=duaMasura");
       window.scrollTo({ top: 0 });
       ayahsEl.classList.remove("arabic-mode");
+      innerEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">তাশাহহুদ (আত্তাহিয়্যাতু)</div>';
@@ -9476,6 +9482,7 @@
 
       try {
         ayahsEl.classList.add("arabic-mode");
+        innerEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
             <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">তাশাহহুদ (আত্তাহিয়্যাতু)</h3>
@@ -9537,6 +9544,7 @@
       history.pushState({ view: "sayyidulIstighfar" }, "", "?view=sayyidulIstighfar");
       window.scrollTo({ top: 0 });
       ayahsEl.classList.remove("arabic-mode");
+      innerEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">সাইয়েদুল ইস্তেগফার</div>';
@@ -9556,6 +9564,7 @@
 
       try {
         ayahsEl.classList.add("arabic-mode");
+        innerEl.classList.add("arabic-mode");
         ayahsEl.innerHTML = `
           <div class="ayah-block">
             <h3 style="text-align:center; font-size:22px; font-weight:700; color:var(--gold-3); margin:25px 0 15px;">সাইয়েদুল ইস্তেগফার</h3>
@@ -9595,6 +9604,7 @@
       history.pushState({ view: "azanResponse" }, "", "?view=azanResponse");
       window.scrollTo({ top: 0 });
       ayahsEl.classList.remove("arabic-mode");
+      innerEl.classList.remove("arabic-mode");
 
       page.style.display = "block";
       surahTitle.innerHTML = '<div style="flex:1; text-align:center; font-size:26px; font-weight:800; color:var(--gold-3); padding:10px 0;">আযানের জবাব এবং দোয়া</div>';
@@ -10219,6 +10229,8 @@
         }
         // Add Arabic mode class for justified layout
         ayahsEl.classList.toggle("arabic-mode", readingMode === "arabic");
+        innerEl.classList.toggle("arabic-mode", readingMode === "arabic");
+        console.log("Arabic mode toggled:", readingMode, "innerEl classes:", innerEl.className);
         
         // Force justification for Arabic mode
         if (readingMode === "arabic") {
