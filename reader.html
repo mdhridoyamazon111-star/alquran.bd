@@ -1178,8 +1178,8 @@
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
       font-family: "Scheherazade New", "Amiri", serif;
-      font-size: 32px;
-      line-height: 2;
+      font-size: var(--arabic-size);
+      line-height: 1.7;
       text-align: center;
       color: #000000;
       margin-bottom: 6px;
@@ -1192,13 +1192,13 @@
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: "Scheherazade New", "Amiri", serif;
-      font-size: 32px;
+      font-size: var(--arabic-size);
       color: #000000;
       text-align: justify !important;
       text-align-last: auto !important;
       direction: rtl !important;
       white-space: normal;
-      line-height: 2;
+      line-height: 1.7;
       font-weight: 400;
       letter-spacing: 0.5px;
       padding: 0 20px;
@@ -1252,8 +1252,8 @@
         font-family: "Scheherazade New", "Amiri", serif;
         color: #000000;
         padding: 0 15px;
-        line-height: 2;
-        font-size: 30px !important;
+        line-height: 1.7;
+        font-size: var(--arabic-size);
         letter-spacing: 0.5px;
       }
       .arabic-mode .ayah-num {
@@ -1265,8 +1265,8 @@
       .arabic-mode .ayah-arabic {
         font-family: "Scheherazade New", "Amiri", serif;
         color: #000000;
-        font-size: 28px !important;
-        line-height: 2;
+        font-size: var(--arabic-size);
+        line-height: 1.7;
         padding: 0 12px;
         letter-spacing: 0.5px;
       }
@@ -9832,10 +9832,10 @@
 
     surahSelect.addEventListener("change", () => {
       const n = parseInt(surahSelect.value, 10);
-      if (n >= 1 && n <= 114) loadSurah(n, undefined, true);
+      if (n >= 1 && n <= 114) loadSurah(n, undefined, true, readingMode);
     });
-    document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1, undefined, true); });
-    document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1, undefined, true); });
+    document.getElementById("prev").addEventListener("click", () => { if (currentSurah > 1) loadSurah(currentSurah - 1, undefined, true, readingMode); });
+    document.getElementById("next").addEventListener("click", () => { if (currentSurah < 114) loadSurah(currentSurah + 1, undefined, true, readingMode); });
     document.getElementById("btnFavorites").addEventListener("click", showFavorites);
 
     // Favorites grid click handler
@@ -9963,10 +9963,15 @@
       window.scrollTo(0, 0);
     }
 
-    async function loadSurah(n, scrollToAyah, push = false) {
+    async function loadSurah(n, scrollToAyah, push = false, mode = null) {
       if (!n || n < 1 || n > 114) {
         statusEl.textContent = "সূরা নম্বর ১ থেকে ১১৪ এর মধ্যে হতে হবে।";
         return;
+      }
+      
+      // Update reading mode if provided
+      if (mode) {
+        readingMode = mode;
       }
       
       // Special handling for Surah Al-Fatiha (1) - show image instead of text
