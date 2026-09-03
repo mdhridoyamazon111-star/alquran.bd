@@ -86,7 +86,7 @@
       --teal:      #1f6f6b;
       --teal-2:    #2f8f8a;
       --bg:        #0c2321;
-      --arabic-size: 34px;
+      --arabic-size: 32px;
     }
 
     * { box-sizing: border-box; }
@@ -1178,8 +1178,8 @@
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
       font-family: "Scheherazade New", "Amiri", serif;
-      font-size: var(--arabic-size);
-      line-height: 2.15;
+      font-size: 32px;
+      line-height: 2;
       text-align: center;
       color: #000000;
       margin-bottom: 6px;
@@ -1192,12 +1192,13 @@
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: "Scheherazade New", "Amiri", serif;
+      font-size: 32px;
       color: #000000;
       text-align: justify !important;
       text-align-last: auto !important;
       direction: rtl !important;
       white-space: normal;
-      line-height: 2.5;
+      line-height: 2;
       font-weight: 400;
       letter-spacing: 0.5px;
       padding: 0 20px;
@@ -1251,10 +1252,9 @@
         font-family: "Scheherazade New", "Amiri", serif;
         color: #000000;
         padding: 0 15px;
-        line-height: 2.3;
+        line-height: 2;
         font-size: 30px !important;
-        letter-spacing: 0;
-        word-spacing: 0.02em;
+        letter-spacing: 0.5px;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1266,8 +1266,9 @@
         font-family: "Scheherazade New", "Amiri", serif;
         color: #000000;
         font-size: 28px !important;
-        line-height: 2.2;
+        line-height: 2;
         padding: 0 12px;
+        letter-spacing: 0.5px;
       }
     }
     .ayah-num {
@@ -10150,7 +10151,7 @@
         if (readingMode === "arabic") {
           const arabicContainer = document.createElement("div");
           arabicContainer.className = "ayah-arabic-wrapper";
-          arabicContainer.style.cssText = "display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 2.5; padding: 0 20px; word-wrap: break-word; overflow-wrap: break-word;";
+          arabicContainer.style.cssText = "display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 2.5; padding: 0 20px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Scheherazade New', 'Amiri', serif; font-size: 32px; color: #000;";
           
           let arabicText = "";
           let ayahNumbers = [];
