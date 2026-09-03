@@ -739,6 +739,7 @@
         border: none;
         border-radius: 8px;
         padding: 12px 6px 22px;
+        background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
       }
       .surah-grid {
         grid-template-columns: 1fr !important;
@@ -804,6 +805,9 @@
 
     /* On desktop (>= 1601px): ensure menu buttons have fixed dimensions */
     @media (min-width: 1601px) {
+      .inner {
+        background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+      }
       #mainMenu .surah-card[data-mode="website"],
       #mainMenu .surah-card[data-mode="arabic"],
       #mainMenu .surah-card[data-mode="english"],
@@ -1182,6 +1186,8 @@
       word-break: normal;
       word-wrap: break-word;
       hyphens: none;
+      font-weight: 400;
+      letter-spacing: 0.5px;
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
@@ -1192,6 +1198,8 @@
       direction: rtl !important;
       white-space: normal;
       line-height: 2.5;
+      font-weight: 400;
+      letter-spacing: 0.5px;
       padding: 0 20px;
       width: 100%;
       box-sizing: border-box;
