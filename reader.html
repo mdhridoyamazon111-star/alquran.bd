@@ -677,6 +677,7 @@
       font-size: 14px;
       color: #e9d9b0;
       white-space: nowrap;
+      padding: 0 8px;
     }
     .surah-card .ar {
       flex: 0 0 auto;
@@ -8576,15 +8577,14 @@
       surahGrid.innerHTML =
         `<div class="grid-heading">${heading}</div>` +
         SURAH_LIST.map(s => {
-          const bn = readingMode === "english" ? "" : `<span class="bn">${s.bnName}</span>`;
           const isFav = isFavorite(s.number);
           const favIcon = isFav ? "★" : "☆";
           return `
           <button class="surah-card" data-n="${s.number}">
             <span class="no">${toArabicNum(s.number)}</span>
-            <span class="en">${s.number}. ${s.englishName}</span>
-            ${bn}
             <span class="ar">${s.arName}</span>
+            <span class="en">${s.number}. ${s.englishName}</span>
+            <span class="bn">${s.bnName}</span>
             <span class="fav-btn" data-action="toggle-fav" data-surah="${s.number}">${favIcon}</span>
           </button>`;
         }).join("");
