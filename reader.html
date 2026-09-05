@@ -864,7 +864,7 @@
       color: #000;
     }
     .surah-title .st-middle {
-      font-family: "Noto Sans Bengali", serif;
+      font-family: "Noto Sans", sans-serif;
       font-weight: 700;
       font-size: clamp(12px, 2.4vw, 16px);
       line-height: 1.1;
@@ -9995,7 +9995,7 @@
         const isFav = isFavorite(1);
         const favIcon = isFav ? "★" : "☆";
         surahTitle.innerHTML =
-          `<span class="st-inner"><button class="fav-btn" id="surahFavBtn" data-surah="1" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button><span class="st-left">${leftName}</span><span class="st-right">سُورَةُ الْفَاتِحَةِ</span></span>`;
+          `<span class="st-inner"><button class="fav-btn" id="surahFavBtn" data-surah="1" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button><span class="st-left">${info.bnName || "সূরা ফাতেহা"}</span><span class="st-middle">${info.englishName || "Al-Fatiha"}</span><span class="st-right">سُورَةُ الْفَاتِحَةِ</span></span>`;
         navName.textContent = "1. Al-Fatiha";
         
         bismillahEl.style.display = "none";
@@ -10114,13 +10114,10 @@
 
         {
           const info = SURAH_LIST.find(x => x.number === n) || {};
-          const leftName = readingMode === "english"
-            ? (info.englishName || surah.englishName)
-            : (info.bnName || surah.englishName);
           const isFav = isFavorite(n);
           const favIcon = isFav ? "★" : "☆";
           surahTitle.innerHTML =
-            `<span class="st-inner"><span class="st-left">${leftName}</span><span class="st-right">${surah.name}</span></span>`;
+            `<span class="st-inner"><span class="st-left">${info.bnName || surah.englishName}</span><span class="st-middle">${info.englishName || surah.englishName}</span><span class="st-right">${surah.name}</span></span>`;
         }
         navName.textContent = `${surah.number}. ${surah.englishName}`;
 
