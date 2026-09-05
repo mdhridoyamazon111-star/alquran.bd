@@ -10167,7 +10167,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: right; line-height: 2.5; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000;">${a} <span class="ayah-num" style="color: var(--gold-1); font-size: 0.9em;">${toArabicNum(num)}</span></div>`;
+            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 2.5; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000;">${a} <span class="ayah-num" style="color: var(--gold-1); font-size: 0.9em;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
