@@ -10151,8 +10151,14 @@
         let rukuCount = 0;
         let sajdaCount = 0;
         
-        // For Arabic mode, show each ayah separately with its number
+        // For Arabic mode, show all ayahs in continuous text with numbers at end
         if (readingMode === "arabic") {
+          const arabicContainer = document.createElement("div");
+          arabicContainer.className = "ayah-arabic-wrapper";
+          arabicContainer.style.cssText = "display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 2.5; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Scheherazade New', 'Amiri', serif; font-size: 32px; color: #000;";
+          
+          let arabicText = "";
+          
           for (let i = 0; i < arabic.ayahs.length; i++) {
             const ay = arabic.ayahs[i];
             let a = ay.text.trim();
@@ -10163,17 +10169,18 @@
             }
             if (!a) continue;
             const num = ay.numberInSurah;
-            
-            const div = document.createElement("div");
-            div.className = "ayah-block";
-            div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span></div>`;
-            div.innerHTML = `
-              <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-              ${arabicHtml}
-            `;
-            fragment.appendChild(div);
+            arabicText += a + ` <span class="ayah-num">${toArabicNum(num)}</span> `;
           }
+          
+          arabicContainer.innerHTML = arabicText;
+          
+          const mainDiv = document.createElement("div");
+          mainDiv.className = "ayah-block";
+          mainDiv.innerHTML = `
+            <button class="bm-btn" data-ayah="1" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
+            ${arabicContainer.outerHTML}
+          `;
+          fragment.appendChild(mainDiv);
           ayahsEl.appendChild(fragment);
         } else {
           // Normal mode for bangla and english
