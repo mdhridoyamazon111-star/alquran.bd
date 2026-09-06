@@ -64,8 +64,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Naskh+Arabic:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet" /></noscript>
   
   <style>
     @font-face {
@@ -1192,24 +1192,24 @@
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      font-family: "Scheherazade New", "Amiri", serif;
+      font-family: "Noto Naskh Arabic", "Amiri", "Scheherazade New", serif;
       font-size: var(--arabic-size);
       color: #000000;
       text-align: justify !important;
       text-align-last: center !important;
       direction: rtl !important;
       white-space: normal;
-      line-height: 2.5;
+      line-height: 1.7;
       font-weight: 400;
-      letter-spacing: 0.5px;
-      padding: 0 3px;
+      letter-spacing: 0;
+      padding: 0;
       width: 100%;
       box-sizing: border-box;
       display: block;
       word-wrap: break-word;
       overflow-wrap: break-word;
       max-width: 100%;
-      margin: 0 auto;
+      margin: 0;
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1240,16 +1240,18 @@
       flex-direction: column;
       width: 100%;
       max-width: 100%;
+      padding: 0;
+      margin: 0;
     }
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        font-family: "Scheherazade New", "Amiri", serif;
+        font-family: "Noto Naskh Arabic", "Amiri", "Scheherazade New", serif;
         color: #000000;
-        padding: 0 3px;
+        padding: 0;
         line-height: 1.7;
         font-size: var(--arabic-size);
-        letter-spacing: 0.5px;
+        letter-spacing: 0;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1258,12 +1260,12 @@
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
-        font-family: "Scheherazade New", "Amiri", serif;
+        font-family: "Noto Naskh Arabic", "Amiri", "Scheherazade New", serif;
         color: #000000;
         font-size: var(--arabic-size);
         line-height: 1.7;
-        padding: 0 3px;
-        letter-spacing: 0.5px;
+        padding: 0;
+        letter-spacing: 0;
       }
     }
     .ayah-num {
