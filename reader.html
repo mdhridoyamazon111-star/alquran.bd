@@ -1260,6 +1260,11 @@
         margin-left: 5px;
         margin-right: 5px;
       }
+      /* Mobile support for Surah Fatiha */
+      .fatiha-arabic {
+        font-size: 24px !important;
+        line-height: 1.5 !important;
+      }
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
@@ -8716,6 +8721,8 @@
       if (currentSurah >= 1 && currentSurah <= 114 && page.style.display === "block") {
         // Force reload for Surah Fatiha to ensure mode change works correctly
         if (currentSurah === 1) {
+          // Clear current surah first to ensure fresh load
+          currentSurah = 0;
           loadSurah(1, undefined, false);
         } else {
           loadSurah(currentSurah);
@@ -10030,13 +10037,13 @@
           
           if (readingMode === 'arabic') {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 32px; color: #000; line-height: 1.8; text-align: right; direction: rtl;">
+              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.6; text-align: right; direction: rtl;">
                 ${ayah.arabic}
               </div>
             `;
           } else if (readingMode === 'english') {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 24px; color: #000; line-height: 1.6; text-align: right; direction: rtl; margin-bottom: 10px;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 18px; color: #333; Line-height: 1.6; text-align: left;">
@@ -10045,7 +10052,7 @@
             `;
           } else {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 16px; color: #666; line-height: 1.5; text-align: left; margin-bottom: 8px; font-style: italic;">
