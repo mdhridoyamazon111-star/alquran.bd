@@ -10025,13 +10025,13 @@
           
           if (readingMode === 'arabic') {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 32px; color: #000; line-height: 2; text-align: right; direction: rtl;">
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 32px; color: #000; line-height: 1.8; text-align: right; direction: rtl; white-space: nowrap; overflow: hidden;">
                 ${ayah.arabic}
               </div>
             `;
           } else if (readingMode === 'english') {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 2; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px; white-space: nowrap; overflow: hidden;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 18px; color: #333; Line-height: 1.6; text-align: left;">
@@ -10040,7 +10040,7 @@
             `;
           } else {
             contentHtml = `
-              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 2; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px; white-space: nowrap; overflow: hidden;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 16px; color: #666; line-height: 1.5; text-align: left; margin-bottom: 8px; font-style: italic;">
