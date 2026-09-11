@@ -8714,7 +8714,12 @@
       readingMode = (mode === "website") ? "bangla" : mode;
       // If a surah is currently open, reload it in the new mode
       if (currentSurah >= 1 && currentSurah <= 114 && page.style.display === "block") {
-        loadSurah(currentSurah);
+        // Force reload for Surah Fatiha to ensure mode change works correctly
+        if (currentSurah === 1) {
+          loadSurah(1, undefined, false);
+        } else {
+          loadSurah(currentSurah);
+        }
       } else {
         showGrid();
       }
