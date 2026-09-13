@@ -1737,7 +1737,7 @@
 
         <div class="bismillah" id="bismillah" style="position: relative; padding-bottom: 30px;">
           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-          <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -200px; width: 300px; height: 30px;">
+          <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -150px; width: 300px; height: 30px;">
         </div>
 
         <div id="ayahs"></div>
@@ -9777,7 +9777,7 @@
             const b = document.createElement("div");
             b.className = "bismillah";
             b.style.cssText = "position: relative; padding-bottom: 30px;";
-            b.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -200px; width: 300px; height: 30px;">`;
+            b.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -150px; width: 300px; height: 30px;">`;
             fragment.appendChild(b);
           }
           for (let i = 0; i < arabic.ayahs.length; i++) {
@@ -10150,7 +10150,7 @@
         if (n !== 1 && n !== 9) {
           const isFav = isFavorite(n);
           const favIcon = isFav ? "★" : "☆";
-          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -200px; width: 300px; height: 30px;"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -150px; width: 300px; height: 30px;"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
         } else {
           // For surah 1 and 9, add star button to surah title instead
           const isFav = isFavorite(n);
