@@ -1737,7 +1737,7 @@
 
         <div class="bismillah" id="bismillah" style="position: relative; padding-bottom: 40px; min-height: 60px;">
           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-          <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;">
+          <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;" onerror="this.src='../images/flower.png';">
         </div>
 
         <div id="ayahs"></div>
@@ -9777,7 +9777,8 @@
             const b = document.createElement("div");
             b.className = "bismillah";
             b.style.cssText = "position: relative; padding-bottom: 40px; min-height: 60px;";
-            b.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;">`;
+            const imagePath = window.location.pathname.includes('/Al%20Quran-app/') ? '../images/flower.png' : 'images/flower.png';
+            b.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<img src="${imagePath}" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;" onerror="this.src='../images/flower.png';">`;
             fragment.appendChild(b);
           }
           for (let i = 0; i < arabic.ayahs.length; i++) {
@@ -10150,8 +10151,9 @@
         if (n !== 1 && n !== 9) {
           const isFav = isFavorite(n);
           const favIcon = isFav ? "★" : "☆";
-          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;" onerror="console.error('Flower image failed to load');"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
-          console.log("Bismillah innerHTML set with flower image for surah", n);
+          const imagePath = window.location.pathname.includes('/Al%20Quran-app/') ? '../images/flower.png' : 'images/flower.png';
+          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="${imagePath}" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;" onerror="console.error('Flower image failed to load from:', this.src);"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+          console.log("Bismillah innerHTML set with flower image for surah", n, "image path:", imagePath);
           bismillahEl.style.cssText = "position: relative; padding-bottom: 40px; min-height: 60px;";
         } else {
           // For surah 1 and 9, add star button to surah title instead
