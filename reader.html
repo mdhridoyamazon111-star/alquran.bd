@@ -10150,7 +10150,8 @@
         if (n !== 1 && n !== 9) {
           const isFav = isFavorite(n);
           const favIcon = isFav ? "★" : "☆";
-          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+          bismillahEl.innerHTML = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ <img src="images/flower.png" alt="flower" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-left: -30px; width: 300px; height: 30px;" onerror="console.error('Flower image failed to load');"> <button class="fav-btn" id="surahFavBtn" data-surah="${n}" title="${isFav ? 'প্রিয় সূরা থেকে সরান' : 'প্রিয় সূরায় যোগ করুন'}">${favIcon}</button>`;
+          console.log("Bismillah innerHTML set with flower image for surah", n);
           bismillahEl.style.cssText = "position: relative; padding-bottom: 40px; min-height: 60px;";
         } else {
           // For surah 1 and 9, add star button to surah title instead
