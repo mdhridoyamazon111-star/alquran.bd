@@ -90,8 +90,7 @@
       min-height: 100vh;
       padding: 0 5px 50px;
       font-family: "Noto Sans Bengali", system-ui, sans-serif;
-      background:
-        radial-gradient(1000px 700px at 50% -5%, #17403d 0%, var(--bg) 55%, #08181a 100%);
+      background: var(--bg);
       color: #e9f2ef;
     }
     /* ---------- Top navbar ---------- */
@@ -99,7 +98,7 @@
       position: sticky;
       top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(12, 35, 33, 0.94);
-      border-bottom: 1px solid var(--gold-1);
+      border-bottom: none;
       backdrop-filter: blur(8px);
       padding: 8px 10px;
       display: flex;
@@ -111,9 +110,9 @@
     }
     .top-nav .btn, .top-nav select, .top-nav input[type="number"] {
       font-family: "Noto Sans Bengali", system-ui, sans-serif;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      background: rgba(255,255,255,.10);
       color: #f2ead2;
-      border: 1px solid rgba(201,162,75,.55);
+      border: none;
       border-radius: 10px;
       padding: 7px 14px;
       cursor: pointer;
@@ -124,7 +123,7 @@
       transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
     .top-nav .btn:hover, .top-nav select:hover {
-      background: linear-gradient(180deg, rgba(230,197,110,.35), rgba(201,162,75,.28));
+      background: rgba(230,197,110,.35);
       border-color: var(--gold-2);
       box-shadow: 0 4px 12px rgba(201,162,75,.35), inset 0 1px 0 rgba(255,255,255,.15);
       transform: translateY(-1px);
@@ -137,20 +136,20 @@
     }
     .top-nav .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
     .top-nav .btn.active {
-      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      background: var(--gold-1);
       color: #0c2321;
       font-weight: 800;
       border-color: #f0dca0;
       box-shadow: 0 0 12px rgba(201,162,75,.5);
     }
     .top-nav .btn.btn-install {
-      background: linear-gradient(180deg, #34d399, #1f9d76);
+      background: #34d399;
       color: #04231b;
       font-weight: 800;
       border-color: #7be8c4;
     }
     .top-nav .btn.btn-install:hover {
-      background: linear-gradient(180deg, #5be2b6, #23b083);
+      background: #5be2b6;
       box-shadow: 0 4px 12px rgba(52,211,153,.45);
     }
     .top-nav .logo {
@@ -160,9 +159,9 @@
       font-weight: 800;
       font-size: 15px;
       padding: 8px 14px;
-      border: 1px solid rgba(201,162,75,.55);
+      border: none;
       border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
+      background: rgba(255,255,255,.10);
       cursor: pointer;
       white-space: nowrap;
     }
@@ -174,7 +173,7 @@
     }
     .top-nav .nav-name {
       color: #0c2321;
-      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      background: var(--gold-1);
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 13px;
@@ -190,7 +189,7 @@
       max-width: 100%;
       height: 200px;
       margin: 0px auto 8px;
-      border: 1px solid rgba(255,255,255,.25);
+      border: none;
       border-radius: 12px;
       background: url("images/banner.jpg") center/100% 100% no-repeat;
       box-shadow: 0 8px 32px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.1);
@@ -217,7 +216,7 @@
       right: 0;
       z-index: 99;
       background: rgba(12, 35, 33, 0.98);
-      border-bottom: 1px solid var(--gold-1);
+      border-bottom: none;
       padding: 10px;
       flex-wrap: wrap;
       justify-content: center;
@@ -366,7 +365,7 @@
       text-align: center;
       min-height: 110px;
       padding: 0;
-      border: 3px solid rgba(201,162,75,.75);
+      border: none;
       border-radius: 18px;
       box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
@@ -444,7 +443,7 @@
       .nq-en { display: none; }
     }
     #btnOffline.done {
-      background: linear-gradient(135deg, rgba(46,160,110,.30), rgba(14,35,33,.55));
+      background: rgba(46,160,110,.30);
       border-color: #2ea06e;
     }
     #offlineProgress {
@@ -453,8 +452,8 @@
       padding: 14px 16px;
       text-align: center;
       color: #f2ead2;
-      background: linear-gradient(135deg, rgba(201,162,75,.15), rgba(14,35,33,.45));
-      border: 1px solid rgba(201,162,75,.45);
+      background: rgba(201,162,75,.15);
+      border: none;
       border-radius: 14px;
     }
     .offline-label { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
@@ -466,12 +465,12 @@
       background: rgba(0,0,0,.30);
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid rgba(201,162,75,.35);
+      border: none;
     }
     .offline-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--gold-1), var(--gold-2));
+      background: var(--gold-1);
       transition: width .2s ease;
     }
     .offline-cancel {
@@ -480,7 +479,7 @@
       font-size: 14px;
       color: #f2ead2;
       background: rgba(0,0,0,.25);
-      border: 1px solid rgba(201,162,75,.45);
+      border: none;
       border-radius: 10px;
       cursor: pointer;
     }
@@ -499,8 +498,8 @@
       flex-wrap: nowrap;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(201,162,75,.10));
-      border: 1px solid rgba(201,162,75,.40);
+      background: rgba(255,255,255,.07);
+      border: none;
       border-radius: 10px;
       padding: 8px;
       cursor: pointer;
@@ -513,7 +512,7 @@
     .surah-card:hover {
       transform: translateY(-2px);
       border-color: var(--gold-2);
-      background: linear-gradient(180deg, rgba(230,197,110,.22), rgba(201,162,75,.16));
+      background: rgba(230,197,110,.22);
       box-shadow: 0 6px 16px rgba(201,162,75,.30);
     }
     .surah-card .no {
@@ -523,7 +522,7 @@
       justify-content: center;
       width: 28px; height: 28px;
       border-radius: 50%;
-      background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
+      background: var(--gold-1);
       color: #0c2321;
       font-weight: 800;
       font-family: "Scheherazade New", serif;
@@ -583,7 +582,7 @@
       position: relative;
       border: none;
       border-radius: 4px;
-      background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--cream) 45%, #f4ead0 100%);
+      background: var(--cream);
       padding: 22px 10px 30px;
       overflow: hidden;
     }
@@ -752,7 +751,7 @@
       gap: 8px 12px;
       margin: 4px 10px 16px;
       padding: 8px 12px;
-      border: 1px solid rgba(0,0,0,.25);
+      border: none;
       border-radius: 10px;
       background: rgba(255,255,255,.65);
       color: #000;
@@ -805,7 +804,7 @@
       margin: 0 0 18px;
       padding: 10px 14px;
       background: rgba(255,255,255,.14);
-      border: 1px solid var(--gold-1);
+      border: none;
       border-radius: 10px;
       color: #2a2118;
       font-family: "Noto Sans Bengali", sans-serif;
@@ -841,12 +840,12 @@
       padding: 20px;
     }
     .weather-card, .qibla-card, .prayer-times-card {
-      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      background: #1e3a8a;
       border-radius: 16px;
       padding: 24px;
       text-align: center;
       box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      border: 2px solid rgba(255,255,255,0.2);
+      border: none;
     }
     .weather-temp {
       font-size: clamp(52px, 10vw, 72px);
@@ -875,7 +874,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       position: relative;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: none;
       box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.3),
         inset 0 2px 10px rgba(255, 255, 255, 0.3),
@@ -949,7 +948,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
+      border-bottom: none;
     }
     .prayer-row:last-child {
       border-bottom: none;
@@ -989,7 +988,7 @@
       position: relative;
       margin: 10px 0 12px;
       padding: 4px 0 9px;
-      border-bottom: 1px dashed var(--gold-1);
+      border-bottom: none;
     }
     .ayah-block:last-of-type { border-bottom: none; }
     .bm-btn {
@@ -1022,7 +1021,7 @@
       transform: translateX(-50%) translateY(16px);
       background: rgba(12,35,33,.96);
       color: #f2ead2;
-      border: 1px solid var(--gold-1);
+      border: none;
       padding: 10px 18px;
       border-radius: 24px;
       font-size: 14px;
@@ -1111,8 +1110,8 @@
       font-weight: 600;
       font-family: "Noto Sans Bengali", sans-serif;
     }
-    .ayah-mark.ruku { background: rgba(31,111,107,.12); color: var(--teal); border: 1px solid var(--teal); }
-    .ayah-mark.sajda { background: rgba(201,40,40,.10); color: #b22222; border: 1px solid #b22222; }
+    .ayah-mark.ruku { background: rgba(31,111,107,.12); color: var(--teal); border: none; }
+    .ayah-mark.sajda { background: rgba(201,40,40,.10); color: #b22222; border: none; }
     .ayah-mark.sajda .sym { font-size: 14px; }
 
     /* Dark-screen text overrides */
@@ -1166,13 +1165,11 @@
     .home-footer {
       position: relative;
       z-index: 9999;
-      background: linear-gradient(135deg, rgba(12, 35, 33, 0.95), rgba(14, 35, 33, 0.98));
-      border-top: 2px solid var(--gold-1);
+      background: rgba(12, 35, 33, 0.95);
+      border-top: none;
       box-shadow: 
         0 -4px 20px rgba(0, 0, 0, 0.4),
-        0 -8px 30px rgba(201, 162, 75, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
       padding: 12px 10px 16px;
     }
 
@@ -1190,8 +1187,8 @@
       align-items: center;
       gap: 10px;
       padding: 12px 16px;
-      background: linear-gradient(145deg, rgba(201, 162, 75, 0.15), rgba(14, 35, 33, 0.6));
-      border: 1px solid rgba(201, 162, 75, 0.4);
+      background: rgba(201, 162, 75, 0.15);
+      border: none;
       border-radius: 16px;
       box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.3),
