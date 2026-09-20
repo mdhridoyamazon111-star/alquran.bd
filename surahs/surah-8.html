@@ -119,20 +119,20 @@
       font-size: 13px;
       font-weight: 600;
       letter-spacing: .2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+      box-shadow: none;
       transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
     .top-nav .btn:hover, .top-nav select:hover {
       background: transparent;
       border-color: transparent;
-      box-shadow: 0 4px 12px rgba(201,162,75,.35), inset 0 1px 0 rgba(255,255,255,.15);
+      box-shadow: none;
       transform: translateY(-1px);
     }
-    .top-nav .btn:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,.3) inset; }
+    .top-nav .btn:active { transform: translateY(0); box-shadow: none; }
     .top-nav .btn:focus-visible, .top-nav select:focus-visible {
       outline: none;
       border-color: transparent;
-      box-shadow: 0 0 0 3px rgba(201,162,75,.35);
+      box-shadow: none;
     }
     .top-nav .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
     .top-nav .btn.active {
@@ -140,7 +140,7 @@
       color: var(--bg);
       font-weight: 800;
       border-color: transparent;
-      box-shadow: 0 0 12px rgba(201,162,75,.5);
+      box-shadow: none;
     }
     .top-nav .btn.btn-install {
       background: transparent;
@@ -150,7 +150,7 @@
     }
     .top-nav .btn.btn-install:hover {
       background: transparent;
-      box-shadow: 0 4px 12px rgba(52,211,153,.45);
+      box-shadow: none;
     }
     .top-nav .logo {
       display: none;
@@ -179,20 +179,19 @@
       font-size: 13px;
       font-weight: 800;
       white-space: nowrap;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+      box-shadow: none;
     }
 
     /* ---------- Home banner below navbar ---------- */
     .desktop-banner {
       display: block;
       width: 100%;
-      max-width: 100%;
-      height: 200px;
+      max-width: 640px;
       margin: 0px auto 8px;
       border: none;
       border-radius: 12px;
       background: transparent;
-      box-shadow: 0 8px 32px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.1);
+      box-shadow: none;
       overflow: hidden;
       position: relative;
       z-index: 0;
@@ -367,13 +366,13 @@
       padding: 0;
       border: none;
       border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
+      box-shadow: none;
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
     #necessaryMenu .surah-card:hover {
       transform: translateY(-6px) scale(1.04);
       border-color: transparent;
-      box-shadow: 0 14px 30px rgba(201,162,75,.45), inset 0 1px 0 rgba(255,255,255,.15);
+      box-shadow: none;
     }
     @media (max-width: 600px) {
       #necessaryMenu .surah-card {
@@ -513,7 +512,7 @@
       transform: translateY(-2px);
       border-color: transparent;
       background: transparent;
-      box-shadow: 0 6px 16px rgba(201,162,75,.30);
+      box-shadow: none;
     }
     .surah-card .no {
       flex: 0 0 auto;
@@ -844,7 +843,7 @@
       border-radius: 16px;
       padding: 24px;
       text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      box-shadow: none;
       border: none;
     }
     .weather-temp {
@@ -875,10 +874,7 @@
       -webkit-backdrop-filter: blur(10px);
       position: relative;
       border: none;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 2px 10px rgba(255, 255, 255, 0.3),
-        inset 0 -2px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: none;
       transition: transform 0.3s ease-out;
     }
     .compass-mark {
@@ -1009,7 +1005,7 @@
     .ayah-block.bookmarked {
       background: transparent;
       border-radius: 10px;
-      box-shadow: inset 0 0 0 1px rgba(201,162,75,.5);
+      box-shadow: none;
     }
     .ayah-block.bookmarked .bm-btn { opacity: 1; filter: none; }
 
@@ -1029,7 +1025,7 @@
       z-index: 200;
       opacity: 0;
       pointer-events: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+      box-shadow: none;
       transition: opacity .25s ease, transform .25s ease;
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -1168,9 +1164,7 @@
       z-index: 9999;
       background: transparent;
       border-top: none;
-      box-shadow: 
-        0 -4px 20px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: none;
       padding: 12px 10px 16px;
     }
 
@@ -1191,19 +1185,13 @@
       background: transparent;
       border: none;
       border-radius: 16px;
-      box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        0 2px 6px rgba(201, 162, 75, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .footer-section:hover {
       transform: translateY(-2px);
-      box-shadow: 
-        0 6px 16px rgba(0, 0, 0, 0.4),
-        0 4px 10px rgba(201, 162, 75, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      box-shadow: none;
     }
 
     .footer-icon {
