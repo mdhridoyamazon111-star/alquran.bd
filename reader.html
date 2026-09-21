@@ -119,8 +119,8 @@
     }
     .top-nav .btn, .top-nav select, .top-nav input[type="number"] {
       font-family: "Noto Sans Bengali", system-ui, sans-serif;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(201,162,75,.10));
-      color: #f2ead2;
+      background: linear-gradient(180deg, rgba(230,197,110,.28), rgba(201,162,75,.20));
+      color: #0c2321;
       border: 1px solid rgba(201,162,75,.55);
       border-radius: 10px;
       padding: 7px 14px;
@@ -128,20 +128,20 @@
       font-size: 13px;
       font-weight: 600;
       letter-spacing: .2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
-      transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
+      box-shadow: none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
     }
     .top-nav .btn:hover, .top-nav select:hover {
       background: linear-gradient(180deg, rgba(230,197,110,.35), rgba(201,162,75,.28));
       border-color: var(--gold-2);
-      box-shadow: 0 4px 12px rgba(201,162,75,.35), inset 0 1px 0 rgba(255,255,255,.15);
+      box-shadow: none;
       transform: translateY(-1px);
     }
-    .top-nav .btn:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,.3) inset; }
+    .top-nav .btn:active { transform: translateY(0); box-shadow: none; }
     .top-nav .btn:focus-visible, .top-nav select:focus-visible {
       outline: none;
       border-color: var(--gold-2);
-      box-shadow: 0 0 0 3px rgba(201,162,75,.35);
+      box-shadow: none;
     }
     .top-nav .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
     .top-nav .btn.active {
@@ -149,7 +149,7 @@
       color: #0c2321;
       font-weight: 800;
       border-color: #f0dca0;
-      box-shadow: 0 0 12px rgba(201,162,75,.5);
+      box-shadow: none;
     }
     .top-nav .btn.btn-install {
       background: linear-gradient(180deg, #34d399, #1f9d76);
@@ -159,7 +159,7 @@
     }
     .top-nav .btn.btn-install:hover {
       background: linear-gradient(180deg, #5be2b6, #23b083);
-      box-shadow: 0 4px 12px rgba(52,211,153,.45);
+      box-shadow: none;
     }
     .top-nav .logo {
       display: none;
@@ -1185,34 +1185,19 @@
       border-bottom: none;
       padding-bottom: 8px;
       margin-bottom: 8px;
-    }
-    .ayah-arabic:nth-child(odd) {
-      background-color: transparent;
-    }
-    .ayah-arabic:nth-child(even) {
-      background-color: transparent;
-    }
-      text-align: center;
-      color: #000000;
-      margin-bottom: 6px;
-      word-break: normal;
-      word-wrap: break-word;
-      hyphens: none;
-      font-weight: 400;
-      letter-spacing: 0.5px;
+      color: var(--gold-1);
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
       font-size: var(--arabic-size);
-      color: #000000;
-      line-height: 1.6;
+      color: var(--gold-1);
+      line-height: 2.5;
       letter-spacing: -0.3px;
       text-align: justify !important;
       text-align-last: center !important;
       direction: rtl !important;
       white-space: normal;
-      line-height: 1.7;
       font-weight: 400;
       letter-spacing: 0;
       padding: 0;
@@ -1225,6 +1210,9 @@
       margin: 0;
       flex: 1;
       order: 2;
+      border-bottom: 1px solid rgba(201,162,75,0.2);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1263,13 +1251,15 @@
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
         font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
-        color: #000000;
+        color: var(--gold-1);
         padding: 0;
-        line-height: 1.5;
+        line-height: 2.5;
         letter-spacing: -0.5px;
-        line-height: 1.7;
         font-size: var(--arabic-size);
         letter-spacing: 0;
+        border-bottom: 1px solid rgba(201,162,75,0.2);
+        padding-bottom: 12px;
+        margin-bottom: 12px;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
