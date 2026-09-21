@@ -1185,13 +1185,13 @@
       border-bottom: none;
       padding-bottom: 8px;
       margin-bottom: 8px;
-      color: var(--gold-1);
+      color: #000000;
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
       font-size: var(--arabic-size);
-      color: var(--gold-1);
+      color: #000000;
       line-height: 2.5;
       letter-spacing: -0.3px;
       text-align: justify !important;
@@ -1251,7 +1251,7 @@
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
         font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
-        color: var(--gold-1);
+        color: #000000;
         padding: 0;
         line-height: 2.5;
         letter-spacing: -0.5px;
@@ -1360,7 +1360,7 @@
     .inner.dark-screen .info-banner { color: #e8dbc0; border-color: rgba(247,237,214,.5); background: rgba(0,0,0,.25); }
     .inner.dark-screen .info-banner strong { color: #93e6d9; }
     .inner.dark-screen .bismillah { color: #93e6d9; }
-    .inner.dark-screen .ayah-arabic { color: #f7edd6; }
+    .inner.dark-screen .ayah-arabic { color: #000000; }
     .inner.dark-screen .ayah-bn { color: #f0e6d2; background: rgba(0,0,0,.25); }
     .inner.dark-screen .ayah-en { color: #f0e6d2; background: rgba(0,0,0,.25); }
     .inner.dark-screen .ayah-uc { color: #f0e6d2; background: rgba(0,0,0,.25); }
@@ -1372,7 +1372,7 @@
     @media (max-width: 520px) {
       .top-nav input[type="number"] { width: 50px; }
       .top-nav .nav-name { font-size: 12px; }
-      :root { --arabic-size: 24px; }
+      :root { --arabic-size: 20px; }
       .ayah-arabic { font-size: var(--arabic-size); }
       .surah-title { font-size: 21px; }
     }
@@ -8338,6 +8338,11 @@
       const b = parseInt(v.slice(5, 7), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       inner.classList.toggle("dark-screen", brightness < 80);
+      // Ensure Arabic text always remains black
+      const arabicElements = inner.querySelectorAll('.ayah-arabic');
+      arabicElements.forEach(el => {
+        el.style.color = '#000000';
+      });
     });
 
     // --- Auto scroll ---
