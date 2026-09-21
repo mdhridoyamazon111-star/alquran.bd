@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v146";
+const CACHE = "alquran-v147";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -13,6 +13,7 @@ const DATA_CACHE = "alquran-data";
 const APP_SHELL = [
   "./",                // Cloudflare Pages rewrites / to reader.html
   "./reader.html",     // cache the real HTML directly (redirect-free copy)
+  "./sw.js",           // cache the service worker itself
   "./noorani_qaida.html", // Noorani Qaida reference page
   "./qibla_finder.html", // Qibla Finder page
   "./manifest.webmanifest",
