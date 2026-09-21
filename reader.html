@@ -492,7 +492,7 @@
       margin-bottom: 6px;
     }
     #necessaryMenu .ayah-num {
-      font-family: "Noto Naskh Arabic", serif;
+      font-family: 'Amiri', serif;
       font-size: 0.8em;
       color: var(--gold-1);
       margin: 0.5em 0;
@@ -866,7 +866,7 @@
       color: #000;
     }
     .surah-title .st-right {
-      font-family: 'Scheherazade New', 'Amiri', "KFGQPC Uthmanic Script", serif;
+      font-family: 'Amiri', serif;
       font-weight: 800;
       font-size: clamp(15px, 3vw, 20px);
       line-height: 1.1;
@@ -961,7 +961,7 @@
     .bismillah {
       position: relative;
       text-align: center;
-      font-family: 'Scheherazade New', 'Amiri', "KFGQPC Uthmanic Script", serif;
+      font-family: 'Amiri', serif;
       font-size: 28px;
       color: #000000;
       margin: 4px 0 12px;
@@ -1171,7 +1171,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
-      font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
+      font-family: 'Amiri', serif;
       font-size: var(--arabic-size);
       line-height: 1.6;
       letter-spacing: -0.3px;
@@ -1182,7 +1182,7 @@
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      font-family: 'Scheherazade New', 'Amiri', "KFGQPC Uthmanic Script", serif;
+      font-family: 'Amiri', serif;
       font-size: 28px;
       color: #000000;
       line-height: 2.5;
@@ -1243,7 +1243,7 @@
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Scheherazade New', 'Amiri', "KFGQPC Uthmanic Script", serif;
+        font-family: 'Amiri', serif;
         color: #000000;
         padding: 0;
         line-height: 2.5;
@@ -1266,7 +1266,7 @@
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Scheherazade New', 'Amiri', "KFGQPC Uthmanic Script", "Noto Naskh Arabic", serif;
+        font-family: 'Amiri', serif;
         color: #000000;
         font-size: 22px;
         line-height: 1.7;
@@ -10190,7 +10190,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; letter-spacing: -0.3px;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
+            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Amiri', serif; font-size: 28px; color: #000; letter-spacing: -0.3px;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
