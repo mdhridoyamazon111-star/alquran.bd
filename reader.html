@@ -66,6 +66,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet" />
 
+  <style>
+    @font-face {
+      font-family: 'UthmanicHafs';
+      src: url('fonts/UthmanicHafs1Ver18.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'UthmanicHafs';
+      src: url('https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.woff2') format('woff2');
+      font-display: swap;
+    }
+  </style>
+
 
   
 
@@ -484,7 +498,7 @@
       padding: 10px;
     }
     #necessaryMenu .ayah-arabic {
-      font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
+      font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
       font-size: 34px;
       line-height: 2.5;
       text-align: center;
@@ -652,7 +666,7 @@
       background: linear-gradient(180deg, var(--gold-2), var(--gold-1));
       color: #0c2321;
       font-weight: 800;
-      font-family: "Scheherazade New", serif;
+      font-family: 'UthmanicHafs', "Scheherazade New", serif;
       font-size: 14px;
     }
     .surah-card .bn {
@@ -674,7 +688,7 @@
     }
     .surah-card .ar {
       flex: 0 0 auto;
-      font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
+      font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
       color: #f2ead2;
       font-size: 24px;
       white-space: nowrap;
@@ -866,7 +880,7 @@
       color: #000;
     }
     .surah-title .st-right {
-      font-family: 'Amiri', serif;
+      font-family: 'UthmanicHafs', 'Amiri', serif;
       font-weight: 800;
       font-size: clamp(15px, 3vw, 20px);
       line-height: 1.1;
@@ -961,7 +975,7 @@
     .bismillah {
       position: relative;
       text-align: center;
-      font-family: 'Amiri', serif;
+      font-family: 'UthmanicHafs', 'Amiri', serif;
       font-size: 28px;
       color: #000000;
       margin: 4px 0 12px;
@@ -1171,7 +1185,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
-      font-family: 'Amiri', serif;
+      font-family: 'UthmanicHafs', 'Amiri', serif;
       font-size: var(--arabic-size);
       line-height: 1.6;
       letter-spacing: -0.3px;
@@ -1183,7 +1197,7 @@
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      font-family: 'Amiri', serif;
+      font-family: 'UthmanicHafs', 'Amiri', serif;
       font-size: 28px;
       color: #000000;
       line-height: 2.5;
@@ -1205,9 +1219,14 @@
       margin: 0;
       flex: 1;
       order: 2;
-      border-bottom: 1px solid rgba(201,162,75,0.2);
       padding-bottom: 12px;
       margin-bottom: 12px;
+      /* Underline each line using background gradient */
+      background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2));
+      background-size: 100% 1px;
+      background-repeat: repeat-y;
+      background-position: 0 bottom;
+      background-attachment: local;
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1245,7 +1264,7 @@
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Amiri', serif;
+        font-family: 'UthmanicHafs', 'Amiri', serif;
         color: #000000;
         padding: 0;
         line-height: 2.5;
@@ -1253,9 +1272,14 @@
         font-size: 24px;
         letter-spacing: 0;
         word-spacing: 0;
-        border-bottom: 1px solid rgba(201,162,75,0.2);
         padding-bottom: 12px;
         margin-bottom: 12px;
+        /* Underline each line using background gradient */
+        background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2));
+        background-size: 100% 1px;
+        background-repeat: repeat-y;
+        background-position: 0 bottom;
+        background-attachment: local;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1269,7 +1293,7 @@
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Amiri', serif;
+        font-family: 'UthmanicHafs', 'Amiri', serif;
         color: #000000;
         font-size: 22px;
         line-height: 1.7;
@@ -1288,7 +1312,7 @@
       width: 32px;
       height: 32px;
       line-height: 1;
-      font-family: 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
+      font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
       font-size: 16px;
       vertical-align: middle;
       margin: 0 6px;
@@ -8309,7 +8333,7 @@
 
     let currentSurah = 1;
     let readingMode = "bangla";
-    let arabicSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 34;
+    let arabicSize = parseInt(localStorage.getItem("arabicSize")) || parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 34;
     const minSize = 20, maxSize = 60;
     let scrollSpeed = 0;
     let rafId = null;
@@ -8317,6 +8341,7 @@
     // --- Font controls ---
     function updateSize() {
       document.documentElement.style.setProperty("--arabic-size", arabicSize + "px");
+      localStorage.setItem("arabicSize", arabicSize);
     }
     document.getElementById("btnFontUp").addEventListener("click", () => { if (arabicSize < maxSize) { arabicSize += 2; updateSize(); } });
     document.getElementById("btnFontDown").addEventListener("click", () => { if (arabicSize > minSize) { arabicSize -= 2; updateSize(); } });
@@ -10049,13 +10074,13 @@
           
           if (readingMode === 'arabic') {
             contentHtml = `
-              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.6; text-align: right; direction: rtl;">
+              <div class="fatiha-arabic" style="font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.6; text-align: right; direction: rtl;">
                 ${ayah.arabic}
               </div>
             `;
           } else if (readingMode === 'english') {
             contentHtml = `
-              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 24px; color: #000; line-height: 1.6; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div class="fatiha-arabic" style="font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 24px; color: #000; line-height: 1.6; text-align: right; direction: rtl; margin-bottom: 10px;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 18px; color: #333; Line-height: 1.6; text-align: left;">
@@ -10064,7 +10089,7 @@
             `;
           } else {
             contentHtml = `
-              <div class="fatiha-arabic" style="font-family: 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px;">
+              <div class="fatiha-arabic" style="font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', 'Scheherazade New', 'Amiri', serif; font-size: 28px; color: #000; line-height: 1.8; text-align: right; direction: rtl; margin-bottom: 10px;">
                 ${ayah.arabic}
               </div>
               <div style="font-size: 16px; color: #666; line-height: 1.5; text-align: left; margin-bottom: 8px; font-style: italic;">
@@ -10194,7 +10219,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Amiri', serif; font-size: 28px; color: #000; letter-spacing: -0.3px;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
+            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'UthmanicHafs', 'Amiri', serif; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
@@ -10343,6 +10368,9 @@
     // --- PWA: register service worker for offline + installability ---
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
+        // Apply saved font size on page load
+        updateSize();
+        
         navigator.serviceWorker.register("sw.js", { scope: "/", updateViaCache: "none" })
           .then((registration) => {
             // Whenever the device comes back online, check for a new app version

@@ -55,6 +55,19 @@
   <meta name="theme-color" content="#0b211f">
   <meta name="google" content="notranslate">
   <style>
+    @font-face {
+      font-family: 'UthmanicHafs';
+      src: url('fonts/UthmanicHafs1Ver18.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'UthmanicHafs';
+      src: url('https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.woff2') format('woff2');
+      font-display: swap;
+    }
+  </style>
+  <style>
     :root {
       --green-1: #0b211f;
       --green-2: #142b28;
@@ -151,7 +164,7 @@
       gap: 6px;
     }
     .ar {
-      font-family: "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+      font-family: 'UthmanicHafs', "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
       font-size: clamp(28px, 8.5vw, 42px);
       color: var(--gold-3);
       line-height: 1.2;
