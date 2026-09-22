@@ -1139,7 +1139,7 @@
       position: relative;
       margin: 10px 0 12px;
       padding: 4px 0 9px;
-      border-bottom: 1px dashed var(--gold-1);
+      border-bottom: none;
     }
     .ayah-block:last-of-type { border-bottom: none; }
     .bm-btn {
@@ -1194,6 +1194,9 @@
       padding-bottom: 8px;
       margin-bottom: 8px;
       color: #000000;
+      background-image: linear-gradient(to bottom, transparent 98%, rgba(0, 0, 0, 0.1) 98%, rgba(0, 0, 0, 0.1) 99%, transparent 99%);
+      background-size: 100% 1.6em;
+      background-repeat: repeat-y;
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
@@ -1222,11 +1225,9 @@
       padding-bottom: 12px;
       margin-bottom: 12px;
       /* Underline each line using background gradient */
-      background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2));
-      background-size: 100% 1px;
+      background-image: linear-gradient(to bottom, transparent 98%, rgba(0, 0, 0, 0.1) 98%, rgba(0, 0, 0, 0.1) 99%, transparent 99%);
+      background-size: 100% 2.5em;
       background-repeat: repeat-y;
-      background-position: 0 bottom;
-      background-attachment: local;
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1275,11 +1276,9 @@
         padding-bottom: 12px;
         margin-bottom: 12px;
         /* Underline each line using background gradient */
-        background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2));
-        background-size: 100% 1px;
+        background-image: linear-gradient(to bottom, transparent 98%, rgba(0, 0, 0, 0.1) 98%, rgba(0, 0, 0, 0.1) 99%, transparent 99%);
+        background-size: 100% 2.5em;
         background-repeat: repeat-y;
-        background-position: 0 bottom;
-        background-attachment: local;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1300,6 +1299,10 @@
         padding: 0;
         letter-spacing: 0;
         word-spacing: 0;
+        /* Underline each line using background gradient */
+        background-image: linear-gradient(to bottom, transparent 98%, rgba(0, 0, 0, 0.1) 98%, rgba(0, 0, 0, 0.1) 99%, transparent 99%);
+        background-size: 100% 1.7em;
+        background-repeat: repeat-y;
       }
     }
     .ayah-num {
