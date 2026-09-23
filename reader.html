@@ -10333,6 +10333,24 @@
               el.style.background = "none";
               el.style.fontFamily = "'UthmanicHafs', 'Amiri', serif";
             });
+            
+            // Add MutationObserver to prevent font changes
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                  const target = mutation.target;
+                  if (target.classList.contains('ayah-arabic') || target.classList.contains('ayah-text')) {
+                    const currentFont = target.style.fontFamily;
+                    if (!currentFont.includes('UthmanicHafs')) {
+                      target.style.fontFamily = "'UthmanicHafs', 'Amiri', serif";
+                    }
+                  }
+                }
+              });
+            });
+            
+            arabicTexts.forEach(el => observer.observe(el, { attributes: true, attributeFilter: ['style'] }));
+            arabicTextSpans.forEach(el => observer.observe(el, { attributes: true, attributeFilter: ['style'] }));
           });
         }
         
