@@ -8363,11 +8363,25 @@
       const b = parseInt(v.slice(5, 7), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       inner.classList.toggle("dark-screen", brightness < 80);
-      // Ensure Arabic text always remains black
-      const arabicElements = inner.querySelectorAll('.ayah-arabic');
-      arabicElements.forEach(el => {
-        el.style.color = '#000000';
-      });
+      
+      // For Arabic Quran Majeed mode only: set white font for specific colors
+      if (inner.classList.contains('arabic-mode')) {
+        const whiteFontColors = ['#0c2321', '#000000', '#1f2937', '#064e3b', '#1e3a8a'];
+        const arabicElements = inner.querySelectorAll('.ayah-arabic');
+        arabicElements.forEach(el => {
+          if (whiteFontColors.includes(v)) {
+            el.style.color = '#ffffff';
+          } else {
+            el.style.color = '#000000';
+          }
+        });
+      } else {
+        // For other modes, keep Arabic text black
+        const arabicElements = inner.querySelectorAll('.ayah-arabic');
+        arabicElements.forEach(el => {
+          el.style.color = '#000000';
+        });
+      }
     });
 
     // --- Auto scroll ---
