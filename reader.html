@@ -8364,9 +8364,13 @@
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       inner.classList.toggle("dark-screen", brightness < 80);
       
-      // For Arabic Quran Majeed mode only: set white font for specific colors
+      // Colors that should have white font
+      const whiteFontColors = ['#0c2321', '#000000', '#1f2937', '#064e3b', '#1e3a8a'];
+      // Colors that should have black font (Sepia, Default, White)
+      const blackFontColors = ['#f5e6c8', '#ffffff'];
+      
+      // For Arabic Quran Majeed mode
       if (inner.classList.contains('arabic-mode')) {
-        const whiteFontColors = ['#0c2321', '#000000', '#1f2937', '#064e3b', '#1e3a8a'];
         const arabicElements = inner.querySelectorAll('.ayah-arabic');
         arabicElements.forEach(el => {
           if (whiteFontColors.includes(v)) {
@@ -8375,11 +8379,16 @@
             el.style.color = '#000000';
           }
         });
-      } else {
-        // For other modes, keep Arabic text black
+      } 
+      // For Bengali and English Quran modes
+      else {
         const arabicElements = inner.querySelectorAll('.ayah-arabic');
         arabicElements.forEach(el => {
-          el.style.color = '#000000';
+          if (whiteFontColors.includes(v)) {
+            el.style.color = '#ffffff';
+          } else {
+            el.style.color = '#000000';
+          }
         });
       }
     });
