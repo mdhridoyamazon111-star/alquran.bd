@@ -498,7 +498,7 @@
       padding: 10px;
     }
     #necessaryMenu .ayah-arabic {
-      font-family: 'UthmanicHafs', 'KFGQPC Uthmanic Script', "Scheherazade New", "Amiri", serif;
+      font-family: 'Amiri', 'UthmanicHafs', 'KFGQPC Uthmanic Script', "Scheherazade New", serif;
       font-size: 34px;
       line-height: 2.5;
       text-align: center;
@@ -1185,7 +1185,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
-      font-family: 'UthmanicHafs', 'Amiri', serif;
+      font-family: 'Amiri', 'UthmanicHafs', serif;
       font-size: var(--arabic-size);
       line-height: 1.6;
       letter-spacing: -0.3px;
@@ -1194,13 +1194,11 @@
       padding-bottom: 8px;
       margin-bottom: 8px;
       color: #000000;
-      background-image: linear-gradient(to bottom, transparent 98%, rgba(0, 0, 0, 0.1) 98%, rgba(0, 0, 0, 0.1) 99%, transparent 99%);
-      background-size: 100% 1.6em;
-      background-repeat: repeat-y;
+      background: none;
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      font-family: 'UthmanicHafs', 'Amiri', serif;
+      font-family: 'Amiri', 'UthmanicHafs', serif;
       font-size: 28px;
       color: #000000;
       line-height: 2.5;
@@ -1224,10 +1222,8 @@
       order: 2;
       padding-bottom: 12px;
       margin-bottom: 12px;
-      /* Underline each line using background gradient */
-      background-image: linear-gradient(to bottom, transparent 99%, rgba(0, 0, 0, 0.03) 99%, rgba(0, 0, 0, 0.03) 99.5%, transparent 99.5%);
-      background-size: 100% 2.5em;
-      background-repeat: repeat-y;
+      /* Remove background gradient */
+      background: none;
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1265,7 +1261,7 @@
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'UthmanicHafs', 'Amiri', serif;
+        font-family: 'Amiri', 'UthmanicHafs', serif;
         color: #000000;
         padding: 0;
         line-height: 2.5;
@@ -1275,10 +1271,8 @@
         word-spacing: 0;
         padding-bottom: 12px;
         margin-bottom: 12px;
-        /* Underline each line using background gradient */
-        background-image: linear-gradient(to bottom, transparent 99%, rgba(0, 0, 0, 0.03) 99%, rgba(0, 0, 0, 0.03) 99.5%, transparent 99.5%);
-        background-size: 100% 2.5em;
-        background-repeat: repeat-y;
+        /* Remove background gradient */
+        background: none;
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1292,17 +1286,15 @@
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'UthmanicHafs', 'Amiri', serif;
+        font-family: 'Amiri', 'UthmanicHafs', serif;
         color: #000000;
         font-size: 22px;
         line-height: 1.7;
         padding: 0;
         letter-spacing: 0;
         word-spacing: 0;
-        /* Underline each line using background gradient */
-        background-image: linear-gradient(to bottom, transparent 99%, rgba(0, 0, 0, 0.03) 99%, rgba(0, 0, 0, 0.03) 99.5%, transparent 99.5%);
-        background-size: 100% 1.7em;
-        background-repeat: repeat-y;
+        /* Remove background gradient */
+        background: none;
       }
     }
     .ayah-num {
@@ -1328,7 +1320,7 @@
       line-height: 2;
       color: #3d3024;
       padding: 8px 8px;
-      background: rgba(255,255,255,.48);
+      background: none;
       border-radius: 10px;
     }
     .ayah-en {
@@ -1339,7 +1331,7 @@
       line-height: 1.85;
       color: #3d3024;
       padding: 8px 8px;
-      background: rgba(255,255,255,.48);
+      background: none;
       border-radius: 10px;
     }
     .ayah-bn .meaning { display: block; color: #2a2118; }
@@ -1351,7 +1343,7 @@
       line-height: 1.95;
       color: #3d3024;
       padding: 6px 8px;
-      background: rgba(255,255,255,.32);
+      background: none;
       border-radius: 10px;
       margin-top: 6px;
       font-style: italic;
@@ -1385,9 +1377,9 @@
     .inner.dark-screen .info-banner strong { color: #93e6d9; }
     .inner.dark-screen .bismillah { color: #93e6d9; }
     .inner.dark-screen .ayah-arabic { color: #000000; }
-    .inner.dark-screen .ayah-bn { color: #f0e6d2; background: rgba(0,0,0,.25); }
-    .inner.dark-screen .ayah-en { color: #f0e6d2; background: rgba(0,0,0,.25); }
-    .inner.dark-screen .ayah-uc { color: #f0e6d2; background: rgba(0,0,0,.25); }
+    .inner.dark-screen .ayah-bn { color: #f0e6d2; background: none; }
+    .inner.dark-screen .ayah-en { color: #f0e6d2; background: none; }
+    .inner.dark-screen .ayah-uc { color: #f0e6d2; background: none; }
     .inner.dark-screen .ayah-bn .meaning { color: #f0e6d2; }
     .inner.dark-screen .ayah-mark { color: #f7edd6; }
     .inner.dark-screen .ayah-mark.ruku { color: #93e6d9; }
