@@ -126,7 +126,7 @@
     }
     .top-nav .btn, .top-nav select, .top-nav input[type="number"] {
       font-family: "Noto Sans Bengali", system-ui, sans-serif;
-      background: linear-gradient(180deg, rgba(230,197,110,.28), rgba(201,162,75,.20));
+      background: linear-gradient(180deg, rgba(230,197,110,.70), rgba(201,162,75,.60));
       color: #0c2321;
       border: 1px solid rgba(201,162,75,.55);
       border-radius: 10px;
@@ -139,7 +139,7 @@
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
     }
     .top-nav .btn:hover, .top-nav select:hover {
-      background: linear-gradient(180deg, rgba(230,197,110,.35), rgba(201,162,75,.28));
+      background: linear-gradient(180deg, rgba(230,197,110,.85), rgba(201,162,75,.75));
       border-color: var(--gold-2);
       box-shadow: none;
       transform: translateY(-1px);
@@ -1393,9 +1393,12 @@
     .inner.dark-screen .ayah-mark.ruku { color: #93e6d9; }
     .inner.dark-screen .ayah-mark.sajda { color: #ff9f9f; }
     /* Dark-screen navigation button overrides */
-    .inner.dark-screen .top-nav .btn { color: #000000 !important; }
-    .inner.dark-screen .top-nav select { color: #000000 !important; }
-    .inner.dark-screen .top-nav input[type="number"] { color: #000000 !important; }
+    .inner.dark-screen .top-nav .btn { color: #000000 !important; background: linear-gradient(180deg, rgba(230,197,110,.70), rgba(201,162,75,.60)) !important; }
+    .inner.dark-screen .top-nav .btn:hover { background: linear-gradient(180deg, rgba(230,197,110,.85), rgba(201,162,75,.75)) !important; }
+    .inner.dark-screen .top-nav select { color: #000000 !important; background: linear-gradient(180deg, rgba(230,197,110,.70), rgba(201,162,75,.60)) !important; }
+    .inner.dark-screen .top-nav select:hover { background: linear-gradient(180deg, rgba(230,197,110,.85), rgba(201,162,75,.75)) !important; }
+    .inner.dark-screen .top-nav input[type="number"] { color: #000000 !important; background: linear-gradient(180deg, rgba(230,197,110,.70), rgba(201,162,75,.60)) !important; }
+    .inner.dark-screen .top-nav input[type="number"]:hover { background: linear-gradient(180deg, rgba(230,197,110,.85), rgba(201,162,75,.75)) !important; }
 
     @media (max-width: 520px) {
       .top-nav input[type="number"] { width: 50px; }
