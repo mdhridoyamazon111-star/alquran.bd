@@ -1238,6 +1238,7 @@
       letter-spacing: 0;
       word-spacing: 0;
       white-space: normal;
+      background: none;
     }
     .arabic-mode .ayah-num {
       flex-shrink: 0;
@@ -9400,7 +9401,7 @@
         div.dataset.ayah = num;
         div.innerHTML = `
           <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-          <div class="ayah-arabic"><span class="ayah-text">${a}</span> <span class="ayah-num">${toArabicNum(num)}</span> </div>
+          <div class="ayah-arabic"><span class="ayah-text" style="background: none;">${a}</span> <span class="ayah-num">${toArabicNum(num)}</span> </div>
           ${ucHtml}
           ${translationHtml}
         `;
@@ -10319,6 +10320,11 @@
               el.style.whiteSpace = "normal";
               el.style.width = "100%";
               el.style.maxWidth = "100%";
+              el.style.background = "none";
+            });
+            const arabicTextSpans = document.querySelectorAll(".arabic-mode .ayah-text");
+            arabicTextSpans.forEach(el => {
+              el.style.background = "none";
             });
           });
         }
