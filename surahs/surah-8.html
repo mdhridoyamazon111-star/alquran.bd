@@ -253,7 +253,7 @@
       text-align: center;
       padding: 0 !important;
       font-size: 0;
-      font-weight: 700;
+      font-weight: 400;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: transparent;
       background: transparent;
@@ -492,7 +492,7 @@
       grid-column: 1 / -1;
       text-align: center;
       color: var(--bg);
-      font-weight: 700;
+      font-weight: 400;
       font-size: 18px;
       margin: 4px 0 6px;
     }
@@ -535,7 +535,7 @@
     .surah-card .bn {
       flex: 1 1 auto;
       min-width: 0;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 16px;
       line-height: 1.2;
       white-space: nowrap;
@@ -558,7 +558,7 @@
       margin-left: auto;
     }
     /* Arabic-to-English mode: larger English + Arabic fonts on all devices */
-    .surah-grid.english-mode .surah-card .en { font-size: 19px; font-weight: 700; }
+    .surah-grid.english-mode .surah-card .en { font-size: 19px; font-weight: 400; }
     .surah-grid.english-mode .surah-card .ar { font-size: 26px; }
 
     /* ---------- Loading / error ---------- */
@@ -729,7 +729,7 @@
     }
     .surah-title .st-middle {
       font-family: "Noto Sans Bengali", serif;
-      font-weight: 700;
+      font-weight: 400;
       font-size: clamp(12px, 2.4vw, 16px);
       line-height: 1.1;
       white-space: nowrap;
@@ -817,7 +817,7 @@
       font-size: 14px;
     }
     .info-banner span { display: inline-flex; align-items: center; gap: 6px; }
-    .info-banner strong { color: var(--bg); font-weight: 700; }
+    .info-banner strong { color: var(--bg); font-weight: 400; }
     @media (max-width: 1023px) {
       .info-banner {
         margin: 0 2px 18px;
@@ -888,7 +888,7 @@
     .compass-mark {
       position: absolute;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 400;
       color: var(--bg);
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       z-index: 1;
@@ -959,7 +959,7 @@
     }
     .prayer-name {
       font-size: clamp(18px, 4vw, 24px);
-      font-weight: 700;
+      font-weight: 400;
       color: var(--bg);
     }
     .prayer-time {
@@ -1075,6 +1075,7 @@
       border-radius: 10px;
     }
     .ayah-en {
+      font-weight: 400;
       direction: ltr;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       text-align: center;
@@ -1128,8 +1129,10 @@
     .inner.dark-screen .info-banner strong { color: var(--bg); }
     .inner.dark-screen .bismillah { color: var(--bg); }
     .inner.dark-screen .ayah-arabic { color: var(--bg); }
-    .inner.dark-screen .ayah-bn { color: var(--bg); background: transparent; }
-    .inner.dark-screen .ayah-en { color: var(--bg); background: transparent; }
+    .inner.dark-screen .ayah-bn {
+      font-weight: 400; color: var(--bg); background: transparent; }
+    .inner.dark-screen .ayah-en {
+      font-weight: 400; color: var(--bg); background: transparent; }
     .inner.dark-screen .ayah-uc { color: var(--bg); background: transparent; }
     .inner.dark-screen .ayah-bn .meaning { color: var(--bg); }
     .inner.dark-screen .ayah-mark { color: var(--bg); }
@@ -1226,7 +1229,7 @@
 
     .footer-value {
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 400;
       color: var(--bg);
       margin-bottom: 2px;
     }
@@ -1257,7 +1260,7 @@
     }
 
     .prayer-time {
-      font-weight: 700;
+      font-weight: 400;
       color: var(--bg);
       font-family: system-ui, -apple-system, sans-serif;
     }
