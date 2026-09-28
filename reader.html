@@ -487,6 +487,7 @@
     }
     #necessaryMenu .ayah-arabic {
       font-family: 'Noto Naskh Arabic', 'Amiri', "Scheherazade New", serif;
+      font-weight: 400;
       font-size: 34px;
       line-height: 2.5;
       text-align: center;
@@ -10238,7 +10239,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Noto Naskh Arabic', 'Amiri'; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
+            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Noto Naskh Arabic', 'Amiri'; font-weight: 400; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
