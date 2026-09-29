@@ -487,7 +487,7 @@
     }
     #necessaryMenu .ayah-arabic {
       font-family: 'Noto Naskh Arabic', 'Amiri', "Scheherazade New", serif;
-      font-weight: 400;
+      font-weight: 300;
       font-size: 34px;
       line-height: 2.5;
       text-align: center;
@@ -661,7 +661,7 @@
     .surah-card .bn {
       flex: 1 1 auto;
       min-width: 0;
-      font-weight: 400;
+      font-weight: 300;
       font-size: 16px;
       line-height: 1.2;
       white-space: nowrap;
@@ -1178,8 +1178,8 @@
       font-size: var(--arabic-size);
       line-height: 1.6;
       letter-spacing: -0.3px;
-      word-spacing: 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      word-spacing: -0.5px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       padding-bottom: 8px;
       margin-bottom: 8px;
       color: #000000;
@@ -1196,9 +1196,9 @@
       text-align-last: center !important;
       direction: rtl !important;
       white-space: normal;
-      font-weight: 400;
+      font-weight: 300;
       letter-spacing: 0;
-      word-spacing: 0;
+      word-spacing: -0.5px;
       padding: 0;
       width: 100%;
       box-sizing: border-box;
@@ -1213,7 +1213,7 @@
       margin-bottom: 12px;
       /* Remove background gradient */
       background: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.15);
     }
     /* Arabic mode: same background as Bengali Quran */
     .inner.arabic-mode {
@@ -1226,7 +1226,7 @@
       overflow-wrap: break-word;
       direction: rtl;
       letter-spacing: 0;
-      word-spacing: 0;
+      word-spacing: -0.5px;
       white-space: normal;
       background: none;
     }
@@ -1259,12 +1259,12 @@
         letter-spacing: -0.5px;
         font-size: 24px;
         letter-spacing: 0;
-        word-spacing: 0;
+        word-spacing: -0.5px;
         padding-bottom: 12px;
         margin-bottom: 12px;
         /* Remove background gradient */
         background: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       }
       .arabic-mode .ayah-num {
         margin-left: 5px;
@@ -1284,10 +1284,10 @@
         line-height: 1.7;
         padding: 0;
         letter-spacing: 0;
-        word-spacing: 0;
+        word-spacing: -0.5px;
         /* Remove background gradient */
         background: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       }
     }
     .ayah-num {
@@ -1308,27 +1308,27 @@
     .ayah-bn {
       direction: ltr;
       font-family: "Noto Sans Bengali", sans-serif;
-      font-weight: 400;
+      font-weight: 300;
       text-align: center;
       font-size: 17px;
       line-height: 2;
       color: #3d3024;
       padding: 8px 8px;
       background: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       border-radius: 10px;
     }
     .ayah-en {
       direction: ltr;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      font-weight: 400;
+      font-weight: 300;
       text-align: center;
       font-size: 16px;
       line-height: 1.85;
       color: #3d3024;
       padding: 8px 8px;
       background: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       border-radius: 10px;
     }
     .ayah-bn .meaning { display: block; color: #2a2118; }
@@ -10241,7 +10241,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Noto Naskh Arabic', 'Amiri'; font-weight: 400; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
+            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Noto Naskh Arabic', 'Amiri'; font-weight: 300; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
