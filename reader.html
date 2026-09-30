@@ -81,7 +81,7 @@
       --teal:      #1f6f6b;
       --teal-2:    #2f8f8a;
       --bg:        #0c2321;
-      --arabic-size: 32px;
+      --arabic-size: 36px;
     }
 
     * { box-sizing: border-box; }
@@ -1188,7 +1188,8 @@
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: 'Noto Naskh Arabic', 'Amiri';
-      font-size: 28px;
+      font-weight: 300;
+      font-size: var(--arabic-size);
       color: #000000;
       line-height: 2.5;
       letter-spacing: -0.3px;
