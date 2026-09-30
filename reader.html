@@ -8344,9 +8344,30 @@
     function updateSize() {
       document.documentElement.style.setProperty("--arabic-size", arabicSize + "px");
       localStorage.setItem("arabicSize", arabicSize);
+      console.log("Font size updated to:", arabicSize);
     }
-    document.getElementById("btnFontUp").addEventListener("click", () => { if (arabicSize < maxSize) { arabicSize += 2; updateSize(); } });
-    document.getElementById("btnFontDown").addEventListener("click", () => { if (arabicSize > minSize) { arabicSize -= 2; updateSize(); } });
+    // Initialize font size from CSS variable
+    arabicSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--arabic-size")) || 36;
+    console.log("Initial font size:", arabicSize);
+    
+    document.getElementById("btnFontUp").addEventListener("click", () => { 
+      console.log("Font + clicked, current size:", arabicSize);
+      if (arabicSize < maxSize) { 
+        arabicSize += 2; 
+        updateSize(); 
+      } else {
+        console.log("Max size reached");
+      }
+    });
+    document.getElementById("btnFontDown").addEventListener("click", () => { 
+      console.log("Font - clicked, current size:", arabicSize);
+      if (arabicSize > minSize) { 
+        arabicSize -= 2; 
+        updateSize(); 
+      } else {
+        console.log("Min size reached");
+      }
+    });
     document.getElementById("screenColor").addEventListener("change", (e) => {
       const v = e.target.value;
       const inner = document.querySelector(".inner");
