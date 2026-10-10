@@ -81,7 +81,7 @@
       --teal:      #1f6f6b;
       --teal-2:    #2f8f8a;
       --bg:        #0c2321;
-      --arabic-size: 36px;
+      --arabic-size: 48px;
     }
 
     * { box-sizing: border-box; }
@@ -1220,6 +1220,10 @@
     .inner.arabic-mode {
       background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, var(--cream) 45%, #f4ead0 100%);
     }
+    /* Arabic mode: ensure nav-tools are visible */
+    .arabic-mode .nav-tools {
+      display: flex !important;
+    }
     .arabic-mode .ayah-text {
       display: block;
       width: 100%;
@@ -1395,7 +1399,7 @@
     @media (max-width: 520px) {
       .top-nav input[type="number"] { width: 50px; }
       .top-nav .nav-name { font-size: 12px; }
-      :root { --arabic-size: 20px; }
+      :root { --arabic-size: 32px; }
       .ayah-arabic { font-size: var(--arabic-size); }
       .surah-title { font-size: 21px; }
     }

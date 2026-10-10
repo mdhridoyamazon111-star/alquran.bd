@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v151";
+const CACHE = "alquran-v152";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -17,6 +17,7 @@ const APP_SHELL = [
   "./noorani_qaida.html", // Noorani Qaida reference page
   "./qibla_finder.html", // Qibla Finder page
   "./manifest.webmanifest",
+  "./index.html",      // Home page
   "./images/Sura.jpg", // surah-name banner shown on every surah page
   "./images/banner.jpg",
   "./images/Qibla.png", // Qibla compass icon
@@ -52,7 +53,7 @@ self.addEventListener("install", (event) => {
       .then((cache) =>
         Promise.allSettled([
           ...APP_SHELL.map((url) => cache.add(url)),
-          ...SURAH_PAGES.map((url) => cache.add(url).catch(() => {})), // Cache first 10 surah pages
+          ...SURAH_PAGES.map((url) => cache.add(url).catch(() => {})), // Cache all 114 surah pages
           // Prime the surah list into the persistent data cache.
           fetch(API_LIST)
             .then((res) => {

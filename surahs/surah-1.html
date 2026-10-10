@@ -80,7 +80,7 @@
       --teal:      #1f6f6b;
       --teal-2:    #2f8f8a;
       --bg:        #0c2321;
-      --arabic-size: 38px;
+      --arabic-size: 48px;
     }
 
     * { box-sizing: border-box; }
@@ -1138,9 +1138,9 @@
     .inner.dark-screen .ayah-mark.sajda { color: #ff9f9f; }
 
     @media (max-width: 520px) {
+      :root { --arabic-size: 32px; }
       .top-nav input[type="number"] { width: 50px; }
       .top-nav .nav-name { font-size: 12px; }
-      :root { --arabic-size: 36px; }
       .ayah-arabic { font-size: var(--arabic-size); font-weight: 300; }
       .surah-title { font-size: 21px; }
     }
