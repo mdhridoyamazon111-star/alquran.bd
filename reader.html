@@ -486,7 +486,7 @@
       padding: 10px;
     }
     #necessaryMenu .ayah-arabic {
-      font-family: 'Noto Naskh Arabic', 'Amiri', "Scheherazade New", serif;
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-weight: 300;
       font-size: 34px;
       line-height: 2.5;
@@ -495,7 +495,7 @@
       margin-bottom: 6px;
     }
     #necessaryMenu .ayah-num {
-      font-family: 'Noto Naskh Arabic', 'Amiri';
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-size: 0.8em;
       color: var(--gold-1);
       margin: 0.5em 0;
@@ -698,7 +698,7 @@
     }
     .surah-card .ar {
       flex: 0 0 auto;
-      font-family: 'Noto Naskh Arabic', "Scheherazade New", "Amiri", serif;
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       color: #f2ead2;
       font-size: 24px;
       white-space: nowrap;
@@ -907,7 +907,7 @@
       color: #000;
     }
     .surah-title .st-right {
-      font-family: 'Noto Naskh Arabic', 'Amiri';
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-weight: 800;
       font-size: clamp(15px, 3vw, 20px);
       line-height: 1.1;
@@ -1002,7 +1002,7 @@
     .bismillah {
       position: relative;
       text-align: center;
-      font-family: 'Noto Naskh Arabic', 'Amiri';
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-size: 28px;
       color: #000000;
       margin: 4px 0 12px;
@@ -1212,7 +1212,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
-      font-family: 'Noto Naskh Arabic', 'Amiri';
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-size: var(--arabic-size);
       line-height: 1.6;
       letter-spacing: -0.3px;
@@ -1225,7 +1225,7 @@
     }
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
-      font-family: 'Noto Naskh Arabic', 'Amiri';
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-weight: 300;
       font-size: var(--arabic-size);
       color: #000000;
@@ -1292,10 +1292,51 @@
       margin: 0;
       direction: rtl;
     }
+    /* Arabic-only mode: continuous mushaf-style flowing text —
+       each ayah flows straight into the next like a printed Quran */
+    .arabic-flow {
+      direction: rtl;
+      text-align: justify;
+      line-height: 2.7;
+      padding: 4px 2px;
+    }
+    .arabic-flow .ayah-block {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      border: none;
+      position: static;
+    }
+    .arabic-flow .ayah-block .bm-btn { display: none; }
+    .inner .arabic-flow .ayah-arabic {
+      display: inline;
+      font-family: "Scheherazade New", "Noto Naskh Arabic", "Amiri", serif;
+      font-size: var(--arabic-size);
+      color: #000;
+      line-height: 2.7;
+      letter-spacing: 0;
+      border: none;
+      padding: 0;
+      margin: 0;
+      background: none;
+    }
+    .arabic-flow .ayah-num {
+      width: 30px;
+      height: 30px;
+      font-size: 15px;
+      margin: 0 6px;
+      vertical-align: middle;
+    }
+    .arabic-flow .ayah-block.bookmarked { box-shadow: none; border-radius: 0; }
+    .arabic-flow .ayah-block.bookmarked .ayah-arabic {
+      background: rgba(201,162,75,.35);
+      box-shadow: 0 0 0 5px rgba(201,162,75,.35);
+      border-radius: 6px;
+    }
     /* Mobile support for Arabic mode */
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Noto Naskh Arabic', 'Amiri';
+        font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
         font-weight: 300;
         color: #000000;
         padding: 0;
@@ -1322,7 +1363,7 @@
     }
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
-        font-family: 'Noto Naskh Arabic', 'Amiri';
+        font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
         font-weight: 300;
         color: #000000;
         font-size: var(--arabic-size);
@@ -1345,7 +1386,7 @@
       width: 32px;
       height: 32px;
       line-height: 1;
-      font-family: 'Noto Naskh Arabic', "Scheherazade New", "Amiri", serif;
+      font-family: "Scheherazade New", 'Noto Naskh Arabic', 'Amiri', serif;
       font-size: 16px;
       vertical-align: middle;
       margin: 0 6px;
@@ -10397,17 +10438,20 @@
             if (!a) continue;
             const num = ay.numberInSurah;
             
-            const div = document.createElement("div");
+            const div = document.createElement("span");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic" style="display: block; width: 100%; direction: rtl; text-align: justify; text-align-last: center; line-height: 1.6; padding: 0 3px; word-wrap: break-word; overflow-wrap: break-word; font-family: 'Noto Naskh Arabic', 'Amiri'; font-weight: 300; font-size: 28px; color: #000; letter-spacing: -0.3px; background-image: linear-gradient(rgba(201,162,75,0.2), rgba(201,162,75,0.2)); background-size: 100% 1px; background-repeat: repeat-y; background-position: 0 bottom; background-attachment: local;">${a} <span class="ayah-num" style="display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 50%; background-color: #d4af37; color: #fff; font-size: 14px; margin-right: 5px;">${toArabicNum(num)}</span></div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-              ${arabicHtml}
+              <span class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span> </span>
             `;
             fragment.appendChild(div);
+            fragment.appendChild(document.createTextNode(" "));
           }
-          ayahsEl.appendChild(fragment);
+          const flow = document.createElement("div");
+          flow.className = "arabic-flow";
+          flow.appendChild(fragment);
+          ayahsEl.appendChild(flow);
         } else {
           // Normal mode for bangla and english
           for (let i = 0; i < arabic.ayahs.length; i++) {
