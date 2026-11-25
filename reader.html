@@ -8685,7 +8685,7 @@
         const url = "https://api.alquran.cloud/v1/surah";
         // Offline-first: try cache first, then network
         let res;
-        const cachedRes = await caches.match(url);
+        const cachedRes = (typeof caches !== "undefined") ? await caches.match(url) : null;
         if (cachedRes) {
           res = cachedRes;
         } else {
@@ -8920,6 +8920,17 @@
       return footerCoordsPromise;
     }
 
+    // Pick the Aladhan calculation method for the user's region so prayer
+    // times are correct anywhere in the world, on any device.
+    function getPrayerMethod(lat, lng) {
+      if (lat > 22 && lat < 27.5 && lng > 51 && lng < 56.5) return 16; // UAE → Dubai
+      if (lat > 12 && lat < 32 && lng > 34 && lng < 60) return 4;      // Arabia → Umm al-Qura
+      if (lat > 5 && lat < 38 && lng > 60 && lng < 98) return 1;       // South Asia → Karachi
+      if (lat > 24 && lat < 72 && lng > -170 && lng < -50) return 2;   // N. America → ISNA
+      if (lat > -10 && lat < 6 && lng > 95 && lng < 141) return 11;    // SE Asia → Singapore
+      return 3;                                                       // Elsewhere → MWL
+    }
+
     async function fetchFooterPrayerTimes(coords) {
       const to12 = (t) => {
         const [h, m] = String(t).slice(0, 5).split(':').map(Number);
@@ -8929,7 +8940,7 @@
       try {
         const d = new Date();
         const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=16`);
+        const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=${getPrayerMethod(coords.latitude, coords.longitude)}`);
         const json = await res.json();
         const t = json.data.timings;
         // Show which location the times are for (e.g. "Asia/Dhaka" -> "Dhaka")
@@ -9045,6 +9056,7 @@
     async function downloadAllOffline() {
       if (offlineDownloading) return;
       if (!navigator.onLine) return;
+      if (typeof caches === "undefined") return; // old browser / insecure context — offline cache unavailable
       // If marked ready, verify the data is actually still cached. Older app
       // versions could wipe it on a cache bump, so re-download if it's gone.
       if (localStorage.getItem("offlineReady") === "1") {
@@ -9211,10 +9223,10 @@
         const { latitude, longitude } = position.coords;
         statusEl.textContent = "নামাজের সময় লোড হচ্ছে...";
 
-        // Fetch prayer times using Aladhan API with Dubai method (method=16) for UAE region
+        // Fetch prayer times — method is chosen by the detected region
         const today = new Date();
         const dateStr = today.toISOString().split('T')[0];
-        const prayerRes = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=16`);
+        const prayerRes = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=${getPrayerMethod(latitude, longitude)}`);
         const prayerData = await prayerRes.json();
 
         // Fetch weather using Open-Meteo API (free, no API key needed)
@@ -9497,7 +9509,7 @@
         const url = "https://api.alquran.cloud/v1/surah/2/editions/quran-uthmani,bn.bengali";
         // Offline-first: try cache first, then network
         let res;
-        const cachedRes = await caches.match(url);
+        const cachedRes = (typeof caches !== "undefined") ? await caches.match(url) : null;
         if (cachedRes) {
           res = cachedRes;
         } else {
@@ -9942,7 +9954,7 @@
             const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
             // Offline-first: try cache first, then network
             let res;
-            const cachedRes = await caches.match(url);
+            const cachedRes = (typeof caches !== "undefined") ? await caches.match(url) : null;
             if (cachedRes) {
               res = cachedRes;
             } else {
@@ -10319,7 +10331,7 @@
         
         // Offline-first: try cache first, then network
         let res;
-        const cachedRes = await caches.match(url);
+        const cachedRes = (typeof caches !== "undefined") ? await caches.match(url) : null;
         if (cachedRes) {
           res = cachedRes;
         } else {
@@ -10547,6 +10559,7 @@
         // Apply saved font size on page load
         updateSize();
         
+        if ("serviceWorker" in navigator)
         navigator.serviceWorker.register("sw.js", { scope: "/", updateViaCache: "none" })
           .then((registration) => {
             // Whenever the device comes back online, check for a new app version
@@ -10583,8 +10596,11 @@
     });
     btnInstall.addEventListener("click", async () => {
       if (!deferredPrompt) {
-        // No install prompt available (already installed or unsupported):
-        // still let the user download everything for offline use.
+        // iOS has no install prompt — guide the user instead; other browsers
+        // without a prompt just get the offline download.
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (isIOS) showToast('Safari → Share → "Add to Home Screen" চাপুন');
         downloadAllOffline();
         return;
       }
