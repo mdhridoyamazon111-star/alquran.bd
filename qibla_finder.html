@@ -214,6 +214,7 @@
         </div>
         <div class="qibla-label">Qibla Direction: <span id="qiblaDirection">-</span>°</div>
         <div class="qibla-hint">ফোন ঘুরিয়ে কিবলা খুঁজুন</div>
+        <button id="sensorBtn" style="display:none; margin-top:14px; background:var(--gold-1); color:var(--green-1); border:none; border-radius:10px; padding:10px 22px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit;">কম্পাস চালু করুন</button>
         <div id="debugInfo">
           <div>Location: <span id="debugLocation"></span></div>
           <div>Qibla Direction: <span id="debugQibla"></span>°</div>
@@ -300,41 +301,75 @@
 
     let currentQibla = 0;
     let smoothedHeading = null;
-    let compassActive = false;
+    let compassActive = false;      // at least one absolute/webkit heading seen
     let compassStarted = false;
+    let sawAnyOrientation = false;  // any orientation event, incl. relative
+    let lastEventAt = 0;
+    let lastRawHeading = null;
+    let relativeMode = false;       // device only reports relative alpha
+    let baseAlpha = null;           // calibration anchor (raw heading when facing north)
+    let staticShown = false;
 
     function angleDelta(d) {
       return ((d + 540) % 360) - 180;
     }
 
+    function setHint(text) {
+      document.querySelector('.qibla-hint').textContent = text;
+    }
+
+    function showStaticArrow(hintText) {
+      if (staticShown) return;
+      staticShown = true;
+      document.querySelector('.qibla-image').style.transform = `rotate(${currentQibla}deg)`;
+      if (hintText) setHint(hintText);
+    }
+
     function handleOrientation(event) {
       let heading = null;
+      let reliable = false;
 
       if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
         // iOS: webkitCompassHeading gives true heading from north (0-360)
         heading = event.webkitCompassHeading;
-      } else if (event.absolute === true && event.alpha !== null && event.alpha !== undefined) {
-        // Android: only absolute orientation is relative to magnetic north.
-        // Plain (relative) alpha is anchored to an arbitrary direction at page
-        // load — using it is what made the compass show a different direction
-        // every time, so it is intentionally ignored.
+        reliable = true;
+      } else if (event.alpha !== null && event.alpha !== undefined) {
         heading = 360 - event.alpha;
+        reliable = (event.absolute === true);
       }
 
       if (heading === null || isNaN(heading)) return;
 
-      compassActive = true;
+      sawAnyOrientation = true;
+      lastEventAt = Date.now();
+      lastRawHeading = heading;
+
+      if (reliable) {
+        compassActive = true;
+      } else if (!relativeMode || baseAlpha === null) {
+        // Relative alpha is anchored to an arbitrary direction — only use it
+        // after the user calibrates by facing north.
+        return;
+      }
+
+      let effective = heading;
+      if (!reliable) {
+        effective = heading - baseAlpha;  // 0 when facing the calibrated north
+      }
+      effective = ((effective % 360) + 360) % 360;
+
+      staticShown = false;
       if (smoothedHeading === null) {
-        smoothedHeading = heading;
+        smoothedHeading = effective;
       } else {
-        smoothedHeading = (smoothedHeading + angleDelta(heading - smoothedHeading) * 0.25 + 360) % 360;
+        smoothedHeading = (smoothedHeading + angleDelta(effective - smoothedHeading) * 0.3 + 360) % 360;
       }
 
       // Keep compass static — North always at top.
       // Rotate pointer so it points up exactly when the phone faces Qibla.
       const pointerRotation = currentQibla - smoothedHeading;
       document.querySelector('.qibla-image').style.transform = `rotate(${pointerRotation}deg)`;
-      document.querySelector('.qibla-hint').textContent = 'ফোন ঘুরিয়ে তীর সোজা উপরে আনুন — সেটাই কিবলা';
+      setHint('ফোন ঘুরিয়ে তীর সোজা উপরে আনুন — সেটাই কিবলা');
 
       document.getElementById('debugHeading').textContent = smoothedHeading.toFixed(2);
       document.getElementById('debugRotation').textContent = pointerRotation.toFixed(2);
@@ -349,31 +384,58 @@
       if (compassStarted) return;
       compassStarted = true;
 
+      const btn = document.getElementById('sensorBtn');
+
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         // iOS 13+: motion permission must be requested from a user gesture
-        const hint = document.querySelector('.qibla-hint');
-        hint.textContent = 'কম্পাস চালু করতে এখানে চাপুন';
-        hint.style.cursor = 'pointer';
-        hint.style.textDecoration = 'underline';
-        hint.addEventListener('click', function reqPerm() {
+        btn.style.display = 'inline-block';
+        setHint('লাইভ কম্পাসের জন্য নিচের বাটনে চাপুন');
+        btn.addEventListener('click', () => {
           DeviceOrientationEvent.requestPermission()
-            .then(res => { if (res === 'granted') attachOrientationListeners(); })
-            .catch(() => {})
-            .finally(() => { hint.style.textDecoration = 'none'; });
-        }, { once: true });
+            .then(res => {
+              if (res === 'granted') {
+                btn.style.display = 'none';
+                setHint('ফোন ঘুরিয়ে কিবলা খুঁজুন');
+                attachOrientationListeners();
+              }
+            })
+            .catch(() => {});
+        });
       } else if (typeof DeviceOrientationEvent !== 'undefined') {
         attachOrientationListeners();
       }
 
-      // If no real compass data within 3s (desktop / no sensor / denied),
-      // rotate the arrow statically to the Qibla angle instead of leaving it
-      // pointing at a meaningless default direction.
+      // After 3s decide what mode we are actually in
       setTimeout(() => {
-        if (!compassActive) {
-          document.querySelector('.qibla-image').style.transform = `rotate(${currentQibla}deg)`;
-          document.querySelector('.qibla-hint').textContent = 'কম্পাস সেন্সর পাওয়া যায়নি — উপরের দিককে উত্তর ধরে তীরের দিকে দাঁড়ান';
+        if (compassActive || smoothedHeading !== null) return;
+
+        if (sawAnyOrientation) {
+          // Sensor exists but never reports absolute north — use relative mode:
+          // the arrow will still rotate live after a one-tap north calibration.
+          relativeMode = true;
+          btn.style.display = 'inline-block';
+          btn.textContent = 'উত্তরে ধরে ক্যালিব্রেট করুন';
+          setHint('ফোনকে সোজা উত্তর দিকে ধরে বাটনে চাপুন');
+          btn.addEventListener('click', () => {
+            baseAlpha = lastRawHeading;
+            smoothedHeading = 0;
+            btn.style.display = 'none';
+            setHint('ক্যালিব্রেট হয়েছে — ফোন ঘুরিয়ে তীর উপরে আনুন');
+          });
+          showStaticArrow();
+        } else {
+          // Desktop / no sensor at all — show the Qibla angle statically
+          showStaticArrow('কম্পাস সেন্সর পাওয়া যায়নি — উপরের দিককে উত্তর ধরে তীরের দিকে দাঁড়ান');
         }
       }, 3000);
+
+      // Watchdog: if the compass stream stalls (e.g. sensor sleeps), fall back
+      // to the static arrow instead of leaving a frozen wrong direction.
+      setInterval(() => {
+        if (lastEventAt && Date.now() - lastEventAt > 4000 && !staticShown) {
+          showStaticArrow('কম্পাস সেন্সর থেমে গেছে — পেজ রিলোড করে আবার চেষ্টা করুন');
+        }
+      }, 2000);
     }
 
     initQiblaFinder();

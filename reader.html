@@ -1740,6 +1740,7 @@
         <div class="footer-icon">🕌</div>
         <div class="footer-content">
           <div class="footer-label">Prayer Times</div>
+          <div class="footer-sub" id="prayerLoc">--</div>
           <div class="prayer-times">
             <div class="prayer-item">
               <span class="prayer-name">Fajr</span>
@@ -8865,16 +8866,25 @@
       });
     }
 
-    // Resolve the device location once and reuse it (Dhaka as fallback).
+    // Resolve the device location once and reuse it.
+    // Chain: GPS → IP-based location (desktops without GPS) → Dhaka.
     let footerCoordsPromise = null;
     function getFooterCoords() {
       if (!footerCoordsPromise) {
-        footerCoordsPromise = new Promise((resolve) => {
-          const fallback = { latitude: 23.8103, longitude: 90.4125 };
-          if (!navigator.geolocation) { resolve(fallback); return; }
+        footerCoordsPromise = new Promise(async (resolve) => {
+          const dhaka = { latitude: 23.8103, longitude: 90.4125 };
+          const ipLocation = async () => {
+            try {
+              const r = await fetch('https://ipwho.is/');
+              const j = await r.json();
+              if (j.success && j.latitude && j.longitude) return { latitude: j.latitude, longitude: j.longitude };
+            } catch (e) {}
+            return dhaka;
+          };
+          if (!navigator.geolocation) { resolve(await ipLocation()); return; }
           navigator.geolocation.getCurrentPosition(
             pos => resolve({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
-            () => resolve(fallback),
+            async () => resolve(await ipLocation()),
             { enableHighAccuracy: false, timeout: 8000, maximumAge: 1800000 }
           );
         });
@@ -8894,6 +8904,11 @@
         const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=16`);
         const json = await res.json();
         const t = json.data.timings;
+        // Show which location the times are for (e.g. "Asia/Dhaka" -> "Dhaka")
+        const tz = (json.data.meta && json.data.meta.timezone) || '';
+        const city = tz.includes('/') ? tz.split('/').pop().replace(/_/g, ' ') : '';
+        const locEl = document.getElementById('prayerLoc');
+        if (locEl) locEl.textContent = city || `${coords.latitude.toFixed(2)}, ${coords.longitude.toFixed(2)}`;
         document.getElementById('fajrTime').textContent = to12(t.Fajr);
         document.getElementById('dhuhrTime').textContent = to12(t.Dhuhr);
         document.getElementById('asrTime').textContent = to12(t.Asr);
