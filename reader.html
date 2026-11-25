@@ -1214,7 +1214,7 @@
     .ayah-arabic {
       font-family: "Scheherazade New", serif;
       font-size: calc(var(--arabic-size) * .72);
-      line-height: 1.6;
+      line-height: 1.4;
       letter-spacing: -0.3px;
       word-spacing: -0.5px;
       border-bottom: 2px solid rgba(0, 0, 0, 0.15);
@@ -1325,24 +1325,28 @@
       margin: 0;
       background: none;
     }
-    /* mushaf-style end-of-ayah mark: number enclosed in an ornate gold ring */
+    /* real ۝ ornament with the ayah number drawn inside it */
     .ayah-orn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 1.7em;
-      height: 1.7em;
-      padding: 0 .3em;
-      border: 1.5px solid #b08a2e;
-      border-radius: 50%;
-      box-shadow: inset 0 0 0 .12em #fbf8ee, inset 0 0 0 .22em rgba(176, 138, 46, .65);
       font-family: "Scheherazade New", serif;
-      color: #96781d;
-      font-size: .5em;
-      line-height: 1;
-      margin: 0 .35em;
+      color: #a07c1e;
+      font-size: 1em;
+      padding: 0 .12em;
+      margin: 0 .25em;
       vertical-align: middle;
       white-space: nowrap;
+    }
+    .ayah-orn .orn-num {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -56%);
+      font-size: .38em;
+      color: #7c6118;
+      line-height: 1;
     }
     .arabic-flow .ayah-block.bookmarked { box-shadow: none; border-radius: 0; }
     .arabic-flow .ayah-block.bookmarked .ayah-arabic {
@@ -1414,7 +1418,7 @@
       font-weight: 300;
       text-align: center;
       font-size: 17px;
-      line-height: 2;
+      line-height: 1.65;
       color: #3d3024;
       padding: 8px 8px;
       background: none;
@@ -1427,7 +1431,7 @@
       font-weight: 300;
       text-align: center;
       font-size: 16px;
-      line-height: 1.85;
+      line-height: 1.6;
       color: #3d3024;
       padding: 8px 8px;
       background: none;
@@ -1440,7 +1444,7 @@
       font-family: 'Noto Sans Bengali', sans-serif;
       text-align: center;
       font-size: 16.5px;
-      line-height: 1.95;
+      line-height: 1.7;
       color: #3d3024;
       padding: 6px 8px;
       background: none;
@@ -9606,7 +9610,7 @@
         div.dataset.ayah = num;
         div.innerHTML = `
           <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-          <div class="ayah-arabic"><span class="ayah-text" style="background: none;">${a}</span> <span class="ayah-orn">${toArabicNum(num)}</span> </div>
+          <div class="ayah-arabic"><span class="ayah-text" style="background: none;">${a}</span> <span class="ayah-orn">۝<span class="orn-num">${toArabicNum(num)}</span></span> </div>
           ${ucHtml}
           ${translationHtml}
         `;
@@ -10063,7 +10067,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.innerHTML = `
-              <div class="ayah-arabic">${a} <span class="ayah-orn">${toArabicNum(num)}</span> </div>
+              <div class="ayah-arabic">${a} <span class="ayah-orn">۝<span class="orn-num">${toArabicNum(num)}</span></span> </div>
               ${ucHtml}
               <div class='ayah-bn'><span class='meaning'>${t}</span></div>
             `;
@@ -10460,7 +10464,7 @@
             div.dataset.ayah = num;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-              <span class="ayah-arabic">${a} <span class="ayah-orn">${toArabicNum(num)}</span> </span>
+              <span class="ayah-arabic">${a} <span class="ayah-orn">۝<span class="orn-num">${toArabicNum(num)}</span></span> </span>
             `;
             fragment.appendChild(div);
             fragment.appendChild(document.createTextNode(" "));
@@ -10507,7 +10511,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-orn">${toArabicNum(num)}</span> </div>`;
+            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-orn">۝<span class="orn-num">${toArabicNum(num)}</span></span> </div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
