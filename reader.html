@@ -10397,9 +10397,28 @@
         } else {
           res = await fetch(url);
         }
-        
-        const json = await res.json();
-        if (json.code !== 200) throw new Error("API error");
+
+        let json = await res.json();
+
+        // Self-heal: a cached response that is corrupt or missing the
+        // translation edition would hide translations forever (the data
+        // cache never expires). Drop every cached copy and refetch once.
+        const badJson = !json || json.code !== 200 || !json.data || !json.data[0];
+        const missingTrans = readingMode !== "arabic" &&
+          (!json.data || !json.data[1] || !json.data[1].ayahs || !json.data[1].ayahs.length);
+        if (cachedRes && (badJson || missingTrans) && typeof caches !== "undefined") {
+          try {
+            const names = await caches.keys();
+            for (const nm of names) {
+              try { await (await caches.open(nm)).delete(url); } catch (_) {}
+            }
+            const res2 = await fetch(url);
+            const json2 = await res2.json();
+            if (json2 && json2.code === 200 && json2.data && json2.data[0]) json = json2;
+          } catch (_) { /* keep whatever we already had */ }
+        }
+
+        if (!json || json.code !== 200 || !json.data || !json.data[0]) throw new Error("API error");
 
         const arabic = json.data[0];
         const trans = json.data[1] || { ayahs: [] };
