@@ -10625,7 +10625,9 @@
         if ("serviceWorker" in navigator)
         navigator.serviceWorker.register("sw.js", { scope: "/", updateViaCache: "none" })
           .then((registration) => {
-            // Whenever the device comes back online, check for a new app version
+            // Check for a new app version on every page load…
+            registration.update().catch(() => {});
+            // …and whenever the device comes back online
             window.addEventListener("online", () => {
               registration.update().catch(() => {});
             });

@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v161";
+const CACHE = "alquran-v162";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -136,54 +136,50 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Page navigations: cache-first, then network, then fall back to shell.
-  // We always rebuild a clean, non-redirected 200 Response so that
-  // Cloudflare's / -> /reader 308 redirect does not cause ERR_FAILED.
+  // Page navigations: NETWORK-first so online users always get the newest
+  // page (stale cached HTML was masking deployments). Cache is only a
+  // fallback for offline. Rebuilt clean 200 Responses so Cloudflare's
+  // / -> /reader 308 redirect cannot cause ERR_FAILED.
   if (isPage) {
-    event.respondWith(
-      caches.open(CACHE).then((cache) =>
-        cache.match(req).then(async (cached) => {
-          const makeClean = (body, ct) =>
-            new Response(body, {
-              status: 200,
-              statusText: "OK",
-              headers: { "Content-Type": ct || "text/html; charset=utf-8" }
-            });
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE);
+      const makeClean = (body, ct) =>
+        new Response(body, {
+          status: 200,
+          statusText: "OK",
+          headers: { "Content-Type": ct || "text/html; charset=utf-8" }
+        });
+      try {
+        const res = await fetch(req, { cache: 'reload' });
+        if (res && res.status === 200) {
+          const body = await res.blob();
+          const ct = res.headers.get("content-type");
+          const make = () => makeClean(body, ct);
 
-          const network = fetch(req, { cache: 'reload' }).then(async (res) => {
-            if (res && res.status === 200) {
-              const body = await res.blob();
-              const ct = res.headers.get("content-type");
-              const make = () => makeClean(body, ct);
+          // Cache the clean response under the requested URL for offline use.
+          cache.put(req.url, make());
 
-              // Cache the clean response under the requested URL.
-              cache.put(req.url, make());
-
-              // Keep the root shell mapping for the main app pages.
-              const path = new URL(req.url).pathname;
-              if (path === "/" || path === "/reader" || path === "/reader.html") {
-                cache.put("./reader.html", make());
-                cache.put("./", make());
-              }
-
-              return make();
-            }
-            throw new Error("non-200 page response");
-          });
-
-          if (cached && cached.status === 200) {
-            // Refresh in background but return the cached (cleaned) version now.
-            network.catch(() => {});
-            const body = await cached.blob();
-            const ct = cached.headers.get("content-type");
-            return makeClean(body, ct);
+          // Keep the root shell mapping for the main app pages.
+          const path = new URL(req.url).pathname;
+          if (path === "/" || path === "/reader" || path === "/reader.html") {
+            cache.put("./reader.html", make());
+            cache.put("./", make());
           }
 
-          // Not in cache yet: try network, then fall back to reader shell.
-          return network.catch(() => serveOfflineShell());
-        })
-      )
-    );
+          return make();
+        }
+        throw new Error("non-200 page response");
+      } catch (e) {
+        // Offline: fall back to the cached copy, then the app shell.
+        const cached = await cache.match(req);
+        if (cached && cached.status === 200) {
+          const body = await cached.blob();
+          const ct = cached.headers.get("content-type");
+          return makeClean(body, ct);
+        }
+        return serveOfflineShell();
+      }
+    })());
     return;
   }
 
