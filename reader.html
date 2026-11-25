@@ -9101,7 +9101,7 @@
     setInterval(updateFooterData, 60000);
 
     // Editions needed so every reading mode works offline.
-    const OFFLINE_EDITIONS = ["quran-uthmani,bn.bengali", "quran-uthmani", "quran-uthmani,en.sahih"];
+    const OFFLINE_EDITIONS = ["quran-uthmani,bn.bengali", "quran-uthmani", "quran-uthmani,en.sahih,en.transliteration"];
 
     // Persistent cache name — MUST match DATA_CACHE in sw.js. Downloaded data
     // lives here and is NEVER wiped by app-shell version bumps.
@@ -10158,7 +10158,7 @@
       if (n < 1 || n > 114) return;
       let editions = "quran-uthmani,bn.bengali";
       if (readingMode === "arabic") editions = "quran-uthmani";
-      if (readingMode === "english") editions = "quran-uthmani,en.sahih";
+      if (readingMode === "english") editions = "quran-uthmani,en.sahih,en.transliteration";
       const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
       fetch(url).catch(() => {});
     }
@@ -10386,7 +10386,7 @@
       try {
         let editions = "quran-uthmani,bn.bengali";
         if (readingMode === "arabic") editions = "quran-uthmani";
-        if (readingMode === "english") editions = "quran-uthmani,en.sahih";
+        if (readingMode === "english") editions = "quran-uthmani,en.sahih,en.transliteration";
         const url = `https://api.alquran.cloud/v1/surah/${n}/editions/${editions}`;
         
         // Offline-first: try cache first, then network
@@ -10406,7 +10406,10 @@
         const badJson = !json || json.code !== 200 || !json.data || !json.data[0];
         const missingTrans = readingMode !== "arabic" &&
           (!json.data || !json.data[1] || !json.data[1].ayahs || !json.data[1].ayahs.length ||
-           !json.data[1].ayahs.some(a => a.text && a.text.trim()));
+           !json.data[1].ayahs.some(a => a.text && a.text.trim()) ||
+           (readingMode === "english" &&
+            (!json.data[2] || !json.data[2].ayahs || !json.data[2].ayahs.length ||
+             !json.data[2].ayahs.some(a => a.text && a.text.trim()))));
         if (cachedRes && (badJson || missingTrans) && typeof caches !== "undefined") {
           try {
             const names = await caches.keys();
@@ -10423,6 +10426,7 @@
 
         const arabic = json.data[0];
         const trans = json.data[1] || { ayahs: [] };
+        const translit = json.data[2] || { ayahs: [] };
         const surah = arabic;
 
         {
@@ -10510,7 +10514,8 @@
             if (readingMode === "bangla") {
               translationHtml = `<div class='ayah-bn'><span class='meaning'>${t}</span></div>`;
             } else if (readingMode === "english") {
-              translationHtml = `<div class='ayah-en'>${t}</div>`;
+              const tl = translit.ayahs && translit.ayahs[i] ? translit.ayahs[i].text : "";
+              translationHtml = (tl ? `<div class='ayah-uc'>${tl}</div>` : "") + `<div class='ayah-en'>${t}</div>`;
             }
             const ruku = ay.ruku;
             const isNewRuku = ruku && (i === 0 || ruku !== prevRuku);
