@@ -1216,8 +1216,8 @@
       font-family: "Scheherazade New", serif;
       font-size: calc(var(--arabic-size) * .72);
       line-height: 1.4;
-      letter-spacing: -0.3px;
-      word-spacing: -0.5px;
+      letter-spacing: normal;
+      word-spacing: normal;
       border-bottom: 2px solid rgba(0, 0, 0, 0.15);
       padding-bottom: 8px;
       margin-bottom: 8px;
@@ -1227,18 +1227,16 @@
     /* Arabic mode: justified layout for ayahs */
     .arabic-mode .ayah-arabic {
       font-family: "Scheherazade New", serif;
-      font-weight: 300;
-      font-size: var(--arabic-size);
+      font-weight: 400;
+      font-size: calc(var(--arabic-size) * .72);
       color: #000000;
       line-height: 2.5;
-      letter-spacing: -0.3px;
       text-align: justify !important;
       text-align-last: center !important;
       direction: rtl !important;
       white-space: normal;
-      font-weight: 300;
-      letter-spacing: 0;
-      word-spacing: -0.5px;
+      letter-spacing: normal;
+      word-spacing: normal;
       padding: 0;
       width: 100%;
       box-sizing: border-box;
@@ -1359,14 +1357,13 @@
     @media (max-width: 600px) {
       .arabic-mode .ayah-arabic {
         font-family: "Scheherazade New", serif;
-        font-weight: 300;
+        font-weight: 400;
         color: #000000;
         padding: 0;
         line-height: 2.5;
-        letter-spacing: -0.5px;
-        font-size: var(--arabic-size);
-        letter-spacing: 0;
-        word-spacing: -0.5px;
+        letter-spacing: normal;
+        font-size: calc(var(--arabic-size) * .72);
+        word-spacing: normal;
         padding-bottom: 12px;
         margin-bottom: 12px;
         /* Remove background gradient */
@@ -1386,13 +1383,13 @@
     @media (max-width: 480px) {
       .arabic-mode .ayah-arabic {
         font-family: "Scheherazade New", serif;
-        font-weight: 300;
+        font-weight: 400;
         color: #000000;
-        font-size: var(--arabic-size);
+        font-size: calc(var(--arabic-size) * .72);
         line-height: 1.7;
         padding: 0;
-        letter-spacing: 0;
-        word-spacing: -0.5px;
+        letter-spacing: normal;
+        word-spacing: normal;
         /* Remove background gradient */
         background: none;
         border-bottom: 2px solid rgba(0, 0, 0, 0.15);
