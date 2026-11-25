@@ -287,11 +287,8 @@
         loading.style.display = 'none';
         qiblaContent.style.display = 'block';
 
-        if (window.DeviceOrientationEvent) {
-          window.addEventListener('deviceorientation', handleOrientation);
-        } else {
-          document.querySelector('.qibla-hint').textContent = 'আপনার ডিভাইস কম্পাস সাপোর্ট করে না';
-        }
+        currentQibla = qiblaDirection;
+        startCompass();
 
       } catch (err) {
         loading.style.display = 'none';
@@ -301,31 +298,82 @@
       }
     }
 
+    let currentQibla = 0;
+    let smoothedHeading = null;
+    let compassActive = false;
+    let compassStarted = false;
+
+    function angleDelta(d) {
+      return ((d + 540) % 360) - 180;
+    }
+
     function handleOrientation(event) {
-      let heading = 0;
-      
+      let heading = null;
+
       if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
-        // iOS: webkitCompassHeading gives heading from north (0-360)
+        // iOS: webkitCompassHeading gives true heading from north (0-360)
         heading = event.webkitCompassHeading;
-      } else if (event.alpha !== null && event.alpha !== undefined) {
-        // Android: alpha gives rotation around z-axis (0-360)
+      } else if (event.absolute === true && event.alpha !== null && event.alpha !== undefined) {
+        // Android: only absolute orientation is relative to magnetic north.
+        // Plain (relative) alpha is anchored to an arbitrary direction at page
+        // load — using it is what made the compass show a different direction
+        // every time, so it is intentionally ignored.
         heading = 360 - event.alpha;
       }
-      
-      const qiblaDirection = parseFloat(document.getElementById('qiblaDirection').textContent);
-      
-      if (heading !== null && !isNaN(qiblaDirection)) {
-        const qiblaImage = document.querySelector('.qibla-image');
-        
-        // Keep compass static - North always at top
-        // Rotate pointer to point to Qibla direction
-        // When phone points to Qibla, pointer should point up (0deg)
-        const pointerRotation = qiblaDirection - heading;
-        qiblaImage.style.transform = `rotate(${pointerRotation}deg)`;
-        
-        document.getElementById('debugHeading').textContent = heading.toFixed(2);
-        document.getElementById('debugRotation').textContent = pointerRotation.toFixed(2);
+
+      if (heading === null || isNaN(heading)) return;
+
+      compassActive = true;
+      if (smoothedHeading === null) {
+        smoothedHeading = heading;
+      } else {
+        smoothedHeading = (smoothedHeading + angleDelta(heading - smoothedHeading) * 0.25 + 360) % 360;
       }
+
+      // Keep compass static — North always at top.
+      // Rotate pointer so it points up exactly when the phone faces Qibla.
+      const pointerRotation = currentQibla - smoothedHeading;
+      document.querySelector('.qibla-image').style.transform = `rotate(${pointerRotation}deg)`;
+      document.querySelector('.qibla-hint').textContent = 'ফোন ঘুরিয়ে তীর সোজা উপরে আনুন — সেটাই কিবলা';
+
+      document.getElementById('debugHeading').textContent = smoothedHeading.toFixed(2);
+      document.getElementById('debugRotation').textContent = pointerRotation.toFixed(2);
+    }
+
+    function attachOrientationListeners() {
+      window.addEventListener('deviceorientationabsolute', handleOrientation);
+      window.addEventListener('deviceorientation', handleOrientation);
+    }
+
+    function startCompass() {
+      if (compassStarted) return;
+      compassStarted = true;
+
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+: motion permission must be requested from a user gesture
+        const hint = document.querySelector('.qibla-hint');
+        hint.textContent = 'কম্পাস চালু করতে এখানে চাপুন';
+        hint.style.cursor = 'pointer';
+        hint.style.textDecoration = 'underline';
+        hint.addEventListener('click', function reqPerm() {
+          DeviceOrientationEvent.requestPermission()
+            .then(res => { if (res === 'granted') attachOrientationListeners(); })
+            .catch(() => {})
+            .finally(() => { hint.style.textDecoration = 'none'; });
+        }, { once: true });
+      } else if (typeof DeviceOrientationEvent !== 'undefined') {
+        attachOrientationListeners();
+      }
+
+      // If no real compass data within 3s (desktop / no sensor / denied),
+      // rotate the arrow statically to the Qibla angle instead of leaving it
+      // pointing at a meaningless default direction.
+      setTimeout(() => {
+        if (!compassActive) {
+          document.querySelector('.qibla-image').style.transform = `rotate(${currentQibla}deg)`;
+          document.querySelector('.qibla-hint').textContent = 'কম্পাস সেন্সর পাওয়া যায়নি — উপরের দিককে উত্তর ধরে তীরের দিকে দাঁড়ান';
+        }
+      }, 3000);
     }
 
     initQiblaFinder();
