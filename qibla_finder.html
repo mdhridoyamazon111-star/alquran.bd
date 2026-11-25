@@ -309,6 +309,7 @@
     let relativeMode = false;       // device only reports relative alpha
     let baseAlpha = null;           // calibration anchor (raw heading when facing north)
     let staticShown = false;
+    let trustedSource = null;       // first reliable event stream — others are ignored
 
     function angleDelta(d) {
       return ((d + 540) % 360) - 180;
@@ -328,14 +329,17 @@
     function handleOrientation(event) {
       let heading = null;
       let reliable = false;
+      let source = null;
 
       if (event.webkitCompassHeading !== null && event.webkitCompassHeading !== undefined) {
         // iOS: webkitCompassHeading gives true heading from north (0-360)
         heading = event.webkitCompassHeading;
         reliable = true;
+        source = 'ios';
       } else if (event.alpha !== null && event.alpha !== undefined) {
         heading = 360 - event.alpha;
         reliable = (event.absolute === true);
+        source = event.type;
       }
 
       if (heading === null || isNaN(heading)) return;
@@ -345,6 +349,12 @@
       lastRawHeading = heading;
 
       if (reliable) {
+        // Both 'deviceorientation' and 'deviceorientationabsolute' can report
+        // absolute headings that disagree slightly — interleaving them makes
+        // the arrow jump between two reference frames. Lock to whichever
+        // stream proved reliable first.
+        if (trustedSource === null) trustedSource = source;
+        if (source !== trustedSource) return;
         compassActive = true;
       } else if (!relativeMode || baseAlpha === null) {
         // Relative alpha is anchored to an arbitrary direction — only use it
@@ -362,7 +372,9 @@
       if (smoothedHeading === null) {
         smoothedHeading = effective;
       } else {
-        smoothedHeading = (smoothedHeading + angleDelta(effective - smoothedHeading) * 0.3 + 360) % 360;
+        const delta = angleDelta(effective - smoothedHeading);
+        if (Math.abs(delta) < 0.4) return;   // ignore sensor micro-jitter
+        smoothedHeading = (smoothedHeading + delta * 0.18 + 360) % 360;
       }
 
       // Keep compass static — North always at top.
