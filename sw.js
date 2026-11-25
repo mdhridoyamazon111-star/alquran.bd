@@ -1,6 +1,6 @@
 // Al Quran App — Service Worker
 // Bumping the CACHE version will invalidate old caches on next visit.
-const CACHE = "alquran-v153";
+const CACHE = "alquran-v154";
 
 // PERSISTENT data cache for downloaded Quran (API) responses.
 // This name is NEVER version-bumped, so bumping CACHE (the app shell) will
@@ -34,7 +34,9 @@ const APP_SHELL = [
   "./images/দোয়া কুনুত.png",
   "./images/তাশাহহুদ-দরুদে ইব্রাহিম-দোয়া মাসুরা.png",
   "./images/সাইয়েদুল ইস্তেগফার.png",
-  "./images/আযানের জবাব এবং দোয়া.png"
+  "./images/আযানের জবাব এবং দোয়া.png",
+  "./images/Favorites Sura, প্রিয় সুরা.png",
+  "./images/flower.png"
 ];
 
 // Pre-cache all surah pages for offline functionality
