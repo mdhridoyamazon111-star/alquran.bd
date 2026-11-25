@@ -1214,7 +1214,7 @@
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .ayah-arabic {
       font-family: "Scheherazade New", serif;
-      font-size: calc(var(--arabic-size) * .72);
+      font-size: calc(var(--arabic-size) * .65);
       line-height: 1.4;
       letter-spacing: normal;
       word-spacing: normal;
@@ -10405,7 +10405,8 @@
         // cache never expires). Drop every cached copy and refetch once.
         const badJson = !json || json.code !== 200 || !json.data || !json.data[0];
         const missingTrans = readingMode !== "arabic" &&
-          (!json.data || !json.data[1] || !json.data[1].ayahs || !json.data[1].ayahs.length);
+          (!json.data || !json.data[1] || !json.data[1].ayahs || !json.data[1].ayahs.length ||
+           !json.data[1].ayahs.some(a => a.text && a.text.trim()));
         if (cachedRes && (badJson || missingTrans) && typeof caches !== "undefined") {
           try {
             const names = await caches.keys();
