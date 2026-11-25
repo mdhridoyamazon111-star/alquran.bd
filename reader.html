@@ -1297,8 +1297,14 @@
     .arabic-flow {
       direction: rtl;
       text-align: justify;
-      line-height: 2.7;
+      font-size: calc(var(--arabic-size) * .72);
+      line-height: 2;
       padding: 4px 2px;
+      /* light ruled line under every text line, mushaf style */
+      background-image: linear-gradient(rgba(201,162,75,.20), rgba(201,162,75,.20));
+      background-size: 100% 2em;
+      background-repeat: repeat-y;
+      background-attachment: local;
     }
     .arabic-flow .ayah-block {
       display: inline;
@@ -1311,21 +1317,21 @@
     .inner .arabic-flow .ayah-arabic {
       display: inline;
       font-family: "Scheherazade New", "Noto Naskh Arabic", "Amiri", serif;
-      font-size: var(--arabic-size);
+      font-size: inherit;
       color: #000;
-      line-height: 2.7;
+      line-height: 2;
       letter-spacing: 0;
       border: none;
       padding: 0;
       margin: 0;
       background: none;
     }
-    .arabic-flow .ayah-num {
-      width: 30px;
-      height: 30px;
-      font-size: 15px;
-      margin: 0 6px;
-      vertical-align: middle;
+    .arabic-flow .ayah-orn {
+      font-family: "Scheherazade New", "Noto Naskh Arabic", "Amiri", serif;
+      color: #a07c1e;
+      font-size: .95em;
+      padding: 0 3px;
+      white-space: nowrap;
     }
     .arabic-flow .ayah-block.bookmarked { box-shadow: none; border-radius: 0; }
     .arabic-flow .ayah-block.bookmarked .ayah-arabic {
@@ -10443,7 +10449,7 @@
             div.dataset.ayah = num;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-              <span class="ayah-arabic">${a} <span class="ayah-num">${toArabicNum(num)}</span> </span>
+              <span class="ayah-arabic">${a} <span class="ayah-orn">۝${toArabicNum(num)}۝</span> </span>
             `;
             fragment.appendChild(div);
             fragment.appendChild(document.createTextNode(" "));
