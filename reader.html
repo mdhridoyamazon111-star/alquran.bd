@@ -9594,7 +9594,7 @@
         div.dataset.ayah = num;
         div.innerHTML = `
           <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-          <div class="ayah-arabic"><span class="ayah-text" style="background: none;">${a}</span> <span class="ayah-orn">${toArabicNum(num)}۝</span> </div>
+          <div class="ayah-arabic"><span class="ayah-text" style="background: none;">${a}</span> <span class="ayah-orn">۝${toArabicNum(num)}</span> </div>
           ${ucHtml}
           ${translationHtml}
         `;
@@ -10448,7 +10448,7 @@
             div.dataset.ayah = num;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
-              <span class="ayah-arabic">${a} <span class="ayah-orn">${toArabicNum(num)}۝</span> </span>
+              <span class="ayah-arabic">${a} <span class="ayah-orn">۝${toArabicNum(num)}</span> </span>
             `;
             fragment.appendChild(div);
             fragment.appendChild(document.createTextNode(" "));
@@ -10495,7 +10495,7 @@
             const div = document.createElement("div");
             div.className = "ayah-block";
             div.dataset.ayah = num;
-            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-orn">${toArabicNum(num)}۝</span> </div>`;
+            const arabicHtml = `<div class="ayah-arabic">${a} <span class="ayah-orn">۝${toArabicNum(num)}</span> </div>`;
             div.innerHTML = `
               <button class="bm-btn" data-ayah="${num}" title="এই আয়াত চিহ্নিত করে রাখুন" aria-label="Bookmark">&#128278;</button>
               ${arabicHtml}
