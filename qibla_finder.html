@@ -310,6 +310,8 @@
     let baseAlpha = null;           // calibration anchor (raw heading when facing north)
     let staticShown = false;
     let trustedSource = null;       // first reliable event stream — others are ignored
+    const headingBuf = [];          // recent headings — vector-mean kills noise spikes
+    let lastAccepted = null, lastAcceptedAt = 0;
 
     function angleDelta(d) {
       return ((d + 540) % 360) - 180;
@@ -368,13 +370,34 @@
       }
       effective = ((effective % 360) + 360) % 360;
 
+      // Spike rejection — a >45° swing in <80ms is sensor noise, not a human turn
+      const nowMs = Date.now();
+      if (lastAccepted !== null) {
+        const jump = Math.abs(angleDelta(effective - lastAccepted));
+        if (jump > 45 && nowMs - lastAcceptedAt < 80) return;
+      }
+      lastAccepted = effective;
+      lastAcceptedAt = nowMs;
+
+      // Circular vector-mean over recent readings — isolated spikes barely
+      // move the average, so the arrow stops flicking between directions.
+      headingBuf.push(effective);
+      if (headingBuf.length > 7) headingBuf.shift();
+      let sinSum = 0, cosSum = 0;
+      for (const h of headingBuf) {
+        const r = h * Math.PI / 180;
+        sinSum += Math.sin(r);
+        cosSum += Math.cos(r);
+      }
+      const filtered = (Math.atan2(sinSum, cosSum) * 180 / Math.PI + 360) % 360;
+
       staticShown = false;
       if (smoothedHeading === null) {
-        smoothedHeading = effective;
+        smoothedHeading = filtered;
       } else {
-        const delta = angleDelta(effective - smoothedHeading);
-        if (Math.abs(delta) < 0.4) return;   // ignore sensor micro-jitter
-        smoothedHeading = (smoothedHeading + delta * 0.18 + 360) % 360;
+        const delta = angleDelta(filtered - smoothedHeading);
+        if (Math.abs(delta) < 0.6) return;   // ignore sensor micro-jitter
+        smoothedHeading = (smoothedHeading + delta * 0.15 + 360) % 360;
       }
 
       // Keep compass static — North always at top.
